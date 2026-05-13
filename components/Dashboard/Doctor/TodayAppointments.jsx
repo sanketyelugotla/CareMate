@@ -50,7 +50,7 @@ export default function TodayAppointments() {
             confirmed: { bg: 'bg-green-100', text: 'text-green-700', label: 'Confirmed' },
             pending: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'Pending' },
             cancelled: { bg: 'bg-red-100', text: 'text-red-700', label: 'Cancelled' },
-            completed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Completed' }
+            completed: { bg: 'bg-accent', text: 'text-blue-700', label: 'Completed' }
         };
         const badge = badges[status] || badges.pending;
         return (
@@ -62,18 +62,18 @@ export default function TodayAppointments() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-6">Today's Appointments</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
+                <h3 className="text-lg font-bold text-foreground mb-6">Today's Appointments</h3>
+                <p className="text-muted-foreground">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
+        <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-gray-800">Today's Appointments</h3>
-                <span className="text-sm text-gray-500">{appointments.length} total</span>
+                <h3 className="text-lg font-bold text-foreground">Today's Appointments</h3>
+                <span className="text-sm text-muted-foreground">{appointments.length} total</span>
             </div>
             <div className="space-y-4">
                 {appointments.length > 0 ? (
@@ -81,18 +81,18 @@ export default function TodayAppointments() {
                         <div key={apt._id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
                             <div className="flex items-start justify-between mb-3">
                                 <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <User size={20} className="text-blue-600" />
+                                    <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center">
+                                        <User size={20} className="text-primary" />
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-gray-800">{apt.patient?.name || 'Patient'}</p>
-                                        <p className="text-sm text-gray-500">{apt.patient?.email}</p>
+                                        <p className="font-semibold text-foreground">{apt.patient?.name || 'Patient'}</p>
+                                        <p className="text-sm text-muted-foreground">{apt.patient?.email}</p>
                                     </div>
                                 </div>
                                 {getStatusBadge(apt.status)}
                             </div>
                             <div className="flex items-center justify-between text-sm">
-                                <div className="flex items-center space-x-2 text-gray-600">
+                                <div className="flex items-center space-x-2 text-muted-foreground">
                                     <Clock size={16} />
                                     <span>{dayjs(apt.start).format('h:mm A')} - {dayjs(apt.end).format('h:mm A')}</span>
                                 </div>
@@ -118,7 +118,7 @@ export default function TodayAppointments() {
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center py-8">No appointments scheduled for today</p>
+                    <p className="text-muted-foreground text-center py-8">No appointments scheduled for today</p>
                 )}
             </div>
         </div>

@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import { Calendar, Clock } from 'lucide-react';
 
 export default function RecentAppointments() {
     const [appointments, setAppointments] = useState([]);
@@ -27,14 +26,14 @@ export default function RecentAppointments() {
 
     const getStatusBadge = (status) => {
         const badges = {
-            confirmed: { bg: 'bg-green-100', text: 'text-green-700', label: 'Confirmed' },
-            pending: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'Pending' },
-            cancelled: { bg: 'bg-red-100', text: 'text-red-700', label: 'Cancelled' },
-            completed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Completed' }
+            confirmed: { bg: 'bg-secondary-container', text: 'text-on-secondary-container', label: 'Confirmed' },
+            pending: { bg: 'bg-tertiary-container', text: 'text-on-tertiary-container', label: 'Pending' },
+            cancelled: { bg: 'bg-error-container', text: 'text-on-error-container', label: 'Cancelled' },
+            completed: { bg: 'bg-primary-container', text: 'text-on-primary-container', label: 'Completed' }
         };
         const badge = badges[status] || badges.pending;
         return (
-            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${badge.bg} ${badge.text}`}>
+            <span className={`px-stack-sm py-1 rounded font-label-sm text-label-sm font-bold ${badge.bg} ${badge.text}`}>
                 {badge.label}
             </span>
         );
@@ -42,40 +41,40 @@ export default function RecentAppointments() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-6">Recent Appointments</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg font-body-md text-on-surface">
+                <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-stack-lg">Recent Appointments</h3>
+                <p className="font-label-md text-label-md text-on-surface-variant">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
-            <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-gray-800">Recent Appointments</h3>
-                <button className="text-blue-600 text-sm font-medium hover:underline">View All</button>
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg font-body-md text-on-surface">
+            <div className="flex justify-between items-center mb-stack-lg">
+                <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface">Recent Appointments</h3>
+                <button className="font-label-md text-label-md font-bold text-primary hover:underline">View All</button>
             </div>
-            <div className="space-y-3">
+            <div className="space-y-stack-sm">
                 {appointments.length > 0 ? (
                     appointments.map((apt) => (
-                        <div key={apt._id} className="border rounded-lg p-3 hover:shadow-md transition-shadow">
-                            <div className="flex items-center justify-between mb-2">
-                                <div className="flex items-center space-x-2">
-                                    <Calendar size={14} className="text-gray-400" />
-                                    <span className="text-sm text-gray-600">
+                        <div key={apt._id} className="border border-outline-variant bg-surface rounded-lg p-stack-md hover:bg-surface-container transition-colors">
+                            <div className="flex items-center justify-between mb-stack-xs">
+                                <div className="flex items-center gap-stack-xs text-on-surface-variant">
+                                    <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>calendar_month</span>
+                                    <span className="font-label-md text-label-md">
                                         {dayjs(apt.start).format('MMM DD, YYYY')}
                                     </span>
                                 </div>
                                 {getStatusBadge(apt.status)}
                             </div>
-                            <div className="flex items-center space-x-2 text-xs text-gray-500">
-                                <Clock size={12} />
+                            <div className="flex items-center gap-stack-xs font-label-sm text-label-sm text-on-surface-variant">
+                                <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>schedule</span>
                                 <span>{dayjs(apt.start).format('h:mm A')}</span>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center py-4">No recent appointments</p>
+                    <p className="font-label-md text-label-md text-on-surface-variant text-center py-stack-lg">No recent appointments</p>
                 )}
             </div>
         </div>

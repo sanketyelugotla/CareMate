@@ -50,7 +50,7 @@ export default function DashboardLayout() {
     const getRoleBadge = (role) => {
         const badges = {
             admin: { label: 'Admin', color: 'bg-purple-100 text-purple-700' },
-            doctor: { label: 'Doctor', color: 'bg-blue-100 text-blue-700' },
+            doctor: { label: 'Doctor', color: 'bg-accent text-blue-700' },
             user: { label: 'Patient', color: 'bg-green-100 text-green-700' }
         };
         return badges[role] || badges.user;
@@ -58,19 +58,19 @@ export default function DashboardLayout() {
 
     if (loading) {
         return (
-            <div className="flex h-screen items-center justify-center bg-gray-50">
+            <div className="flex h-screen items-center justify-center bg-background">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading dashboard...</p>
+                    <p className="text-muted-foreground">Loading dashboard...</p>
                 </div>
             </div>
         );
     }
 
     return (
-        <div className="flex h-screen bg-gray-50 overflow-hidden">
+        <div className="flex h-screen bg-background overflow-hidden">
             {/* Sidebar */}
-            <div className="w-64 bg-white shadow-lg flex flex-col">
+            <div className="w-64 bg-card shadow-lg flex flex-col">
                 {/* Logo Section */}
                 <div className="p-6 border-b border-gray-100">
                     <div className="flex items-center space-x-3">
@@ -78,8 +78,8 @@ export default function DashboardLayout() {
                             <Activity className="text-white" size={24} />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-gray-800">CareMate</h1>
-                            <p className="text-xs text-gray-500">Health Portal</p>
+                            <h1 className="text-xl font-bold text-foreground">CareMate</h1>
+                            <p className="text-xs text-muted-foreground">Health Portal</p>
                         </div>
                     </div>
                 </div>
@@ -91,8 +91,8 @@ export default function DashboardLayout() {
                             key={item.id}
                             onClick={() => setActiveTab(item.id)}
                             className={`w-full flex items-center space-x-3 px-6 py-3 text-left transition-all ${activeTab === item.id
-                                ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-muted text-primary border-r-4 border-blue-600'
+                                : 'text-muted-foreground hover:bg-background'
                                 }`}
                         >
                             <item.icon size={20} />
@@ -123,10 +123,10 @@ export default function DashboardLayout() {
                                     <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className="text-sm font-semibold text-gray-800 truncate">
+                                    <p className="text-sm font-semibold text-foreground truncate">
                                         {user.name}
                                     </p>
-                                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                    <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                                 </div>
                             </div>
 
@@ -141,7 +141,7 @@ export default function DashboardLayout() {
                             <div className="space-y-2">
                                 <button
                                     onClick={() => setActiveTab('profile')}
-                                    className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                                    className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:bg-background rounded-lg transition-colors"
                                 >
                                     <Settings size={16} />
                                     <span>Profile Settings</span>
@@ -162,12 +162,12 @@ export default function DashboardLayout() {
             {/* Main Content */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 {/* Top Bar */}
-                <div className="bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+                <div className="bg-card border-b border-border px-8 py-4 flex items-center justify-between">
                     <div>
-                        <h2 className="text-2xl font-bold text-gray-800">
+                        <h2 className="text-2xl font-bold text-foreground">
                             {menuItems.find(item => item.id === activeTab)?.label || 'Dashboard'}
                         </h2>
-                        <p className="text-sm text-gray-500">
+                        <p className="text-sm text-muted-foreground">
                             {activeTab === 'dashboard' && "Here's your health overview"}
                             {activeTab === 'prediction' && "Get AI-powered health insights"}
                             {activeTab === 'appointments' && "Schedule with our specialists"}
@@ -176,8 +176,8 @@ export default function DashboardLayout() {
                             {activeTab === 'profile' && "Manage your account settings"}
                         </p>
                     </div>
-                    <button className="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
-                        <Bell size={24} className="text-gray-600" />
+                    <button className="relative p-2 hover:bg-muted rounded-full transition-colors">
+                        <Bell size={24} className="text-muted-foreground" />
                         <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                     </button>
                 </div>

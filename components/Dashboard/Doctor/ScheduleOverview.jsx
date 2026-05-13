@@ -9,8 +9,8 @@ export default function ScheduleOverview({ onManageClick }) {
             title: 'Manage Free Slots',
             description: 'Set your available time slots for appointments',
             icon: Calendar,
-            color: 'text-blue-500',
-            bgColor: 'bg-blue-50'
+            color: 'text-primary',
+            bgColor: 'bg-muted'
         },
         {
             title: 'Set Busy Hours',
@@ -29,12 +29,12 @@ export default function ScheduleOverview({ onManageClick }) {
     ];
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
+        <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-bold text-gray-800">Schedule Management</h3>
+                <h3 className="text-lg font-bold text-foreground">Schedule Management</h3>
                 <button
                     onClick={onManageClick}
-                    className="text-blue-600 text-sm font-medium hover:underline cursor-pointer"
+                    className="text-primary text-sm font-medium hover:underline cursor-pointer"
                 >
                     Manage Schedule
                 </button>
@@ -46,8 +46,8 @@ export default function ScheduleOverview({ onManageClick }) {
                             <tip.icon size={20} />
                         </div>
                         <div>
-                            <p className="font-semibold text-gray-800 text-sm">{tip.title}</p>
-                            <p className="text-xs text-gray-600 mt-1">{tip.description}</p>
+                            <p className="font-semibold text-foreground text-sm">{tip.title}</p>
+                            <p className="text-xs text-muted-foreground mt-1">{tip.description}</p>
                         </div>
                     </div>
                 ))}

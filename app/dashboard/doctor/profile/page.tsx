@@ -60,41 +60,41 @@ export function DoctorProfilePanel() {
 
     if (!user) return (
         <div className="max-w-2xl mx-auto">
-            <p className="text-gray-500">Loading...</p>
+            <p className="text-muted-foreground">Loading...</p>
         </div>
     )
 
     return (
         <div className="max-w-2xl mx-auto">
             <div className="mb-8">
-                <h1 className="text-3xl font-bold text-gray-800">Doctor Profile</h1>
-                <p className="text-gray-600 mt-2">Manage your professional information</p>
+                <h1 className="text-3xl font-bold text-foreground">Doctor Profile</h1>
+                <p className="text-muted-foreground mt-2">Manage your professional information</p>
             </div>
 
-            <div className="bg-white rounded-xl shadow-sm border p-8 space-y-6">
+            <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-8 space-y-6">
                 <div className="space-y-4">
                     <div>
-                        <label className="text-sm font-semibold text-gray-700 mb-2 block">Phone</label>
+                        <label className="text-sm font-semibold text-muted-foreground mb-2 block">Phone</label>
                         <Input value={phone} onChange={(e) => setPhone(e.target.value)} />
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-gray-700 mb-2 block">Clinic Address</label>
+                        <label className="text-sm font-semibold text-muted-foreground mb-2 block">Clinic Address</label>
                         <Input value={clinicAddress} onChange={(e) => setClinicAddress(e.target.value)} />
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-gray-700 mb-2 block">Specialization</label>
+                        <label className="text-sm font-semibold text-muted-foreground mb-2 block">Specialization</label>
                         <Input value={specialization} onChange={(e) => setSpecialization(e.target.value)} />
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-gray-700 mb-2 block">Qualifications</label>
+                        <label className="text-sm font-semibold text-muted-foreground mb-2 block">Qualifications</label>
                         <Input value={qualifications} onChange={(e) => setQualifications(e.target.value)} placeholder="e.g., MBBS, MD - Cardiology" />
                     </div>
 
                     <div>
-                        <label className="text-sm font-semibold text-gray-700 mb-2 block">Bio</label>
+                        <label className="text-sm font-semibold text-muted-foreground mb-2 block">Bio</label>
                         <Textarea value={bio} onChange={(e) => setBio(e.target.value)} />
                     </div>
                 </div>

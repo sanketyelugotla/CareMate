@@ -36,13 +36,13 @@ export default function CompleteDoctorDashboard() {
           />
 
           {/* Panel */}
-          <div className="fixed right-0 top-0 h-screen w-2/3 bg-white shadow-2xl z-50 overflow-y-auto">
+          <div className="fixed right-0 top-0 h-screen w-2/3 bg-card shadow-2xl z-50 overflow-y-auto">
             <div className="p-6">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-2xl font-bold text-gray-800">Manage Schedule</h2>
+                <h2 className="text-2xl font-bold text-foreground">Manage Schedule</h2>
                 <button
                   onClick={() => setShowSchedulePanel(false)}
-                  className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                  className="p-2 hover:bg-muted rounded-full transition-colors"
                 >
                   <X size={24} />
                 </button>

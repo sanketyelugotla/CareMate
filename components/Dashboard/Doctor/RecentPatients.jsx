@@ -22,36 +22,36 @@ export default function RecentPatients() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-6">Recent Patients</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
+                <h3 className="text-lg font-bold text-foreground mb-6">Recent Patients</h3>
+                <p className="text-muted-foreground">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
+        <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
             <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-gray-800">Recent Patients</h3>
-                <button className="text-blue-600 text-sm font-medium hover:underline">View All</button>
+                <h3 className="text-lg font-bold text-foreground">Recent Patients</h3>
+                <button className="text-primary text-sm font-medium hover:underline">View All</button>
             </div>
             <div className="space-y-4">
                 {patients.length > 0 ? (
                     patients.map((patient) => (
-                        <div key={patient._id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                        <div key={patient._id} className="flex items-center justify-between p-4 bg-background rounded-lg hover:bg-muted transition-colors">
                             <div className="flex items-center space-x-4">
-                                <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
-                                    <User size={24} className="text-blue-600" />
+                                <div className="w-12 h-12 bg-accent rounded-full flex items-center justify-center">
+                                    <User size={24} className="text-primary" />
                                 </div>
                                 <div>
-                                    <p className="font-semibold text-gray-800">{patient.name}</p>
+                                    <p className="font-semibold text-foreground">{patient.name}</p>
                                     <div className="flex items-center space-x-3 mt-1">
-                                        <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                        <div className="flex items-center space-x-1 text-xs text-muted-foreground">
                                             <Mail size={12} />
                                             <span>{patient.email}</span>
                                         </div>
                                         {patient.phone && (
-                                            <div className="flex items-center space-x-1 text-xs text-gray-500">
+                                            <div className="flex items-center space-x-1 text-xs text-muted-foreground">
                                                 <Phone size={12} />
                                                 <span>{patient.phone}</span>
                                             </div>
@@ -60,15 +60,15 @@ export default function RecentPatients() {
                                 </div>
                             </div>
                             <div className="text-right">
-                                {patient.age && <p className="text-sm text-gray-600">Age: {patient.age}</p>}
+                                {patient.age && <p className="text-sm text-muted-foreground">Age: {patient.age}</p>}
                                 {patient.bloodGroup && (
-                                    <p className="text-xs text-gray-500 mt-1">{patient.bloodGroup}</p>
+                                    <p className="text-xs text-muted-foreground mt-1">{patient.bloodGroup}</p>
                                 )}
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center py-4">No recent patients</p>
+                    <p className="text-muted-foreground text-center py-4">No recent patients</p>
                 )}
             </div>
         </div>

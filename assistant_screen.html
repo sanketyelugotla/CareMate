@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareMate AI Assistant - Professional Portal</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c3c7cb",
+                        "surface-dim": "#cbdbf5",
+                        "background": "#f8f9ff",
+                        "on-primary-fixed": "#001b3d",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#005db6",
+                        "secondary": "#006a63",
+                        "on-tertiary-fixed": "#171c1f",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed": "#d6e3ff",
+                        "outline": "#727783",
+                        "tertiary-container": "#5b6063",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#a9c7ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#d6dade",
+                        "on-tertiary-fixed-variant": "#43474b",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#006f67",
+                        "tertiary-fixed": "#dfe3e7",
+                        "secondary-fixed-dim": "#5ddacd",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#79f3e7",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#005eb8",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed-variant": "#00468c",
+                        "outline-variant": "#c2c6d4",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary": "#00478d",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#424752",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#c8daff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#7cf6ea",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary": "#43484c",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed": "#00201d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "grid-columns": "12",
+                        "margin-desktop": "64px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "margin-tablet": "32px",
+                        "stack-xl": "48px",
+                        "max-width": "1440px",
+                        "stack-sm": "8px",
+                        "stack-xs": "4px",
+                        "gutter": "24px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Public Sans"],
+                        "display-lg": ["Public Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md min-h-screen flex">
+<!-- SideNavBar -->
+<aside class="flex flex-col h-screen py-stack-lg px-stack-md sticky left-0 top-0 overflow-y-auto bg-surface-container-low border-r border-outline-variant w-64 shrink-0">
+<div class="mb-stack-xl px-2">
+<h1 class="font-headline-sm text-headline-sm font-extrabold text-primary">CareMate Portal</h1>
+<p class="font-label-sm text-on-surface-variant">Central Hospital Command</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="font-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">clinical_notes</span>
+<span class="font-label-md">Medical Records</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">group</span>
+<span class="font-label-md">Staff Directory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="font-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-primary-container text-on-primary-container font-bold rounded-lg shadow-sm" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-label-md">Patient Care</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-on-surface-variant hover:bg-surface-container-high transition-all rounded-lg" href="#">
+<span class="material-symbols-outlined">monitoring</span>
+<span class="font-label-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-stack-lg border-t border-outline-variant">
+<button class="w-full flex items-center justify-center gap-2 bg-error text-on-error py-3 rounded-xl font-label-md hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">emergency</span>
+                Emergency Alert
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-stack-md">
+<span class="font-headline-md text-headline-md font-bold text-primary">CareMate AI</span>
+</div>
+<div class="flex items-center gap-gutter">
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined">help</span>
+</button>
+<button class="p-2 text-on-surface-variant hover:bg-surface-container transition-colors rounded-full">
+<span class="material-symbols-outlined">settings</span>
+</button>
+</div>
+<div class="h-10 w-10 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Medical Professional Profile" class="w-full h-full object-cover" data-alt="A professional headshot of a healthcare provider in a clean clinic setting. The lighting is bright and airy, following a clinical aesthetic with cool white and blue tones. The doctor is wearing a stethoscope and a white coat, looking confidently at the camera with a subtle, reassuring smile." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCzO3JsyeKSIczCVMt61I6jaOefRYSi3GSUD9A5Z9l3ttQkIyzpY6A8X5r5JSMeipKL1bg6ngCHSJjRhC1VhnVgEdTJR3vz2xjzh7lzAp8zpJ8IxBvsRN3pfoAFAngJCkDb8lUmQhC9EmAmsHgQ81kRqU9SWENiKKa_QdIK2SWI6IsYazvO3Bqf01JReKlyixMW2Gld005Cp29fN5JYxMbjPgrBjTWO5HIIh2dmfWuz4ALHhx3zjvV8p81NCqPTjvyQjCoZQ-pr_8gu"/>
+</div>
+</div>
+</header>
+<!-- Chat Workspace -->
+<section class="flex-1 overflow-hidden flex flex-col bg-background relative">
+<!-- Message Area -->
+<div class="flex-1 overflow-y-auto p-margin-desktop space-y-stack-lg flex flex-col">
+<!-- System Time / Context -->
+<div class="flex justify-center mb-stack-lg">
+<span class="bg-surface-container px-3 py-1 rounded-full text-label-sm text-on-surface-variant">Today, Oct 24, 09:42 AM • Patient ID: #8821-J</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end max-w-2xl ml-auto">
+<div class="bg-primary text-on-primary p-4 rounded-xl rounded-tr-none shadow-sm">
+<p class="font-body-md">Get the latest vitals for Sarah Miller in Room 402 and check for any critical deviations from her baseline.</p>
+</div>
+<span class="text-label-sm text-on-surface-variant mt-2 px-2">Dr. Henderson • 09:44 AM</span>
+</div>
+<!-- AI Response -->
+<div class="flex flex-col items-start max-w-4xl">
+<div class="flex gap-4">
+<div class="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary-container text-[20px]">smart_toy</span>
+</div>
+<div class="flex-1 space-y-stack-md">
+<div class="bg-surface-container-low border border-outline-variant p-stack-lg rounded-xl rounded-tl-none shadow-sm">
+<p class="font-body-md text-on-surface mb-stack-lg">Accessing Sarah Miller's real-time telemetry. Current vitals are within stable ranges with a slight elevation in heart rate compared to 08:00 AM.</p>
+<!-- Vitals Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack-sm">
+<!-- Heart Rate -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-on-surface-variant uppercase">Heart Rate</span>
+<span class="material-symbols-outlined text-error" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface">88</span>
+<span class="font-label-sm text-on-surface-variant">BPM</span>
+</div>
+<div class="mt-2 flex items-center gap-1">
+<span class="bg-error-container text-on-error-container text-[10px] px-1.5 py-0.5 rounded font-bold">+12%</span>
+<span class="text-[11px] text-on-surface-variant">vs 08:00 AM</span>
+</div>
+</div>
+<!-- Temp -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-on-surface-variant uppercase">Temperature</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">device_thermostat</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface">98.6</span>
+<span class="font-label-sm text-on-surface-variant">°F</span>
+</div>
+<div class="mt-2 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-[11px] text-on-surface-variant">Normal Range</span>
+</div>
+</div>
+<!-- Blood Pressure -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-on-surface-variant uppercase">Blood Pressure</span>
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">blood_pressure</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface">122/80</span>
+<span class="font-label-sm text-on-surface-variant">mmHg</span>
+</div>
+<div class="mt-2 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-[11px] text-on-surface-variant">Steady</span>
+</div>
+</div>
+<!-- SpO2 -->
+<div class="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant">
+<div class="flex items-center justify-between mb-2">
+<span class="font-label-sm text-on-surface-variant uppercase">SpO2</span>
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">pulmonology</span>
+</div>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-md text-headline-md text-on-surface">99</span>
+<span class="font-label-sm text-on-surface-variant">%</span>
+</div>
+<div class="mt-2 flex items-center gap-1">
+<div class="w-2 h-2 rounded-full bg-secondary"></div>
+<span class="text-[11px] text-on-surface-variant">Optimal</span>
+</div>
+</div>
+</div>
+<p class="font-body-md text-on-surface mt-stack-lg italic opacity-80">Would you like to review her recent laboratory results or verify her physical therapy schedule for this afternoon?</p>
+</div>
+<!-- Quick Actions -->
+<div class="flex flex-wrap gap-stack-sm ml-4">
+<button class="flex items-center gap-2 px-4 py-2 border border-primary text-primary bg-surface hover:bg-surface-container transition-colors rounded-full font-label-md">
+<span class="material-symbols-outlined text-[18px]">calendar_today</span>
+                                    Check Schedule
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-primary text-primary bg-surface hover:bg-surface-container transition-colors rounded-full font-label-md">
+<span class="material-symbols-outlined text-[18px]">biotech</span>
+                                    Lab Results
+                                </button>
+<button class="flex items-center gap-2 px-4 py-2 border border-outline text-on-surface-variant bg-surface hover:bg-surface-container transition-colors rounded-full font-label-md">
+<span class="material-symbols-outlined text-[18px]">edit_note</span>
+                                    Add Shift Note
+                                </button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Input Anchor -->
+<div class="p-stack-lg border-t border-outline-variant bg-surface-container-lowest">
+<div class="max-w-4xl mx-auto relative">
+<div class="flex items-end gap-stack-md bg-surface border border-outline rounded-2xl p-2 pr-4 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+<textarea class="flex-1 bg-transparent border-none focus:ring-0 resize-none py-3 px-2 font-body-md text-on-surface placeholder:text-on-surface-variant" placeholder="Ask CareMate AI about patients, staff, or protocols..." rows="1"></textarea>
+<div class="flex items-center gap-2 pb-1.5">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">mic</span>
+</button>
+<button class="bg-primary text-on-primary p-2 rounded-xl hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+<div class="flex justify-center gap-gutter mt-3">
+<span class="text-[11px] text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified_user</span>
+                            HIPAA Compliant AI Workspace
+                        </span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="w-full py-stack-sm px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest border-t border-outline-variant">
+<div class="flex items-center gap-2">
+<span class="font-headline-sm text-headline-sm font-bold text-on-surface">CareMate</span>
+<span class="text-on-surface-variant font-body-md">| Patient Management</span>
+</div>
+<div class="flex gap-stack-lg">
+<a class="text-on-surface-variant hover:text-primary underline font-label-sm transition-all" href="#">Privacy Policy</a>
+<a class="text-on-surface-variant hover:text-primary underline font-label-sm transition-all" href="#">Contact Support</a>
+</div>
+<p class="font-label-sm text-on-surface-variant text-center md:text-right">
+                © 2024 CareMate Health Systems. Professional Grade.
+            </p>
+</footer>
+</main>
+</body></html>

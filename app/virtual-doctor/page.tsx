@@ -2,6 +2,9 @@
 
 import React, { useState, useEffect, useRef } from "react";
 import { sendMessage, getHistory, startNewChat, clearChat } from "@/lib/chat";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { HeartPulse, Plus, Trash2, Send, Bot, User, ShieldAlert } from "lucide-react";
 
 interface Message {
   role: "user" | "assistant";
@@ -48,97 +51,132 @@ const ChatPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-pink-100 flex">
+    <div className="flex h-screen bg-background overflow-hidden">
       {/* Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 h-full glass-effect p-4">
-        <div className="mb-8 flex flex-col items-center">
-          <div className="text-6xl text-blue-500 mb-2 animate-pulse">
-            <i className="fas fa-heartbeat"></i>
+      <aside className="hidden md:flex flex-col w-72 h-full bg-card border-r border-border shadow-[4px_0_24px_rgba(20,29,35,0.04)] p-6 z-10">
+        <div className="mb-10 flex flex-col items-center">
+          <div className="w-16 h-16 bg-accent rounded-2xl flex items-center justify-center mb-4 text-primary">
+            <HeartPulse size={32} />
           </div>
-          <h1 className="font-bold text-xl text-center">MediGenius</h1>
-          <span className="text-xs text-gray-400">AI Assistant v3.0</span>
-          <button
+          <h1 className="font-bold text-xl text-foreground">CareMate AI</h1>
+          <span className="text-sm text-muted-foreground mt-1">Clinical Assistant v3.0</span>
+          
+          <Button
             onClick={handleNewChat}
-            className="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700 flex items-center gap-2"
+            className="mt-6 w-full h-12 gap-2 font-semibold shadow-md"
           >
-            <i className="fas fa-plus"></i> New Chat
-          </button>
+            <Plus size={18} /> New Consultation
+          </Button>
         </div>
-        {/* Chat history, social links, etc. can be added here */}
+        
+        <div className="mt-auto space-y-4">
+          <div className="p-4 bg-muted/50 rounded-xl text-sm text-muted-foreground">
+            <ShieldAlert className="inline-block mr-2 mb-1 text-primary" size={16} />
+            Your medical queries are encrypted and processed securely.
+          </div>
+        </div>
       </aside>
+
       {/* Main Chat Area */}
-      <main className="flex-1 flex flex-col items-center px-3 py-6">
+      <main className="flex-1 flex flex-col h-full bg-background relative">
         {/* Header */}
-        <header className="w-full max-w-2xl mb-3 flex items-center justify-between glass-header px-5 py-3 rounded-lg">
-          <h2 className="font-bold text-2xl text-gradient bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
-            Medical AI Assistant
-          </h2>
+        <header className="flex-none h-20 w-full flex items-center justify-between px-6 lg:px-12 bg-card/80 backdrop-blur-md border-b border-border z-10 sticky top-0">
           <div className="flex items-center gap-3">
-            <button
+            <div className="md:hidden w-10 h-10 bg-accent rounded-lg flex items-center justify-center text-primary">
+              <HeartPulse size={20} />
+            </div>
+            <h2 className="font-bold text-xl text-foreground">
+              Virtual Doctor
+            </h2>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <Button
               onClick={handleClear}
-              className="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700"
+              variant="outline"
+              size="sm"
+              className="text-destructive border-destructive/20 hover:bg-destructive/10 hover:text-destructive"
               title="Clear conversation"
             >
-              <i className="fas fa-trash"></i>
-            </button>
-            <button
-              title="Theme (stub)"
-              className="bg-gray-200 px-2 py-1 rounded shadow"
-            >
-              <i className="fas fa-moon"></i>
-            </button>
+              <Trash2 size={16} className="mr-2" /> Clear
+            </Button>
           </div>
         </header>
+
         {/* Messages */}
-        <div className="flex-1 w-full max-w-2xl overflow-y-auto mb-5 bg-white rounded-lg shadow-lg p-5">
-          {messages.length === 0 ? (
-            <div className="flex flex-col items-center py-10 opacity-60">
-              <i className="fas fa-stethoscope text-4xl mb-2"></i>
-              <div className="font-bold text-lg mb-2">Welcome to CareMate</div>
-              <div className="text-gray-500">Your AI-powered medical assistant is ready to help</div>
-            </div>
-          ) : (
-            messages.map((msg, i) => (
-              <div
-                key={i}
-                className={`mb-3 flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
-              >
-                <div
-                  className={`px-4 py-3 rounded-lg max-w-xs ${msg.role === "user"
-                    ? "bg-gradient-to-r from-blue-500 to-purple-500 text-white text-right"
-                    : "bg-gray-100 text-left"
-                    }`}
-                >
-                  <strong>{msg.role === "user" ? "You" : "Bot"}: </strong>
-                  {msg.content}
+        <div className="flex-1 overflow-y-auto px-4 py-8 lg:px-12">
+          <div className="max-w-3xl mx-auto flex flex-col space-y-6">
+            {messages.length === 0 ? (
+              <div className="flex flex-col items-center justify-center py-20 text-center opacity-80 mt-10">
+                <div className="w-20 h-20 bg-muted rounded-full flex items-center justify-center mb-6">
+                  <Bot size={40} className="text-primary" />
                 </div>
+                <h3 className="font-bold text-2xl mb-2 text-foreground">Welcome to CareMate</h3>
+                <p className="text-muted-foreground max-w-md leading-relaxed">
+                  I'm your AI-powered clinical assistant. Describe your symptoms or ask a medical question, and I will provide preliminary insights.
+                </p>
               </div>
-            ))
-          )}
-          <div ref={endRef}></div>
+            ) : (
+              messages.map((msg, i) => (
+                <div
+                  key={i}
+                  className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                >
+                  <div className={`flex items-end gap-3 max-w-[85%] md:max-w-[75%] ${msg.role === "user" ? "flex-row-reverse" : "flex-row"}`}>
+                    
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${msg.role === "user" ? "bg-primary text-primary-foreground hidden md:flex" : "bg-secondary text-secondary-foreground"}`}>
+                      {msg.role === "user" ? <User size={16} /> : <Bot size={16} />}
+                    </div>
+
+                    <div
+                      className={`px-5 py-4 rounded-2xl shadow-sm text-base leading-relaxed ${
+                        msg.role === "user"
+                          ? "bg-primary text-primary-foreground rounded-br-sm"
+                          : "bg-card text-foreground rounded-bl-sm border border-border/50"
+                      }`}
+                    >
+                      {msg.content}
+                    </div>
+                  </div>
+                </div>
+              ))
+            )}
+            <div ref={endRef} className="h-4"></div>
+          </div>
         </div>
-        {/* Input */}
-        <div className="w-full max-w-2xl flex gap-2">
-          <input
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your medical question..."
-            className="border border-gray-400 px-3 py-2 rounded-lg flex-1"
-            disabled={loading}
-            onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          />
-          <button
-            onClick={handleSend}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg shadow hover:bg-blue-700"
-            disabled={loading}
-          >
-            {loading ? "Sending..." : <i className="fas fa-paper-plane"></i>}
-          </button>
-        </div>
-        <div className="flex items-center mt-2 text-xs text-gray-500">
-          <i className="fas fa-info-circle mr-1"></i>
-          AI can make mistakes. Always consult healthcare professionals for medical advice.
+
+        {/* Input Area */}
+        <div className="flex-none p-4 lg:p-6 bg-background">
+          <div className="max-w-3xl mx-auto">
+            <div className="relative flex items-center bg-card shadow-[0_8px_24px_rgba(20,29,35,0.08)] rounded-[16px] p-2 border border-border/50">
+              <Input
+                type="text"
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                placeholder="Describe your symptoms or ask a question..."
+                className="flex-1 bg-transparent border-none shadow-none h-12 focus-visible:ring-0 px-4 text-base"
+                disabled={loading}
+                onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              />
+              <Button
+                onClick={handleSend}
+                disabled={loading || !input.trim()}
+                className="h-10 w-10 p-0 rounded-xl bg-primary text-primary-foreground shrink-0 transition-transform active:scale-95 ml-2"
+              >
+                {loading ? (
+                  <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                ) : (
+                  <Send size={18} className="ml-1" />
+                )}
+              </Button>
+            </div>
+            
+            <div className="text-center mt-3">
+              <span className="text-xs text-muted-foreground font-medium">
+                Clinical AI can make mistakes. Always consult healthcare professionals for medical advice.
+              </span>
+            </div>
+          </div>
         </div>
       </main>
     </div>

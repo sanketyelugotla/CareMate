@@ -26,7 +26,7 @@ export default function DoctorTopCards() {
             gradient: 'from-blue-50 to-blue-100',
             border: 'border-blue-200',
             textColor: 'text-blue-700',
-            bgColor: 'bg-blue-500'
+            bgColor: 'bg-muted0'
         },
         {
             title: 'Total Patients',

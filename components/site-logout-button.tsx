@@ -5,10 +5,13 @@ import { Button } from "@/components/ui/button"
 export default function LogoutButton() {
   const onLogout = async () => {
     try {
-      await fetch("/api/auth/logout", { method: "POST" })
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include"
+      })
       window.location.replace("/")
     } catch (e) {
-      // no-op
+      window.location.replace("/")
     }
   }
   return (

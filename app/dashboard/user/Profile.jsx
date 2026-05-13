@@ -225,10 +225,10 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-surface p-stack-lg font-body-md text-on-surface">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-xl shadow-sm border p-8">
-            <p className="text-gray-500">Loading...</p>
+          <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-xl">
+            <p className="text-on-surface-variant font-label-md">Loading...</p>
           </div>
         </div>
       </div>
@@ -237,10 +237,10 @@ export default function Profile() {
 
   if (!user) {
     return (
-      <div className="min-h-screen bg-gray-50 p-6">
+      <div className="min-h-screen bg-surface p-stack-lg font-body-md text-on-surface">
         <div className="max-w-7xl mx-auto">
-          <div className="bg-white rounded-xl shadow-sm border p-8">
-            <p className="text-red-500">Failed to load user data</p>
+          <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-xl">
+            <p className="text-error font-label-md">Failed to load user data</p>
           </div>
         </div>
       </div>
@@ -248,33 +248,33 @@ export default function Profile() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen bg-surface p-stack-lg font-body-md text-on-surface">
       {/* Simple toast */}
       {toast.visible && (
-        <div className={`fixed top-6 right-6 z-50 px-4 py-2 rounded shadow-lg ${toast.type === 'success' ? 'bg-green-500 text-white' : toast.type === 'error' ? 'bg-red-500 text-white' : 'bg-gray-800 text-white'}`}>
+        <div className={`fixed top-6 right-6 z-50 px-stack-md py-stack-sm rounded shadow-lg ${toast.type === 'success' ? 'bg-primary text-on-primary font-bold' : toast.type === 'error' ? 'bg-error text-on-error font-bold' : 'bg-surface-variant text-on-surface-variant font-bold'}`}>
           {toast.message}
         </div>
       )}
       <div className="max-w-7xl mx-auto">
         {/* Header Card */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-6">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg mb-stack-lg">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-stack-md">
               <div className="relative">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
-                  <User className="w-8 h-8 text-blue-600" />
+                <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center">
+                  <User className="w-8 h-8 text-on-primary-container" />
                 </div>
                 <span className="absolute bottom-0 right-0 w-4 h-4 bg-green-500 border-2 border-white rounded-full"></span>
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-gray-900">{getUserName(user)}</h1>
-                <p className="text-sm text-gray-600">{getUserName(user)}</p>
+                <h1 className="font-headline-md text-headline-md font-bold text-on-surface">{getUserName(user)}</h1>
+                <p className="font-label-md text-label-md text-on-surface-variant">{getUserName(user)}</p>
               </div>
             </div>
             {!editing && (
               <button
                 onClick={() => setEditing(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-medium transition-colors"
+                className="flex items-center gap-stack-sm px-stack-md py-stack-sm bg-primary text-on-primary rounded-lg font-label-md font-bold transition-colors"
               >
                 <Edit className="w-4 h-4" />
                 Edit Profile
@@ -283,77 +283,77 @@ export default function Profile() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-gutter">
           {/* Left Column */}
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-gutter">
             {/* Personal Information */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex items-center gap-2 mb-6">
-                <User className="w-5 h-5 text-blue-600" />
-                <h2 className="text-lg font-bold text-gray-900">Personal Information</h2>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+              <div className="flex items-center gap-stack-sm mb-stack-lg">
+                <span className="material-symbols-outlined text-primary" data-icon="person">person</span>
+                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">Personal Information</h2>
               </div>
 
               {!editing ? (
                 <div className="grid grid-cols-2 gap-6">
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Full Name</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Full Name</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {getUserName(user)}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Date of Birth</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Date of Birth</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {formData.dateOfBirth || 'Not provided'}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Gender</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900 capitalize">
+                    <label className="text-sm text-muted-foreground mb-1 block">Gender</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground capitalize">
                       {formData.gender}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Blood Group</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Blood Group</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {formData.bloodGroup || 'Not provided'}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Phone Number</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Phone Number</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {formData.phone || 'Not provided'}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Email Address</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Email Address</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {user.email}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Weight</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Weight</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {healthStats.weight?.value ? `${healthStats.weight.value} kg` : 'Not provided'}
                     </div>
                   </div>
                   <div>
-                    <label className="text-sm text-gray-600 mb-1 block">Height</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Height</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {healthStats.height?.value ? `${healthStats.height.value} cm` : 'Not provided'}
                     </div>
                   </div>
                   <div className="col-span-2">
-                    <label className="text-sm text-gray-600 mb-1 block">Blood Pressure</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Blood Pressure</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {(healthStats.bloodPressure?.systolic !== undefined && healthStats.bloodPressure?.diastolic !== undefined)
                         ? `${healthStats.bloodPressure.systolic}/${healthStats.bloodPressure.diastolic} mmHg`
                         : (healthStats.bloodPressure?.systolic !== undefined ? `${healthStats.bloodPressure.systolic} mmHg` : (healthStats.bloodPressure?.diastolic !== undefined ? `${healthStats.bloodPressure.diastolic} mmHg` : 'Not provided'))}
                     </div>
                   </div>
                   <div className="col-span-2">
-                    <label className="text-sm text-gray-600 mb-1 block">Address</label>
-                    <div className="px-4 py-2 bg-gray-50 rounded-lg text-gray-900">
+                    <label className="text-sm text-muted-foreground mb-1 block">Address</label>
+                    <div className="px-4 py-2 bg-background rounded-lg text-foreground">
                       {formData.address || 'Not provided'}
                     </div>
                   </div>
@@ -362,7 +362,7 @@ export default function Profile() {
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">First Name</label>
                       <input
                         type="text"
                         value={formData.firstName || ''}
@@ -372,7 +372,7 @@ export default function Profile() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Last Name</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Last Name</label>
                       <input
                         type="text"
                         value={formData.lastName || ''}
@@ -384,7 +384,7 @@ export default function Profile() {
                   </div>
                   <div className="grid grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Date of Birth</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Date of Birth</label>
                       <input
                         type="date"
                         value={formData.dateOfBirth}
@@ -393,7 +393,7 @@ export default function Profile() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Gender</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Gender</label>
                       <select
                         value={formData.gender}
                         onChange={(e) => setFormData({ ...formData, gender: e.target.value })}
@@ -405,7 +405,7 @@ export default function Profile() {
                       </select>
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Blood Group</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Blood Group</label>
                       <input
                         type="text"
                         value={formData.bloodGroup}
@@ -415,7 +415,7 @@ export default function Profile() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Phone</label>
                       <input
                         type="tel"
                         value={formData.phone}
@@ -425,7 +425,7 @@ export default function Profile() {
                       />
                     </div>
                     <div className="col-span-2">
-                      <label className="block text-sm font-medium text-gray-700 mb-2">Address</label>
+                      <label className="block text-sm font-medium text-muted-foreground mb-2">Address</label>
                       <textarea
                         value={formData.address}
                         onChange={(e) => setFormData({ ...formData, address: e.target.value })}
@@ -446,7 +446,7 @@ export default function Profile() {
                     <button
                       type="button"
                       onClick={() => setEditing(false)}
-                      className="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                      className="px-6 py-2 bg-gray-200 text-foreground rounded-lg hover:bg-gray-300 transition"
                     >
                       Cancel
                     </button>
@@ -456,10 +456,10 @@ export default function Profile() {
             </div>
 
             {/* Medical Information */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex items-center gap-2 mb-6">
-                <Shield className="w-5 h-5 text-green-600" />
-                <h2 className="text-lg font-bold text-gray-900">Medical Information</h2>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+              <div className="flex items-center gap-stack-sm mb-stack-lg">
+                <span className="material-symbols-outlined text-secondary" data-icon="medical_information">medical_information</span>
+                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">Medical Information</h2>
               </div>
 
               <div className="space-y-4">
@@ -467,8 +467,8 @@ export default function Profile() {
                 <div className="flex items-start gap-3 p-4 bg-red-50 rounded-lg border border-red-100">
                   <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">Allergies</h3>
-                    <p className="text-sm text-gray-700">
+                    <h3 className="font-semibold text-foreground mb-1">Allergies</h3>
+                    <p className="text-sm text-muted-foreground">
                       {formData.allergies.length > 0 ? formData.allergies.join(', ') : 'No known allergies'}
                     </p>
                   </div>
@@ -478,19 +478,19 @@ export default function Profile() {
                 <div className="flex items-start gap-3 p-4 bg-orange-50 rounded-lg border border-orange-100">
                   <Activity className="w-5 h-5 text-orange-600 flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">Chronic Conditions</h3>
-                    <p className="text-sm text-gray-700">
+                    <h3 className="font-semibold text-foreground mb-1">Chronic Conditions</h3>
+                    <p className="text-sm text-muted-foreground">
                       {formData.conditions.length > 0 ? formData.conditions.join(', ') : 'No chronic conditions'}
                     </p>
                   </div>
                 </div>
 
                 {/* Current Medications */}
-                <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg border border-blue-100">
-                  <Pill className="w-5 h-5 text-blue-600 flex-shrink-0 mt-0.5" />
+                <div className="flex items-start gap-3 p-4 bg-muted rounded-lg border border-blue-100">
+                  <Pill className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-gray-900 mb-1">Current Medications</h3>
-                    <p className="text-sm text-gray-700">
+                    <h3 className="font-semibold text-foreground mb-1">Current Medications</h3>
+                    <p className="text-sm text-muted-foreground">
                       {formData.medications.length > 0 ? formData.medications.join(', ') : 'No current medications'}
                     </p>
                   </div>
@@ -500,19 +500,22 @@ export default function Profile() {
           </div>
 
           {/* Right Column */}
-          <div className="space-y-6">
+          <div className="space-y-gutter">
             {/* Health Statistics */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-lg font-bold text-gray-900 mb-4">Health Statistics</h2>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+              <div className="flex items-center gap-stack-sm mb-stack-md">
+                <span className="material-symbols-outlined text-error" data-icon="monitor_heart">monitor_heart</span>
+                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">Health Statistics</h2>
+              </div>
 
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 p-3 bg-blue-50 rounded-lg">
-                  <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <Activity className="w-5 h-5 text-blue-600" />
+              <div className="space-y-stack-md">
+                <div className="flex items-center gap-3 p-3 bg-muted rounded-lg">
+                  <div className="w-10 h-10 bg-accent rounded-lg flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-primary" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-600">BMI</p>
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-xs text-muted-foreground">BMI</p>
+                    <p className="text-lg font-bold text-foreground">
                       {healthStats.bmi.value || '—'}{' '}
                       <span className="text-sm text-green-600 font-normal">
                         ({healthStats.bmi.status || '—'})
@@ -526,9 +529,9 @@ export default function Profile() {
                     <Heart className="w-5 h-5 text-red-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-600">Heart Rate</p>
-                    <p className="text-lg font-bold text-gray-900">
-                      {healthStats.heartRate.value || '—'} <span className="text-sm text-gray-500">bpm</span>
+                    <p className="text-xs text-muted-foreground">Heart Rate</p>
+                    <p className="text-lg font-bold text-foreground">
+                      {healthStats.heartRate.value || '—'} <span className="text-sm text-muted-foreground">bpm</span>
                     </p>
                   </div>
                 </div>
@@ -538,30 +541,30 @@ export default function Profile() {
                     <Activity className="w-5 h-5 text-purple-600" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-600">Blood Pressure</p>
-                    <p className="text-lg font-bold text-gray-900">
-                      {(healthStats.bloodPressure.systolic || healthStats.bloodPressure.diastolic) ? `${healthStats.bloodPressure.systolic || '—'}/${healthStats.bloodPressure.diastolic || '—'}` : '—'} <span className="text-sm text-gray-500">mmHg</span>
+                    <p className="text-xs text-muted-foreground">Blood Pressure</p>
+                    <p className="text-lg font-bold text-foreground">
+                      {(healthStats.bloodPressure.systolic || healthStats.bloodPressure.diastolic) ? `${healthStats.bloodPressure.systolic || '—'}/${healthStats.bloodPressure.diastolic || '—'}` : '—'} <span className="text-sm text-muted-foreground">mmHg</span>
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Activity className="w-5 h-5 text-gray-600" />
+                <div className="flex items-center gap-3 p-3 bg-background rounded-lg">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-600">Weight</p>
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-xs text-muted-foreground">Weight</p>
+                    <p className="text-lg font-bold text-foreground">
                       {healthStats.weight?.value ? `${healthStats.weight.value} kg` : '—'}
                     </p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg">
-                  <div className="w-10 h-10 bg-gray-100 rounded-lg flex items-center justify-center">
-                    <Activity className="w-5 h-5 text-gray-600" />
+                <div className="flex items-center gap-3 p-3 bg-background rounded-lg">
+                  <div className="w-10 h-10 bg-muted rounded-lg flex items-center justify-center">
+                    <Activity className="w-5 h-5 text-muted-foreground" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-xs text-gray-600">Height</p>
-                    <p className="text-lg font-bold text-gray-900">
+                    <p className="text-xs text-muted-foreground">Height</p>
+                    <p className="text-lg font-bold text-foreground">
                       {healthStats.height?.value ? `${healthStats.height.value} cm` : '—'}
                     </p>
                   </div>
@@ -569,22 +572,22 @@ export default function Profile() {
                 {/* Editable controls in edit mode */}
                 {editing && (
                   <div className="pt-4 border-t">
-                    <h3 className="font-semibold text-gray-800 mb-3">Edit Health Statistics</h3>
+                    <h3 className="font-semibold text-foreground mb-3">Edit Health Statistics</h3>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="text-sm text-gray-600">Height (cm)</label>
+                        <label className="text-sm text-muted-foreground">Height (cm)</label>
                         <input type="number" value={healthStats.height.value || ''} onChange={(e) => setHealthStats({ ...healthStats, height: { value: e.target.value ? Number(e.target.value) : undefined } })} className="w-full px-3 py-2 border rounded" placeholder="e.g. 175" />
                       </div>
                       <div>
-                        <label className="text-sm text-gray-600">Weight (kg)</label>
+                        <label className="text-sm text-muted-foreground">Weight (kg)</label>
                         <input type="number" value={healthStats.weight.value || ''} onChange={(e) => setHealthStats({ ...healthStats, weight: { value: e.target.value ? Number(e.target.value) : undefined } })} className="w-full px-3 py-2 border rounded" placeholder="e.g. 72" />
                       </div>
                       <div>
-                        <label className="text-sm text-gray-600">Heart Rate (bpm)</label>
+                        <label className="text-sm text-muted-foreground">Heart Rate (bpm)</label>
                         <input type="number" value={healthStats.heartRate.value || ''} onChange={(e) => setHealthStats({ ...healthStats, heartRate: { value: Number(e.target.value) } })} className="w-full px-3 py-2 border rounded" />
                       </div>
                       <div className="col-span-2">
-                        <label className="text-sm text-gray-600">Blood Pressure (mmHg)</label>
+                        <label className="text-sm text-muted-foreground">Blood Pressure (mmHg)</label>
                         <div className="grid grid-cols-2 gap-2">
                           <input type="number" value={healthStats.bloodPressure.systolic || ''} onChange={(e) => setHealthStats({ ...healthStats, bloodPressure: { ...healthStats.bloodPressure, systolic: Number(e.target.value) } })} className="w-full px-3 py-2 border rounded" placeholder="Systolic" />
                           <input type="number" value={healthStats.bloodPressure.diastolic || ''} onChange={(e) => setHealthStats({ ...healthStats, bloodPressure: { ...healthStats.bloodPressure, diastolic: Number(e.target.value) } })} className="w-full px-3 py-2 border rounded" placeholder="Diastolic" />
@@ -597,10 +600,10 @@ export default function Profile() {
             </div>
 
             {/* Appointments & Reports */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Calendar className="w-5 h-5 text-teal-600" />
-                <h2 className="text-lg font-bold text-gray-900">Appointments & Reports</h2>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+              <div className="flex items-center gap-stack-sm mb-stack-md">
+                <span className="material-symbols-outlined text-primary" data-icon="calendar_month">calendar_month</span>
+                <h2 className="font-headline-sm text-headline-sm font-bold text-on-surface">Appointments & Reports</h2>
               </div>
 
               <div className="space-y-3 mb-4">
@@ -608,29 +611,29 @@ export default function Profile() {
                   <p className="text-xs text-green-700 font-semibold mb-1">
                     Upcoming: {appointments.upcoming.title}
                   </p>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-muted-foreground">
                     {appointments.upcoming.doctor} - {appointments.upcoming.date} @ {appointments.upcoming.time}
                   </p>
                 </div>
 
-                <div className="p-3 border-l-4 border-gray-300 bg-gray-50 rounded">
-                  <p className="text-xs text-gray-700 font-semibold mb-1">
+                <div className="p-3 border-l-4 border-gray-300 bg-background rounded">
+                  <p className="text-xs text-muted-foreground font-semibold mb-1">
                     Recent: {appointments.recent.title}
                   </p>
-                  <p className="text-xs text-gray-600">
+                  <p className="text-xs text-muted-foreground">
                     {appointments.recent.doctor} - {appointments.recent.date}
                   </p>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-gray-200">
-                <h3 className="font-semibold text-gray-900 mb-3 text-sm">Medical Reports</h3>
+              <div className="pt-4 border-t border-border">
+                <h3 className="font-semibold text-foreground mb-3 text-sm">Medical Reports</h3>
                 <div className="space-y-2">
                   {medicalReports.map((report, idx) => (
-                    <div key={idx} className="flex items-center gap-2 text-sm text-gray-700 hover:text-blue-600 cursor-pointer">
+                    <div key={idx} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary cursor-pointer">
                       <FileText className="w-4 h-4" />
                       <span className="flex-1">{report.name}</span>
-                      <span className="text-xs text-gray-500">- {report.date}</span>
+                      <span className="text-xs text-muted-foreground">- {report.date}</span>
                     </div>
                   ))}
                 </div>

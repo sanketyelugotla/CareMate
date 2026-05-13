@@ -48,31 +48,34 @@ export default function Reminders() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-4">Reminders</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-stack-lg">Reminders</h3>
+                <p className="text-on-surface-variant font-label-md text-label-md">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-4">Reminders</h3>
-            <div className="space-y-3">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+            <h3 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-stack-sm mb-stack-md font-bold">
+                <span className="material-symbols-outlined text-error" data-icon="notifications">notifications</span>
+                Reminders
+            </h3>
+            <div className="space-y-stack-sm">
                 {reminders.length > 0 ? (
                     reminders.map((reminder) => (
-                        <div key={reminder._id} className="flex items-center space-x-3 p-3 bg-orange-100 rounded-lg">
-                            <span className="text-2xl">💊</span>
+                        <div key={reminder._id} className="flex items-center space-x-3 p-stack-sm bg-error-container rounded-lg">
+                            <span className="text-2xl" role="img" aria-label="pill">💊</span>
                             <div className="flex-1">
-                                <p className="font-semibold text-gray-800 text-sm">{reminder.medicineName}</p>
-                                <p className="text-xs text-gray-600">
+                                <p className="font-label-md text-label-md font-bold text-on-error-container">{reminder.medicineName}</p>
+                                <p className="font-label-sm text-label-sm text-on-error-container opacity-80">
                                     {reminder.nextSchedule && getTimeDisplay(reminder.nextSchedule)}
                                 </p>
                             </div>
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center py-4 text-sm">No upcoming reminders</p>
+                    <p className="text-on-surface-variant text-center py-4 font-body-md text-body-md">No upcoming reminders</p>
                 )}
             </div>
         </div>

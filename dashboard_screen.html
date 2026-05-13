@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CareMate | Clinical Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Public+Sans:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c3c7cb",
+                        "surface-dim": "#cbdbf5",
+                        "background": "#f8f9ff",
+                        "on-primary-fixed": "#001b3d",
+                        "on-error": "#ffffff",
+                        "surface-tint": "#005db6",
+                        "secondary": "#006a63",
+                        "on-tertiary-fixed": "#171c1f",
+                        "surface-container-highest": "#d3e4fe",
+                        "primary-fixed": "#d6e3ff",
+                        "outline": "#727783",
+                        "tertiary-container": "#5b6063",
+                        "on-background": "#0b1c30",
+                        "inverse-primary": "#a9c7ff",
+                        "on-error-container": "#93000a",
+                        "on-tertiary-container": "#d6dade",
+                        "on-tertiary-fixed-variant": "#43474b",
+                        "on-primary": "#ffffff",
+                        "on-secondary-container": "#006f67",
+                        "tertiary-fixed": "#dfe3e7",
+                        "secondary-fixed-dim": "#5ddacd",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#79f3e7",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#00504a",
+                        "error": "#ba1a1a",
+                        "primary-container": "#005eb8",
+                        "on-surface": "#0b1c30",
+                        "on-primary-fixed-variant": "#00468c",
+                        "outline-variant": "#c2c6d4",
+                        "on-tertiary": "#ffffff",
+                        "inverse-on-surface": "#eaf1ff",
+                        "primary": "#00478d",
+                        "surface": "#f8f9ff",
+                        "on-surface-variant": "#424752",
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#c8daff",
+                        "surface-bright": "#f8f9ff",
+                        "surface-container": "#e5eeff",
+                        "secondary-fixed": "#7cf6ea",
+                        "primary-fixed-dim": "#a9c7ff",
+                        "surface-variant": "#d3e4fe",
+                        "inverse-surface": "#213145",
+                        "surface-container-high": "#dce9ff",
+                        "tertiary": "#43484c",
+                        "surface-container-low": "#eff4ff",
+                        "on-secondary-fixed": "#00201d"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "grid-columns": "12",
+                        "margin-desktop": "64px",
+                        "stack-md": "16px",
+                        "margin-mobile": "16px",
+                        "margin-tablet": "32px",
+                        "stack-xl": "48px",
+                        "max-width": "1440px",
+                        "stack-sm": "8px",
+                        "stack-xs": "4px",
+                        "gutter": "24px",
+                        "stack-lg": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Public Sans"],
+                        "display-lg": ["Public Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Public Sans"],
+                        "headline-md": ["Public Sans"],
+                        "body-md": ["Inter"],
+                        "label-md": ["Inter"],
+                        "label-sm": ["Inter"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9ff;
+        }
+    </style>
+</head>
+<body class="flex min-h-screen text-on-surface">
+<!-- SideNavBar (Authority Source: JSON) -->
+<aside class="flex flex-col h-screen py-stack-lg px-stack-md sticky left-0 top-0 overflow-y-auto w-64 bg-surface-container-low border-r border-outline-variant">
+<div class="mb-stack-xl">
+<h1 class="font-headline-sm text-headline-sm font-extrabold text-primary">CareMate Portal</h1>
+<p class="font-label-md text-label-md text-on-surface-variant opacity-70">Central Hospital Command</p>
+</div>
+<nav class="flex flex-col gap-stack-sm flex-grow">
+<!-- Active: Dashboard -->
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md bg-primary-container text-on-primary-container font-bold rounded-lg scale-[0.98] transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-label-md text-label-md">Dashboard</span>
+</a>
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="clinical_notes">clinical_notes</span>
+<span class="font-label-md text-label-md">Medical Records</span>
+</a>
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="group">group</span>
+<span class="font-label-md text-label-md">Staff Directory</span>
+</a>
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-label-md text-label-md">Inventory</span>
+</a>
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-label-md text-label-md">Patient Care</span>
+</a>
+<a class="flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-label-md text-label-md">Analytics</span>
+</a>
+</nav>
+<div class="mt-auto pt-stack-xl flex flex-col gap-stack-md">
+<div class="flex items-center gap-stack-md p-stack-sm rounded-lg bg-surface-container">
+<img alt="CareMate Admin" class="w-10 h-10 rounded-full object-cover" data-alt="A professional headshot of a mature doctor with glasses, wearing a white clinical coat and a stethoscope. The background is a softly blurred modern hospital corridor with cool blue and white tones, emphasizing a clinical and trustworthy atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxkWXVFqTw9aCPNNRYWvKZZ-GQXbRW7Bo-qH8ZJtozQMoE_EHllWkfkTThjsLRVzoR_cOTQErQk24lZaEhea-Eanlyt25mbYDOrUX-g-XxwigArYLThXS5z0uh4381-qBiKTdk5niEn2trCFHfYhz_JO9_y9PndPRsnm3wr_HroGfSySBFxC15hzvvhXks7ylNHqmqxlpPwOawlV153wavWpHPw4ZYmn7zkR9hgAp9yZ7z_2pA9LfGBxFlNQhdymH0PmjQwu1w36QT"/>
+<div>
+<p class="font-label-md text-label-md font-bold">Dr. Richardson</p>
+<p class="font-label-sm text-label-sm text-on-surface-variant">Senior Cardiologist</p>
+</div>
+</div>
+<button class="w-full bg-error text-on-error font-label-md text-label-md py-stack-sm rounded-lg hover:opacity-90 transition-opacity">
+                Emergency Alert
+            </button>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<div class="flex-grow flex flex-col min-h-screen">
+<!-- TopNavBar (Authority Source: JSON) -->
+<header class="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-surface border-b border-outline-variant">
+<div class="flex items-center gap-stack-xl flex-grow">
+<div class="relative w-full max-w-md">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border border-outline-variant rounded-lg pl-10 pr-4 py-2 font-body-md text-body-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all" placeholder="Search patients, records, or staff..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-stack-md">
+<button class="p-stack-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-stack-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+<button class="p-stack-sm text-on-surface-variant hover:bg-surface-container-high rounded-full transition-colors duration-200">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="h-8 w-px bg-outline-variant mx-stack-sm"></div>
+<img alt="Medical Professional Profile" class="w-10 h-10 rounded-full border border-outline-variant object-cover" data-alt="A close-up portrait of a medical professional looking confident and calm. They are wearing professional blue scrubs. The lighting is bright and clean, typical of a high-end medical facility, with a sterile and professional aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWopwGkm2aeifh4azzM1nWWP3_-SUyLC1JeKmktQh6703hf2UyxUTX2qeW0gbPinLWxvRgCBsxhz7IcmCrhao8zUtEcNKWFRQUJNwbmwkHvipWk0oRr2ZWLIknKVMVaZiqHD_me6dEQztsAGsNRReNJjUs-_qyRC_3WLxr0i7QsPHnTrVhwUzJ9RNG_9pefNRZZtJ6iK6va8iV-C0zFZ4EgRKlXtZoXgs2Y8LtfByaCR-pJ-vZf1WVJT8Sm3U5OyozM-nIm2r7zAEn"/>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="p-stack-xl flex flex-col gap-gutter max-w-max-width mx-auto w-full">
+<section>
+<div class="flex justify-between items-end mb-stack-lg">
+<div>
+<h2 class="font-headline-md text-headline-md text-on-surface">Clinical Overview</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Monday, October 21st, 2024</p>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Urgent Tasks (4 columns) -->
+<div class="col-span-12 lg:col-span-4 flex flex-col gap-stack-md">
+<div class="bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-xl h-full">
+<div class="flex items-center justify-between mb-stack-lg">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-error" data-icon="priority_high">priority_high</span>
+                                    Urgent Tasks
+                                </h3>
+<span class="bg-error-container text-on-error-container px-2 py-0.5 rounded font-label-sm text-label-sm">3 CRITICAL</span>
+</div>
+<div class="space-y-stack-md">
+<div class="p-stack-md border-l-4 border-error bg-surface-container-low rounded-r-lg">
+<p class="font-label-md text-label-md font-bold">Review Cardiac Stress Test</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Patient: Arthur Morgan (Room 402)</p>
+<p class="font-label-sm text-label-sm text-error mt-stack-xs">Required in 15 mins</p>
+</div>
+<div class="p-stack-md border-l-4 border-error bg-surface-container-low rounded-r-lg">
+<p class="font-label-md text-label-md font-bold">EHR Signature Required</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Discharge papers for Sarah Jenkins</p>
+<p class="font-label-sm text-label-sm text-error mt-stack-xs">Pending 2 hours</p>
+</div>
+<div class="p-stack-md border-l-4 border-secondary bg-surface-container-low rounded-r-lg">
+<p class="font-label-md text-label-md font-bold">Consultation Follow-up</p>
+<p class="font-body-md text-body-md text-on-surface-variant">Radiology Dept regarding Scan #882</p>
+<p class="font-label-sm text-label-sm text-secondary mt-stack-xs">Scheduled for 11:30 AM</p>
+</div>
+</div>
+<button class="w-full mt-stack-lg py-stack-sm border border-outline text-primary font-label-md text-label-md rounded hover:bg-surface-container transition-colors">
+                                View Task Queue
+                            </button>
+</div>
+</div>
+<!-- Today's Schedule (8 columns) -->
+<div class="col-span-12 lg:col-span-8">
+<div class="bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-xl h-full">
+<div class="flex items-center justify-between mb-stack-lg">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-primary" data-icon="calendar_today">calendar_today</span>
+                                    Today's Schedule
+                                </h3>
+<div class="flex gap-stack-sm">
+<button class="bg-primary text-on-primary px-stack-md py-stack-sm rounded font-label-md text-label-md">Day</button>
+<button class="bg-surface-container text-on-surface-variant px-stack-md py-stack-sm rounded font-label-md text-label-md">Week</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full border-collapse">
+<thead>
+<tr class="border-b border-outline-variant">
+<th class="text-left py-stack-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Time</th>
+<th class="text-left py-stack-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Patient</th>
+<th class="text-left py-stack-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Procedure</th>
+<th class="text-left py-stack-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Status</th>
+<th class="text-right py-stack-md font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-outline-variant">
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-stack-md font-body-md text-body-md font-bold">09:00 AM</td>
+<td class="py-stack-md font-body-md text-body-md">John Doe</td>
+<td class="py-stack-md font-body-md text-body-md">Annual Physical</td>
+<td class="py-stack-md">
+<span class="inline-flex items-center gap-stack-xs px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-fixed-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                                                    Checked In
+                                                </span>
+</td>
+<td class="py-stack-md text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">Start Visit</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-stack-md font-body-md text-body-md font-bold">10:30 AM</td>
+<td class="py-stack-md font-body-md text-body-md">Emily Davis</td>
+<td class="py-stack-md font-body-md text-body-md">BP Management</td>
+<td class="py-stack-md">
+<span class="inline-flex items-center gap-stack-xs px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                                    Confirmed
+                                                </span>
+</td>
+<td class="py-stack-md text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">View Chart</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-stack-md font-body-md text-body-md font-bold">11:15 AM</td>
+<td class="py-stack-md font-body-md text-body-md">Michael Chen</td>
+<td class="py-stack-md font-body-md text-body-md">Post-Op Check</td>
+<td class="py-stack-md">
+<span class="inline-flex items-center gap-stack-xs px-2 py-0.5 rounded-full bg-surface-container text-on-surface-variant font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+                                                    Confirmed
+                                                </span>
+</td>
+<td class="py-stack-md text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">View Chart</button>
+</td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-stack-md font-body-md text-body-md font-bold">01:45 PM</td>
+<td class="py-stack-md font-body-md text-body-md">Alice Thompson</td>
+<td class="py-stack-md font-body-md text-body-md">Cardiac Follow-up</td>
+<td class="py-stack-md">
+<span class="inline-flex items-center gap-stack-xs px-2 py-0.5 rounded-full bg-error-container text-on-error-container font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                                    Late
+                                                </span>
+</td>
+<td class="py-stack-md text-right">
+<button class="text-primary font-label-md text-label-md hover:underline">Reschedule</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<!-- Recent Lab Results (Full Width Bottom Section) -->
+<div class="col-span-12">
+<div class="bg-surface-container-lowest border border-outline-variant p-stack-lg rounded-xl">
+<div class="flex items-center justify-between mb-stack-lg">
+<h3 class="font-headline-sm text-headline-sm flex items-center gap-stack-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="lab_research">lab_research</span>
+                                    Recent Lab Results
+                                </h3>
+<button class="text-primary font-label-md text-label-md hover:bg-surface-container-high px-stack-md py-stack-sm rounded transition-colors">Mark All Read</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-stack-lg">
+<!-- Result Card -->
+<div class="p-stack-md bg-surface border border-outline-variant rounded-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<p class="font-label-md text-label-md font-bold">Comprehensive Metabolic</p>
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">Patient: Sarah Jenkins</p>
+<div class="flex items-baseline justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Creatinine:</span>
+<span class="font-body-md text-body-md font-bold text-error">1.8 mg/dL</span>
+</div>
+<div class="mt-stack-md pt-stack-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">2h ago</span>
+<button class="text-primary font-label-sm text-label-sm">Review</button>
+</div>
+</div>
+<!-- Result Card -->
+<div class="p-stack-md bg-surface border border-outline-variant rounded-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<p class="font-label-md text-label-md font-bold">Lipid Profile</p>
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">Patient: Robert Wilson</p>
+<div class="flex items-baseline justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">LDL:</span>
+<span class="font-body-md text-body-md font-bold text-secondary">92 mg/dL</span>
+</div>
+<div class="mt-stack-md pt-stack-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">5h ago</span>
+<button class="text-primary font-label-sm text-label-sm">Review</button>
+</div>
+</div>
+<!-- Result Card -->
+<div class="p-stack-md bg-surface border border-outline-variant rounded-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<p class="font-label-md text-label-md font-bold">Complete Blood Count</p>
+<span class="material-symbols-outlined text-secondary text-[18px]" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">Patient: Maria Garcia</p>
+<div class="flex items-baseline justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">WBC:</span>
+<span class="font-body-md text-body-md font-bold text-on-surface">6.4 x10^3/uL</span>
+</div>
+<div class="mt-stack-md pt-stack-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">Yesterday</span>
+<button class="text-primary font-label-sm text-label-sm">Review</button>
+</div>
+</div>
+<!-- Result Card -->
+<div class="p-stack-md bg-surface border border-outline-variant rounded-lg">
+<div class="flex justify-between items-start mb-stack-sm">
+<p class="font-label-md text-label-md font-bold">Hemoglobin A1c</p>
+<span class="material-symbols-outlined text-error text-[18px]" data-icon="warning" style="font-variation-settings: 'FILL' 1;">warning</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mb-stack-md">Patient: James Miller</p>
+<div class="flex items-baseline justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Result:</span>
+<span class="font-body-md text-body-md font-bold text-error">8.2%</span>
+</div>
+<div class="mt-stack-md pt-stack-sm border-t border-outline-variant flex justify-between items-center">
+<span class="font-label-sm text-label-sm opacity-60">Yesterday</span>
+<button class="text-primary font-label-sm text-label-sm">Review</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Authority Source: JSON) -->
+<footer class="w-full py-stack-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-gutter bg-surface-container-highest mt-auto border-t border-outline-variant">
+<div class="flex flex-col gap-stack-xs">
+<p class="font-headline-sm text-headline-sm font-bold text-on-surface">CareMate</p>
+<p class="font-body-md text-body-md text-on-surface-variant">© 2024 CareMate Health Systems. Professional Grade Patient Management.</p>
+</div>
+<div class="flex gap-stack-lg">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Services</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Privacy Policy</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Contact Support</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary underline transition-all" href="#">Terms of Use</a>
+</div>
+</footer>
+</div>
+</body></html>

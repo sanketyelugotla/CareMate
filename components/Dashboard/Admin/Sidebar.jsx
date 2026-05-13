@@ -4,16 +4,6 @@ import React, { useState, useEffect } from 'react';
 import { jsonFetch } from '@/lib/fetcher';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import {
-    LayoutDashboard,
-    UserCheck,
-    Users,
-    Calendar,
-    BarChart3,
-    Settings,
-    LogOut,
-    Shield
-} from 'lucide-react';
 
 export default function AdminSidebar() {
     const pathname = usePathname();
@@ -33,12 +23,12 @@ export default function AdminSidebar() {
     }, []);
 
     const navigation = [
-        { name: 'Dashboard', href: '/dashboard/admin', icon: LayoutDashboard, exact: true },
-        { name: 'Approve Doctors', href: '/admin/approve-doctors', icon: UserCheck, exact: true },
-        { name: 'All Doctors', href: '/doctors', icon: Users, exact: true },
-        { name: 'Appointments', href: '/appointments', icon: Calendar, exact: true },
-        { name: 'Analytics', href: '/analytics', icon: BarChart3, exact: true },
-        { name: 'Settings', href: '/settings', icon: Settings, exact: true },
+        { name: 'Dashboard', href: '/dashboard/admin', icon: 'dashboard', exact: true },
+        { name: 'Approve Doctors', href: '/admin/approve-doctors', icon: 'how_to_reg', exact: true },
+        { name: 'All Doctors', href: '/doctors', icon: 'stethoscope', exact: true },
+        { name: 'Appointments', href: '/appointments', icon: 'calendar_month', exact: true },
+        { name: 'Analytics', href: '/analytics', icon: 'monitoring', exact: true },
+        { name: 'Settings', href: '/settings', icon: 'settings', exact: true },
     ];
 
     const getInitials = (name) => {
@@ -63,22 +53,22 @@ export default function AdminSidebar() {
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
+        <aside className="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-outline-variant flex flex-col font-body-md">
             {/* Logo Section */}
-            <div className="p-6 border-b border-gray-100">
-                <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
-                        <Shield className="text-white" size={24} />
+            <div className="p-stack-lg border-b border-outline-variant">
+                <div className="flex items-center gap-stack-sm">
+                    <div className="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
+                        <span className="material-symbols-outlined text-on-primary-container" style={{ fontSize: '24px' }}>admin_panel_settings</span>
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-800">CareMate</h1>
-                        <p className="text-xs text-gray-500">Admin Portal</p>
+                        <h1 className="font-headline-sm text-headline-sm font-bold text-on-surface">CareMate</h1>
+                        <p className="font-label-sm text-label-sm text-on-surface-variant">Admin Portal</p>
                     </div>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 py-4 overflow-y-auto">
+            <nav className="flex-1 py-stack-md overflow-y-auto px-stack-sm">
                 {navigation.map((item) => {
                     const isActive = item.exact
                         ? pathname === item.href
@@ -88,27 +78,28 @@ export default function AdminSidebar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className={`flex items-center space-x-3 px-6 py-3 transition-all ${isActive
-                                ? 'bg-purple-50 text-purple-600 border-r-4 border-purple-600'
-                                : 'text-gray-600 hover:bg-gray-50'
-                                }`}
+                            className={`flex items-center gap-stack-md px-stack-md py-stack-sm mb-1 transition-all rounded-lg font-label-md text-label-md ${
+                                isActive
+                                    ? 'bg-primary text-on-primary font-bold'
+                                    : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
+                            }`}
                         >
-                            <item.icon size={20} />
-                            <span className="font-medium">{item.name}</span>
+                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>{item.icon}</span>
+                            <span>{item.name}</span>
                         </Link>
                     );
                 })}
             </nav>
 
             {/* User Profile Section */}
-            <div className="border-t border-gray-100">
+            <div className="border-t border-outline-variant">
                 {loading ? (
-                    <div className="p-4 text-center">
-                        <p className="text-sm text-gray-500">Loading...</p>
+                    <div className="p-stack-md text-center">
+                        <p className="font-label-md text-label-md text-on-surface-variant">Loading...</p>
                     </div>
                 ) : user ? (
-                    <div className="p-4">
-                        <div className="flex items-center space-x-3 mb-3">
+                    <div className="p-stack-md">
+                        <div className="flex items-center gap-stack-sm mb-stack-md">
                             <div className="relative">
                                 {user.avatarUrl ? (
                                     <img
@@ -117,43 +108,43 @@ export default function AdminSidebar() {
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
                                 ) : (
-                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
-                                        <span className="text-white font-bold text-sm">
+                                    <div className="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center">
+                                        <span className="text-on-primary-container font-label-lg font-bold">
                                             {getInitials(user.name)}
                                         </span>
                                     </div>
                                 )}
-                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface-container-lowest rounded-full"></span>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-gray-800 truncate">
+                                <p className="font-label-md text-label-md font-bold text-on-surface truncate">
                                     {getUserName(user)}
                                 </p>
-                                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                <p className="font-label-sm text-label-sm text-on-surface-variant truncate">{user.email}</p>
                             </div>
                         </div>
 
                         {/* Role Badge */}
-                        <div className="mb-3">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
+                        <div className="mb-stack-md">
+                            <span className="inline-flex items-center px-stack-sm py-1 rounded font-label-sm text-label-sm font-bold bg-secondary-container text-on-secondary-container">
                                 Admin
                             </span>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="space-y-2">
+                        <div className="space-y-stack-xs">
                             <Link
                                 href="/settings"
-                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                                className="w-full flex items-center gap-stack-sm px-stack-sm py-stack-sm font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg transition-colors"
                             >
-                                <Settings size={16} />
+                                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>settings</span>
                                 <span>System Settings</span>
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                className="w-full flex items-center gap-stack-sm px-stack-sm py-stack-sm font-label-md text-label-md text-error hover:bg-error-container rounded-lg transition-colors"
                             >
-                                <LogOut size={16} />
+                                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
                                 <span>Logout</span>
                             </button>
                         </div>

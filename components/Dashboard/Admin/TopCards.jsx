@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { Users, UserCheck, Calendar, TrendingUp } from 'lucide-react';
 
 export default function AdminTopCards() {
     const [stats, setStats] = useState({
@@ -22,56 +21,54 @@ export default function AdminTopCards() {
         {
             title: 'Total Doctors',
             description: `${stats.totalDoctors} registered`,
-            icon: UserCheck,
-            gradient: 'from-blue-50 to-blue-100',
-            border: 'border-blue-200',
-            textColor: 'text-blue-700',
-            bgColor: 'bg-blue-500'
+            icon: 'how_to_reg',
+            textColor: 'text-primary',
+            bgColor: 'bg-primary-container',
+            iconColor: 'text-on-primary-container'
         },
         {
             title: 'Total Patients',
             description: `${stats.totalPatients} users`,
-            icon: Users,
-            gradient: 'from-green-50 to-green-100',
-            border: 'border-green-200',
-            textColor: 'text-green-700',
-            bgColor: 'bg-green-500'
+            icon: 'group',
+            textColor: 'text-secondary',
+            bgColor: 'bg-secondary-container',
+            iconColor: 'text-on-secondary-container'
         },
         {
             title: 'Appointments (30d)',
             description: `${stats.totalAppointments} bookings`,
-            icon: Calendar,
-            gradient: 'from-purple-50 to-purple-100',
-            border: 'border-purple-200',
-            textColor: 'text-purple-700',
-            bgColor: 'bg-purple-500'
+            icon: 'calendar_month',
+            textColor: 'text-tertiary',
+            bgColor: 'bg-tertiary-container',
+            iconColor: 'text-on-tertiary-container'
         },
         {
             title: 'Pending Approvals',
             description: `${stats.pendingApprovals} doctors`,
-            icon: TrendingUp,
-            gradient: 'from-orange-50 to-orange-100',
-            border: 'border-orange-200',
-            textColor: 'text-orange-700',
-            bgColor: 'bg-orange-500'
+            icon: 'pending_actions',
+            textColor: 'text-error',
+            bgColor: 'bg-error-container',
+            iconColor: 'text-on-error-container'
         }
     ];
 
     return (
-        <div className="grid grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter mb-stack-xl font-body-md text-on-surface">
             {cards.map((card, index) => (
                 <div
                     key={index}
-                    className={`bg-gradient-to-br ${card.gradient} p-6 rounded-xl border ${card.border} hover:shadow-lg transition-shadow cursor-pointer`}
+                    className="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant hover:bg-surface-container transition-colors cursor-pointer"
                 >
-                    <div className="flex items-start justify-between">
-                        <div>
-                            <p className={`${card.textColor} font-semibold mb-2`}>{card.title}</p>
-                            <p className={`text-sm ${card.textColor.replace('700', '600')}`}>{card.description}</p>
+                    <div className="flex items-start justify-between mb-stack-md">
+                        <div className={`w-12 h-12 ${card.bgColor} rounded-full flex items-center justify-center`}>
+                            <span className={`material-symbols-outlined ${card.iconColor}`} style={{ fontSize: '24px' }}>
+                                {card.icon}
+                            </span>
                         </div>
-                        <div className={`w-10 h-10 ${card.bgColor} rounded-lg flex items-center justify-center`}>
-                            <card.icon className="text-white" size={20} />
-                        </div>
+                    </div>
+                    <div>
+                        <p className={`font-headline-sm text-headline-sm font-bold ${card.textColor}`}>{card.title}</p>
+                        <p className="font-label-md text-label-md text-on-surface-variant mt-stack-xs">{card.description}</p>
                     </div>
                 </div>
             ))}

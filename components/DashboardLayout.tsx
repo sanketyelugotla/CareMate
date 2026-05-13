@@ -28,8 +28,8 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     if (loading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <p className="text-gray-500">Loading...</p>
+            <div className="min-h-screen flex items-center justify-center bg-surface font-body-md text-on-surface">
+                <p className="font-label-md text-label-md text-on-surface-variant">Loading...</p>
             </div>
         );
     }
@@ -41,10 +41,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
     // Show appropriate sidebar based on role
     return (
-        <div className="flex min-h-screen bg-gray-50">
+        <div className="flex min-h-screen bg-surface font-body-md text-on-surface">
             {user.role === 'doctor' && <DoctorSidebar />}
             {user.role === 'admin' && <AdminSidebar />}
-            <main className="flex-1 ml-64 p-8">
+            <main className="flex-1 ml-64 p-stack-xl">
                 {children}
             </main>
         </div>

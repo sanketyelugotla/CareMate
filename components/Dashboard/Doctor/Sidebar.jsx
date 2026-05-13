@@ -89,7 +89,7 @@ export default function DoctorSidebar() {
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-white border-r border-gray-200 flex flex-col">
+        <aside className="fixed left-0 top-0 h-screen w-64 bg-card border-r border-border flex flex-col">
             {/* Logo Section */}
             <div className="p-6 border-b border-gray-100">
                 <div className="flex items-center space-x-3">
@@ -97,12 +97,12 @@ export default function DoctorSidebar() {
                         <Stethoscope className="text-white" size={24} />
                     </div>
                     <div>
-                        <h1 className="text-xl font-bold text-gray-800">CareMate</h1>
-                        <p className="text-xs text-gray-500">Doctor Portal</p>
+                        <h1 className="text-xl font-bold text-foreground">CareMate</h1>
+                        <p className="text-xs text-muted-foreground">Doctor Portal</p>
                     </div>
                 </div>
                 {showRestoreToast && (
-                    <div className="mt-3 p-2 bg-blue-50 text-blue-700 rounded text-sm">
+                    <div className="mt-3 p-2 bg-muted text-blue-700 rounded text-sm">
                         Restored last-open tab: <strong className="capitalize">{restoredTab}</strong>
                     </div>
                 )}
@@ -121,8 +121,8 @@ export default function DoctorSidebar() {
                                 try { window.localStorage.setItem('doctor_last_tab', item.id) } catch (e) { }
                             }}
                             className={`flex items-center space-x-3 px-6 py-3 transition-all ${isActive
-                                ? 'bg-blue-50 text-blue-600 border-r-4 border-blue-600'
-                                : 'text-gray-600 hover:bg-gray-50'
+                                ? 'bg-muted text-primary border-r-4 border-blue-600'
+                                : 'text-muted-foreground hover:bg-background'
                                 }`}
                         >
                             <item.icon size={20} />
@@ -154,16 +154,16 @@ export default function DoctorSidebar() {
                                 <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="text-sm font-semibold text-gray-800 truncate">
+                                <p className="text-sm font-semibold text-foreground truncate">
                                     {getUserName(user)}
                                 </p>
-                                <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                             </div>
                         </div>
 
                         {/* Role Badge */}
                         <div className="mb-3">
-                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-accent text-blue-700">
                                 Doctor
                             </span>
                         </div>
@@ -172,7 +172,7 @@ export default function DoctorSidebar() {
                         <div className="space-y-2">
                             <Link
                                 href="/dashboard/doctor?tab=profile"
-                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-gray-700 hover:bg-gray-50 rounded-lg transition-colors"
+                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:bg-background rounded-lg transition-colors"
                             >
                                 <Settings size={16} />
                                 <span>Profile Settings</span>

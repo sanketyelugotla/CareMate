@@ -21,7 +21,7 @@ export default function Predictions() {
     }, []);
 
     const getConfidenceColor = (predictions) => {
-        if (!predictions || predictions.length === 0) return 'bg-gray-100 text-gray-700';
+        if (!predictions || predictions.length === 0) return 'bg-muted text-muted-foreground';
         const maxProb = Math.max(...predictions.map(p => p.probability || 0));
         if (maxProb >= 0.8) return 'bg-green-100 text-green-700';
         if (maxProb >= 0.6) return 'bg-yellow-100 text-yellow-700';
@@ -30,17 +30,20 @@ export default function Predictions() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-6">Recent AI Predictions</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+                <h3 className="font-headline-sm text-headline-sm text-on-surface mb-stack-lg font-bold">Recent AI Predictions</h3>
+                <p className="text-on-surface-variant font-label-md text-label-md">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
-            <h3 className="text-lg font-bold text-gray-800 mb-6">Recent AI Predictions</h3>
-            <div className="space-y-4">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+            <h3 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-stack-sm mb-stack-lg font-bold">
+                <span className="material-symbols-outlined text-primary" data-icon="smart_toy">smart_toy</span>
+                Recent AI Predictions
+            </h3>
+            <div className="space-y-stack-md">
                 {predictions.length > 0 ? (
                     predictions.map((pred, idx) => {
                         const topPrediction = pred.predictedDiseases && pred.predictedDiseases.length > 0 
@@ -49,26 +52,26 @@ export default function Predictions() {
                         const confidence = topPrediction ? Math.round(topPrediction.probability * 100) : 0;
                         
                         return (
-                            <div key={pred._id || idx} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                            <div key={pred._id || idx} className="bg-surface border border-outline-variant rounded-lg p-stack-md hover:bg-surface-container-high transition-colors">
                                 <div className="flex justify-between items-start mb-2">
-                                    <h4 className="font-bold text-gray-800">
+                                    <h4 className="font-label-md text-label-md font-bold text-on-surface">
                                         {topPrediction?.name || 'Diagnosis Pending'}
                                     </h4>
-                                    <span className={`px-3 py-1 rounded-full text-xs font-semibold ${getConfidenceColor(pred.predictedDiseases)}`}>
+                                    <span className={`px-2 py-0.5 rounded font-label-sm text-label-sm ${getConfidenceColor(pred.predictedDiseases)}`}>
                                         {confidence}% Confidence
                                     </span>
                                 </div>
-                                <p className="text-sm text-gray-600 mb-2">
+                                <p className="font-body-md text-body-md text-on-surface-variant mb-2">
                                     Based on symptoms: {pred.inputSymptoms || 'N/A'}
                                 </p>
-                                <p className="text-xs text-gray-400">
+                                <p className="font-label-sm text-label-sm text-on-surface-variant opacity-70">
                                     Predicted on {dayjs(pred.createdAt).format('MMM DD, YYYY')}
                                 </p>
                             </div>
                         );
                     })
                 ) : (
-                    <p className="text-gray-500 text-center py-4">No predictions yet</p>
+                    <p className="text-on-surface-variant text-center py-4 font-body-md text-body-md">No predictions yet</p>
                 )}
             </div>
         </div>

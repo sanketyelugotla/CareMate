@@ -89,8 +89,8 @@ export default function MyAppointments() {
       confirmed: 'bg-green-100 text-green-700',
       pending: 'bg-yellow-100 text-yellow-700',
       cancelled: 'bg-red-100 text-red-700',
-      completed: 'bg-blue-100 text-blue-700',
-      no_show: 'bg-gray-100 text-gray-700'
+      completed: 'bg-accent text-blue-700',
+      no_show: 'bg-muted text-muted-foreground'
     }
     return badges[status] || badges.pending
   }
@@ -98,8 +98,8 @@ export default function MyAppointments() {
   if (loading) {
     return (
       <div className="max-w-6xl mx-auto">
-        <div className="bg-white rounded-xl shadow-sm border p-8">
-          <p className="text-gray-500">Loading appointments...</p>
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
+          <p className="text-on-surface-variant font-label-md">Loading appointments...</p>
         </div>
       </div>
     )
@@ -108,18 +108,18 @@ export default function MyAppointments() {
   const filteredAppointments = getFilteredAppointments()
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-gray-800">My Appointments</h2>
-        <div className="flex space-x-2">
+    <div className="max-w-6xl mx-auto font-body-md text-on-surface">
+      <div className="flex justify-between items-center mb-stack-lg">
+        <h2 className="font-headline-md text-headline-md font-bold text-on-surface">My Appointments</h2>
+        <div className="flex space-x-stack-sm">
           {['all', 'upcoming', 'past', 'cancelled'].map(f => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-4 py-2 rounded-lg capitalize transition ${
+              className={`px-stack-md py-stack-sm rounded-lg capitalize transition font-label-md text-label-md ${
                 filter === f
-                  ? 'bg-blue-600 text-white'
-                  : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                  ? 'bg-primary text-on-primary font-bold'
+                  : 'bg-surface-variant text-on-surface-variant hover:bg-surface-container-high'
               }`}
             >
               {f}
@@ -135,10 +135,10 @@ export default function MyAppointments() {
             const canCancel = !isPast && appointment.status !== 'cancelled' && appointment.status !== 'completed'
 
             return (
-              <div key={appointment._id} className="bg-white rounded-xl shadow-sm border p-6 hover:shadow-md transition">
+              <div key={appointment._id} className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg hover:bg-surface-container transition">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-start space-x-4 flex-1">
-                    <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                  <div className="flex items-start gap-stack-md flex-1">
+                    <div className="w-16 h-16 bg-primary-container rounded-full flex items-center justify-center flex-shrink-0">
                       {appointment.doctor?.avatarUrl ? (
                         <img 
                           src={appointment.doctor.avatarUrl} 
@@ -146,54 +146,54 @@ export default function MyAppointments() {
                           className="w-full h-full rounded-full object-cover" 
                         />
                       ) : (
-                        <User size={32} className="text-blue-600" />
+                        <User size={32} className="text-on-primary-container" />
                       )}
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-800">
+                      <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface">
                         {appointment.doctor?.name || 'Doctor'}
                       </h3>
-                      <p className="text-blue-600 text-sm mb-2">
+                      <p className="text-primary font-label-md text-label-md font-bold mb-stack-sm">
                         {appointment.doctor?.specialization || 'General'}
                       </p>
                       <div className="space-y-1">
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <Calendar size={16} className="mr-2" />
+                        <div className="flex items-center text-on-surface-variant font-label-md text-label-md">
+                          <Calendar size={16} className="mr-stack-sm" />
                           <span>{dayjs(appointment.start).format('MMMM DD, YYYY')}</span>
                         </div>
-                        <div className="flex items-center text-gray-600 text-sm">
-                          <Clock size={16} className="mr-2" />
+                        <div className="flex items-center text-on-surface-variant font-label-md text-label-md">
+                          <Clock size={16} className="mr-stack-sm" />
                           <span>
                             {dayjs(appointment.start).format('h:mm A')} - {dayjs(appointment.end).format('h:mm A')}
                           </span>
                         </div>
                         {appointment.doctor?.clinicAddress && (
-                          <div className="flex items-center text-gray-600 text-sm">
-                            <MapPin size={16} className="mr-2" />
+                          <div className="flex items-center text-on-surface-variant font-label-md text-label-md">
+                            <MapPin size={16} className="mr-stack-sm" />
                             <span>{appointment.doctor.clinicAddress}</span>
                           </div>
                         )}
                         {appointment.notes && (
-                          <div className="flex items-start text-gray-600 text-sm mt-2">
-                            <FileText size={16} className="mr-2 mt-0.5" />
+                          <div className="flex items-start text-on-surface-variant font-label-md text-label-md mt-stack-xs">
+                            <FileText size={16} className="mr-stack-sm mt-0.5" />
                             <span>{appointment.notes}</span>
                           </div>
                         )}
                       </div>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end space-y-2">
-                    <span className={`px-3 py-1 rounded-full text-xs font-semibold capitalize ${getStatusBadge(appointment.status)}`}>
+                  <div className="flex flex-col items-end space-y-stack-sm">
+                    <span className={`px-stack-sm py-0.5 rounded font-label-sm text-label-sm font-bold capitalize ${getStatusBadge(appointment.status)}`}>
                       {appointment.status}
                     </span>
                     {canCancel && (
                       <button
                         onClick={() => handleCancelAppointment(appointment._id)}
                         disabled={cancelling === appointment._id}
-                        className="flex items-center space-x-1 px-3 py-1 text-red-600 hover:bg-red-50 rounded-lg transition disabled:opacity-50"
+                        className="flex items-center gap-stack-xs px-stack-sm py-1 text-error hover:bg-error-container rounded transition disabled:opacity-50"
                       >
                         <X size={16} />
-                        <span className="text-sm">
+                        <span className="font-label-sm text-label-sm font-bold">
                           {cancelling === appointment._id ? 'Cancelling...' : 'Cancel'}
                         </span>
                       </button>
@@ -205,9 +205,9 @@ export default function MyAppointments() {
           })}
         </div>
       ) : (
-        <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
-          <Calendar size={48} className="mx-auto text-gray-300 mb-4" />
-          <p className="text-gray-500">No appointments found</p>
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-xl text-center">
+          <Calendar size={48} className="mx-auto text-on-surface-variant mb-stack-md opacity-50" />
+          <p className="text-on-surface-variant font-label-md text-label-md">No appointments found</p>
         </div>
       )}
     </div>

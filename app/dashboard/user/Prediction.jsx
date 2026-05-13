@@ -342,287 +342,273 @@ export default function EnhancedAIChat() {
   };
 
   return (
-    <div className="flex h-[91vh] bg-gray-50 overflow-hidden">
-      {/* Main Chat Area */}
-      <div className="flex-1 flex flex-col min-h-0 overflow-hidden">
+    <div className="flex h-[91vh] bg-background overflow-hidden font-body-md text-on-background">
+      {/* SideNavBar for Recent Conversations */}
+      <aside className="w-80 bg-surface-container-low border-r border-outline-variant flex flex-col min-h-0 overflow-hidden shrink-0">
+        <div className="px-stack-md py-stack-md border-b border-outline-variant flex-shrink-0 flex items-center justify-between">
+          <h3 className="font-headline-sm text-headline-sm font-semibold text-primary">Recent Conversations</h3>
+        </div>
+        <div className="flex-1 overflow-y-auto min-h-0 p-2 space-y-2">
+          {sessions.length === 0 ? (
+            <div className="p-6 text-center text-on-surface-variant text-sm font-label-md">
+              No conversations yet. Start chatting!
+            </div>
+          ) : (
+            sessions.map((session, index) => (
+              <div
+                key={session.session_id || `session-${index}`}
+                className="px-4 py-3 hover:bg-surface-container-high transition-all rounded-lg cursor-pointer group relative flex flex-col"
+                onClick={() => loadSession(session.session_id)}
+              >
+                <div className="flex items-start justify-between mb-1">
+                  <h4 className="font-label-md text-on-surface flex-1 pr-2 truncate">
+                    {session.preview || 'New Conversation'}
+                  </h4>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        deleteSession(session.session_id);
+                      }}
+                      className="opacity-0 group-hover:opacity-100 text-error hover:opacity-80 transition-opacity"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
+                </div>
+                <div className="flex justify-between items-center text-xs text-on-surface-variant font-label-sm">
+                  <span>{new Date(session.last_active).toLocaleDateString()}</span>
+                  <span>
+                    {new Date(session.last_active).toLocaleTimeString('en-US', {
+                      hour: 'numeric',
+                      minute: '2-digit',
+                      hour12: true
+                    })}
+                  </span>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
+      </aside>
+
+      {/* Main Content Canvas */}
+      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full flex items-center justify-center">
-              <Bot className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h2 className="font-semibold text-gray-900">AI Health Assistant</h2>
-              <p className="text-xs text-gray-500">Powered by MediGenius</p>
-            </div>
+        <header className="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-surface border-b border-outline-variant flex-shrink-0">
+          <div className="flex items-center gap-stack-md">
+            <span className="font-headline-md text-headline-md font-bold text-primary">CareMate AI Assistant</span>
+            <span className="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">HIPAA Compliant</span>
           </div>
           <div className="flex items-center gap-4">
             <button
               onClick={createNewChat}
-              className="flex items-center gap-2 px-4 py-2 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-sm font-medium transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-xl font-label-md hover:opacity-90 transition-opacity shadow-sm"
             >
               <Plus className="w-4 h-4" />
               New Chat
             </button>
           </div>
-        </div>
-        {/* Messages Container */}
-        <div className="flex-1 overflow-hidden flex flex-col">
-          <div className="flex-1 overflow-y-auto p-6 space-y-4">
+        </header>
+
+        {/* Chat Workspace */}
+        <section className="flex-1 overflow-hidden flex flex-col bg-background relative">
+          {/* Message Area */}
+          <div className="flex-1 overflow-y-auto px-margin-desktop py-stack-lg space-y-stack-lg flex flex-col">
             {messages.length === 0 && (
-              <div className="flex flex-col items-center justify-center h-full text-center">
-                <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
-                  <Bot className="w-10 h-10 text-blue-600" />
+              <div className="flex flex-col items-center justify-center h-full text-center mt-10">
+                <div className="w-20 h-20 bg-primary-container rounded-full flex items-center justify-center mb-stack-md shadow-sm">
+                  <Bot className="w-10 h-10 text-on-primary-container" />
                 </div>
-                <h3 className="text-xl font-semibold text-gray-900 mb-2">Welcome to AI Health Assistant</h3>
-                <p className="text-gray-600 max-w-md">
-                  Describe your symptoms and I'll help you understand possible conditions and recommend specialists.
+                <h3 className="font-headline-md text-headline-md font-semibold text-on-surface mb-stack-sm">Welcome to CareMate AI</h3>
+                <p className="font-body-md text-on-surface-variant max-w-md">
+                  Describe your symptoms securely, and I'll help you understand possible conditions and recommend specialists.
                 </p>
               </div>
             )}
 
             {messages.map((msg) => (
-              <div key={msg.id} className="flex items-start gap-3">
-                {msg.type === 'ai' && (
-                  <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bot className="w-5 h-5 text-blue-600" />
+              <div key={msg.id} className={`flex w-full ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
+                {msg.type === 'user' ? (
+                  <div className="flex flex-col items-end max-w-2xl ml-auto">
+                    <div className="bg-primary text-on-primary p-4 rounded-xl rounded-tr-none shadow-sm">
+                      <p className="font-body-md whitespace-pre-wrap">{msg.text}</p>
+                    </div>
+                    {msg.time && (
+                      <span className="text-label-sm text-on-surface-variant mt-2 px-2">{msg.time}</span>
+                    )}
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-start max-w-4xl">
+                    <div className="flex gap-4">
+                      <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+                        <span className="material-symbols-outlined text-on-primary-container text-[20px]">smart_toy</span>
+                      </div>
+                      <div className="flex-1 space-y-stack-md">
+                        <div className={`${msg.isConfirmation ? 'bg-secondary-container border-secondary' : 'bg-surface-container-low border-outline-variant'} border p-stack-lg rounded-xl rounded-tl-none shadow-sm`}>
+                          <p className={`font-body-md whitespace-pre-wrap ${msg.isConfirmation ? 'text-on-secondary-container font-semibold' : 'text-on-surface'}`}>
+                            {msg.text}
+                          </p>
+                          {msg.source && (
+                            <div className="mt-stack-sm pt-stack-sm border-t border-outline-variant">
+                              <p className="text-[11px] text-on-surface-variant">Source: {msg.source}</p>
+                            </div>
+                          )}
+
+                          {/* Recommended Specialists Mapping */}
+                          {msg.relatedDoctors?.length > 0 && (
+                            <div className="mt-stack-lg space-y-stack-sm">
+                              <p className="font-label-md text-on-surface uppercase tracking-wider mb-2">Recommended Specialists</p>
+                              {msg.relatedDoctors.map((doctor, doctorIndex) => {
+                                const actualId = doctor._id || doctor.id || doctor.doctorId;
+                                const doctorId = actualId || `doctor-${msg.id}-${doctorIndex}`;
+                                const isBookingOpen = !!bookingDoctors[doctorId];
+                                const form = bookingForms[doctorId] || {};
+                                return (
+                                  <div key={doctorId} className="bg-surface-container-lowest p-4 rounded-lg border border-outline-variant shadow-sm transition-all">
+                                    <div className="flex items-start justify-between mb-3">
+                                      <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center shrink-0">
+                                          <User className="w-6 h-6 text-on-primary-container" />
+                                        </div>
+                                        <div>
+                                          <h4 className="font-headline-sm text-on-surface">Dr. {doctor.name?.first} {doctor.name?.last}</h4>
+                                          <p className="font-label-md text-primary">{doctor.specialization}</p>
+                                          <p className="font-label-sm text-on-surface-variant mt-1">{doctor.yearsExperience} years experience</p>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    {isBookingOpen ? (
+                                      <div className="mt-stack-md bg-surface p-4 rounded-xl border border-outline-variant space-y-stack-md">
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-stack-md">
+                                          <div>
+                                            <label className="block font-label-sm text-on-surface-variant uppercase mb-1">Select Date</label>
+                                            <input
+                                              type="date"
+                                              value={form.selectedDate || ''}
+                                              onChange={(e) => updateBookingForm(doctorId, 'selectedDate', e.target.value)}
+                                              min={dayjs().format('YYYY-MM-DD')}
+                                              className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-body-md text-on-surface bg-surface-container-lowest"
+                                            />
+                                          </div>
+                                          <div>
+                                            <label className="block font-label-sm text-on-surface-variant uppercase mb-1">Select Time</label>
+                                            <select
+                                              value={form.selectedTime || ''}
+                                              onChange={(e) => updateBookingForm(doctorId, 'selectedTime', e.target.value)}
+                                              className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-body-md text-on-surface bg-surface-container-lowest"
+                                            >
+                                              <option value="">Choose time</option>
+                                              {generateTimeSlots().map(slot => (
+                                                <option key={slot} value={slot}>{slot}</option>
+                                              ))}
+                                            </select>
+                                          </div>
+                                        </div>
+                                        <div>
+                                          <label className="block font-label-sm text-on-surface-variant uppercase mb-1">Notes (Optional)</label>
+                                          <textarea
+                                            value={form.bookingNotes || ''}
+                                            onChange={(e) => updateBookingForm(doctorId, 'bookingNotes', e.target.value)}
+                                            className="w-full px-3 py-2 border border-outline-variant rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary font-body-md text-on-surface bg-surface-container-lowest"
+                                            rows={2}
+                                            placeholder="Any specific concerns..."
+                                          />
+                                        </div>
+                                        <div className="flex gap-stack-sm pt-2">
+                                          <button
+                                            onClick={() => handleBookAppointment(doctor, doctorId)}
+                                            disabled={booking === doctorId || !form.selectedDate || !form.selectedTime}
+                                            className="flex-1 bg-secondary text-on-secondary py-2 rounded-xl font-label-md hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+                                          >
+                                            {booking === doctorId ? 'Booking...' : <><CheckCircle className="w-4 h-4" /> Confirm Booking</>}
+                                          </button>
+                                          <button
+                                            onClick={() => closeBookingForm(doctorId)}
+                                            className="px-4 py-2 border border-outline-variant text-on-surface-variant rounded-xl font-label-md hover:bg-surface-container transition-colors"
+                                          >
+                                            Cancel
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ) : (
+                                      <button
+                                        onClick={() => openBookingForm(doctorId)}
+                                        className="mt-3 w-full border border-primary text-primary py-2 rounded-xl font-label-md hover:bg-surface-container transition-colors flex items-center justify-center gap-2"
+                                      >
+                                        <Calendar className="w-4 h-4" />
+                                        Book Appointment
+                                      </button>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                        {msg.time && (
+                          <span className="block text-label-sm text-on-surface-variant px-2">{msg.time}</span>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 )}
-                <div className={`flex-1 ${msg.type === 'user' ? 'flex justify-end' : ''}`}>
-                  <div
-                    className={`inline-block max-w-2xl ${msg.type === 'user'
-                      ? 'bg-blue-500 text-white rounded-2xl rounded-tr-none'
-                      : msg.isConfirmation
-                        ? 'bg-green-50 border border-green-200 rounded-2xl rounded-tl-none'
-                        : 'bg-white rounded-2xl rounded-tl-none border border-gray-200 shadow-sm'
-                      } px-4 py-3`}
-                  >
-                    <p className={`text-sm whitespace-pre-wrap ${msg.isConfirmation ? 'text-green-800' : ''}`}>
-                      {msg.text}
-                    </p>
-                    {msg.source && (
-                      <div className="mt-2 pt-2 border-t border-gray-200">
-                        <p className="text-xs text-gray-500">Source: {msg.source}</p>
-                      </div>
-                    )}
-                    {/* CORRECTED DOCTOR MAPPING: ONLY OPENS ONE FORM */}
-                    {msg.relatedDoctors?.length > 0 && (
-                      <div className="mt-4 space-y-2">
-                        <p className="text-sm font-semibold text-gray-900 mb-3">Recommended Specialists:</p>
-                        {msg.relatedDoctors.map((doctor, doctorIndex) => {
-                          // Log the doctor object to see its structure
-                          console.log('Doctor object:', doctor);
-
-                          // Try different possible ID fields
-                          const actualId = doctor._id || doctor.id || doctor.doctorId;
-                          const doctorId = actualId || `doctor-${msg.id}-${doctorIndex}`;
-
-                          console.log('Using doctorId:', doctorId, 'for doctor:', doctor.name);
-
-                          const isBookingOpen = !!bookingDoctors[doctorId];
-                          const form = bookingForms[doctorId] || {};
-                          return (
-                            <div key={doctorId} className="p-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg border border-blue-100">
-                              <div className="flex items-start justify-between mb-3">
-                                <div className="flex items-start space-x-3">
-                                  <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                                    <User className="w-6 h-6 text-blue-600" />
-                                  </div>
-                                  <div>
-                                    <h4 className="font-bold text-gray-900 text-sm">
-                                      Dr. {doctor.name?.first} {doctor.name?.last}
-                                    </h4>
-                                    <p className="text-xs text-teal-600 font-semibold">{doctor.specialization}</p>
-                                    <p className="text-xs text-gray-600 mt-1">
-                                      {doctor.yearsExperience} years experience
-                                    </p>
-                                  </div>
-                                </div>
-                              </div>
-                              {isBookingOpen ? (
-                                <div className="mt-3 space-y-3 bg-white p-4 rounded-lg border border-gray-200">
-                                  <div className="grid grid-cols-2 gap-3">
-                                    <div>
-                                      <label className="block text-xs font-medium text-gray-700 mb-1">
-                                        <Calendar size={12} className="inline mr-1" />
-                                        Select Date
-                                      </label>
-                                      <input
-                                        type="date"
-                                        value={form.selectedDate || ''}
-                                        onChange={(e) => updateBookingForm(doctorId, 'selectedDate', e.target.value)}
-                                        min={dayjs().format('YYYY-MM-DD')}
-                                        className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                      />
-                                    </div>
-                                    <div>
-                                      <label className="block text-xs font-medium text-gray-700 mb-1">
-                                        <Clock size={12} className="inline mr-1" />
-                                        Select Time
-                                      </label>
-                                      <select
-                                        value={form.selectedTime || ''}
-                                        onChange={(e) => updateBookingForm(doctorId, 'selectedTime', e.target.value)}
-                                        className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                      >
-                                        <option value="">Choose time</option>
-                                        {generateTimeSlots().map(slot => (
-                                          <option key={slot} value={slot}>{slot}</option>
-                                        ))}
-                                      </select>
-                                    </div>
-                                  </div>
-                                  <div>
-                                    <label className="block text-xs font-medium text-gray-700 mb-1">
-                                      Notes (Optional)
-                                    </label>
-                                    <textarea
-                                      value={form.bookingNotes || ''}
-                                      onChange={(e) => updateBookingForm(doctorId, 'bookingNotes', e.target.value)}
-                                      className="w-full px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                      rows={2}
-                                      placeholder="Any specific concerns..."
-                                    />
-                                  </div>
-                                  <div className="flex gap-2">
-                                    <button
-                                      onClick={() => handleBookAppointment(doctor, doctorId)}
-                                      disabled={booking === doctorId || !form.selectedDate || !form.selectedTime}
-                                      className="flex-1 px-3 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-sm font-medium disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center justify-center gap-1"
-                                    >
-                                      {booking === doctorId ? (
-                                        'Booking...'
-                                      ) : (
-                                        <>
-                                          <CheckCircle size={16} />
-                                          Confirm Booking
-                                        </>
-                                      )}
-                                    </button>
-                                    <button
-                                      onClick={() => closeBookingForm(doctorId)}
-                                      className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition text-sm font-medium"
-                                    >
-                                      <X size={16} />
-                                    </button>
-                                  </div>
-                                </div>
-                              ) : (
-                                <button
-                                  onClick={() => openBookingForm(doctorId)}
-                                  className="w-full mt-2 bg-gradient-to-r from-green-600 to-teal-600 hover:from-green-700 hover:to-teal-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-all shadow-sm flex items-center justify-center gap-2"
-                                >
-                                  <Calendar size={16} />
-                                  Book Appointment
-                                </button>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </div>
-                    )}
-                    {msg.time && (
-                      <p className={`text-xs mt-2 ${msg.type === 'user' ? 'opacity-80' : 'text-gray-500'}`}>
-                        {msg.time}
-                      </p>
-                    )}
-                  </div>
-                </div>
               </div>
             ))}
+
             {typing && (
-              <div className="flex items-start gap-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                  <Bot className="w-5 h-5 text-blue-600" />
-                </div>
-                <div className="bg-white rounded-2xl rounded-tl-none px-4 py-3 inline-block shadow-sm border border-gray-200">
-                  <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+              <div className="flex flex-col items-start max-w-4xl">
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-lg bg-primary-container flex items-center justify-center shrink-0">
+                    <span className="material-symbols-outlined text-on-primary-container text-[20px]">smart_toy</span>
+                  </div>
+                  <div className="bg-surface-container-low border border-outline-variant px-4 py-3 rounded-xl rounded-tl-none shadow-sm flex items-center h-12">
+                    <div className="flex gap-1">
+                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce" />
+                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce" style={{ animationDelay: "0.2s" }} />
+                      <span className="w-2 h-2 bg-on-surface-variant rounded-full animate-bounce" style={{ animationDelay: "0.4s" }} />
+                    </div>
                   </div>
                 </div>
               </div>
             )}
             <div ref={messagesEndRef} />
           </div>
-        </div>
-        {/* Input */}
-        <div className="bg-white border-t border-gray-200 px-6 py-4 flex-shrink-0">
-          <div className="flex items-center gap-3">
-            <button className="text-gray-600 hover:text-gray-900">
-              <Paperclip className="w-5 h-5" />
-            </button>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Describe your symptoms..."
-              disabled={loading}
-              className="flex-1 px-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm disabled:bg-gray-100"
-            />
-            <button className="text-gray-600 hover:text-gray-900">
-              <Mic className="w-5 h-5" />
-            </button>
-            <button
-              onClick={handleSend}
-              disabled={loading || !message.trim()}
-              className="bg-blue-600 hover:bg-blue-700 text-white p-2 rounded-full transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
-            >
-              <Send className="w-5 h-5" />
-            </button>
-          </div>
-        </div>
-      </div>
-      {/* Sidebar */}
-      <div className="w-80 bg-white border-l border-gray-200 flex flex-col min-h-0 overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-200 flex-shrink-0">
-          <h3 className="font-semibold text-gray-900">Recent Conversations</h3>
-        </div>
-        <div className="flex-1 overflow-y-auto min-h-0">
-          {sessions.length === 0 ? (
-            <div className="p-6 text-center text-gray-500 text-sm">
-              No conversations yet. Start chatting!
-            </div>
-          ) : (
-            sessions.map((session) => (
-              <div
-                key={session.session_id}
-                className="px-6 py-4 hover:bg-gray-50 cursor-pointer border-b border-gray-100 group relative"
-                onClick={() => loadSession(session.session_id)}
-              >
-                <div className="flex items-start justify-between mb-1">
-                  <h4 className="font-medium text-gray-900 text-sm flex-1 pr-2">
-                    {session.preview || 'New Conversation'}
-                  </h4>
-                  <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">
-                      {new Date(session.last_active).toLocaleDateString()}
-                    </span>
-                    <button
-                      onClick={e => {
-                        e.stopPropagation();
-                        deleteSession(session.session_id);
-                      }}
-                      className="opacity-0 group-hover:opacity-100 text-red-600 hover:text-red-700 transition-opacity"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
+
+          {/* Input Anchor */}
+          <div className="p-stack-lg border-t border-outline-variant bg-surface-container-lowest shrink-0">
+            <div className="max-w-4xl mx-auto relative">
+              <div className="flex items-end gap-stack-md bg-surface border border-outline rounded-2xl p-2 pr-4 shadow-sm focus-within:ring-2 focus-within:ring-primary focus-within:ring-offset-2 transition-all">
+                <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                  <span className="material-symbols-outlined">attach_file</span>
+                </button>
+                <textarea
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  disabled={loading}
+                  className="flex-1 bg-transparent border-none focus:ring-0 resize-none py-3 px-2 font-body-md text-on-surface placeholder:text-on-surface-variant outline-none"
+                  placeholder="Ask CareMate AI about symptoms or conditions..."
+                  rows={1}
+                />
+                <div className="flex items-center gap-2 pb-1.5">
+                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors">
+                    <span className="material-symbols-outlined">mic</span>
+                  </button>
+                  <button
+                    onClick={handleSend}
+                    disabled={loading || !message.trim()}
+                    className="bg-primary text-on-primary p-2 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <span className="material-symbols-outlined">send</span>
+                  </button>
                 </div>
-                <p className="text-xs text-gray-500">
-                  {new Date(session.last_active).toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit',
-                    hour12: true
-                  })}
-                </p>
               </div>
-            ))
-          )}
-        </div>
-      </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

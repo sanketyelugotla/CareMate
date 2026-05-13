@@ -1,106 +1,105 @@
+'use client'
+
 import Link from "next/link"
-import { getCurrentUser } from "@/lib/auth"
-import { Button } from "@/components/ui/button"
-import LogoutButton from "./site-logout-button"
-import { Bell } from 'lucide-react'
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
-export default async function SiteHeader() {
-  const user = await getCurrentUser()
+type SiteHeaderProps = {
+  hide?: boolean
+}
 
-  const getUserName = (u: any) => {
-    if (!u) return 'User'
-    if (typeof u.name === 'string') return u.name
-    const first = u.name?.first || ''
-    const last = u.name?.last || ''
-    const combined = `${first} ${last}`.trim()
-    return combined || u.email || 'User'
+export default function SiteHeader({ hide = false }: SiteHeaderProps) {
+  const [user, setUser] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+
+  useEffect(() => {
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => {
+        if (!data.error) {
+          setUser(data)
+        }
+        setLoading(false)
+      })
+      .catch(() => {
+        setLoading(false)
+      })
+  }, [])
+
+  const handleLogout = async () => {
+    try {
+      await fetch("/api/auth/logout", {
+        method: "POST",
+        credentials: "include"
+      })
+      setUser(null)
+      window.location.replace("/")
+    } catch (e) {
+      window.location.replace("/")
+    }
+  }
+
+  if (hide) {
+    return <></>
   }
 
   return (
-    <header className="w-full bg-white shadow-sm border-b">
-      <div className="px-8 py-4 flex justify-between items-center">
-        {/* Left side - Logo/Brand */}
-        <Link href="/" className="font-bold text-xl text-gray-800">
-          Hospital Management System
+    <header className="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant/50">
+      <div className="flex items-center gap-stack-md">
+        <Link href="/" className="font-headline-md text-headline-md font-bold text-primary flex items-center">
+          CareMate
         </Link>
-
-        {/* Right side - Navigation and user info */}
-        <div className="flex items-center space-x-6">
-          {/* Navigation Links */}
-          <nav className="flex items-center gap-4 mr-4">
-            <Link href="/doctors" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-              Doctors
+        <div className="hidden md:flex items-center ml-stack-xl gap-stack-lg h-full">
+          <nav className="flex items-center gap-stack-lg h-full">
+            <Link href="/" className="font-label-md text-label-md text-primary flex items-center h-full">
+              Home
             </Link>
-            <Link href="/virtual-doctor" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
+            <Link href="/virtual-doctor" className="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 px-2 py-1 rounded flex items-center">
               Virtual Doctor
             </Link>
 
-            {user ? (
-              <>
-                {user.role === "admin" && (
-                  <>
-                    <Link href="/dashboard/admin" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                      Admin Dashboard
-                    </Link>
-                    <Link href="/admin/approve-doctors" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                      Approvals
-                    </Link>
-                  </>
-                )}
-                {user.role === "doctor" && (
-                  <Link href="/dashboard/doctor" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                    Doctor Dashboard
-                  </Link>
-                )}
-                {user.role === "user" && (
-                  <>
-                    <Link href="/dashboard/user" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                      My Dashboard
-                    </Link>
-                    <Link href="/appointments" className="text-sm text-gray-600 hover:text-gray-800 transition-colors">
-                      My Appointments
-                    </Link>
-                  </>
-                )}
-              </>
-            ) : null}
+            {user && (
+              <Link 
+                href={user.role === 'admin' ? '/dashboard/admin' : user.role === 'doctor' ? '/dashboard/doctor' : '/dashboard/user'} 
+                className="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 px-2 py-1 rounded flex items-center"
+              >
+                Dashboard
+              </Link>
+            )}
           </nav>
-
-          {/* User section */}
+        </div>
+      </div>
+      <div className="flex items-center gap-stack-md">
+        <div className="flex items-center gap-2">
           {user ? (
-            <div className="flex items-center space-x-4">
-              {/* Notifications */}
-              <button className="relative p-2 hover:bg-gray-100 rounded-full transition-colors">
-                <Bell size={20} className="text-gray-600" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-              </button>
-
-              {/* User info */}
-              <div className="flex items-center space-x-3">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-gray-800">{user.name}</p>
-                  <p className="text-xs text-gray-500">
-                    {user.role === 'admin' ? `Admin: ${getUserName(user)}` :
-                      user.role === 'doctor' ? `Doctor: ${getUserName(user)}` :
-                        `${getUserName(user)}`}
-                  </p>
+            <>
+              <div className="flex items-center space-x-3 ml-2">
+                <div className="text-right hidden sm:block">
+                  <p className="text-label-md font-bold text-on-surface">{user.name}</p>
+                  <p className="text-label-sm text-on-surface-variant capitalize">{user.role}</p>
                 </div>
-                <div className="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                  {user.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold text-sm">
+                  {user.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || 'U'}
                 </div>
-                <LogoutButton />
+                <button 
+                  onClick={handleLogout} 
+                  className="px-4 py-2 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all ml-4"
+                >
+                  Logout
+                </button>
               </div>
+            </>
+          ) : !loading ? (
+            <div className="flex items-center space-x-3 ml-4">
+              <Link href="/auth/login" className="px-4 py-2 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all">
+                Login
+              </Link>
+              <Link href="/auth/register" className="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-all">
+                Sign up
+              </Link>
             </div>
-          ) : (
-            <div className="flex items-center space-x-3">
-              <Button asChild size="sm">
-                <Link href="/auth/login">Login</Link>
-              </Button>
-              <Button variant="secondary" asChild size="sm">
-                <Link href="/auth/register">Sign up</Link>
-              </Button>
-            </div>
-          )}
+          ) : null}
         </div>
       </div>
     </header>

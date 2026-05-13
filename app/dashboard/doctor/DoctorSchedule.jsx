@@ -182,7 +182,7 @@ export default function DoctorScheduleDashboard() {
             <div className="flex items-center justify-center h-96">
                 <div className="text-center">
                     <div className="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading schedule...</p>
+                    <p className="text-muted-foreground">Loading schedule...</p>
                 </div>
             </div>
         );
@@ -192,17 +192,17 @@ export default function DoctorScheduleDashboard() {
         <div className="max-w-7xl mx-auto">
             {/* Header */}
             <div className="mb-6">
-                <h2 className="text-3xl font-bold text-gray-800 mb-2">My Schedule</h2>
-                <p className="text-gray-600">Manage your availability, leaves, and busy hours</p>
+                <h2 className="text-3xl font-bold text-foreground mb-2">My Schedule</h2>
+                <p className="text-muted-foreground">Manage your availability, leaves, and busy hours</p>
             </div>
 
             {/* Tabs */}
-            <div className="flex space-x-2 mb-6 border-b border-gray-200">
+            <div className="flex space-x-2 mb-6 border-b border-border">
                 <button
                     onClick={() => setActiveTab('free-slots')}
                     className={`px-6 py-3 font-medium transition-colors ${activeTab === 'free-slots'
-                        ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-gray-600 hover:text-gray-800'
+                        ? 'text-primary border-b-2 border-blue-600'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     Free Slots
@@ -210,8 +210,8 @@ export default function DoctorScheduleDashboard() {
                 <button
                     onClick={() => setActiveTab('leaves')}
                     className={`px-6 py-3 font-medium transition-colors ${activeTab === 'leaves'
-                        ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-gray-600 hover:text-gray-800'
+                        ? 'text-primary border-b-2 border-blue-600'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     Leaves
@@ -219,8 +219,8 @@ export default function DoctorScheduleDashboard() {
                 <button
                     onClick={() => setActiveTab('busy-hours')}
                     className={`px-6 py-3 font-medium transition-colors ${activeTab === 'busy-hours'
-                        ? 'text-blue-600 border-b-2 border-blue-600'
-                        : 'text-gray-600 hover:text-gray-800'
+                        ? 'text-primary border-b-2 border-blue-600'
+                        : 'text-muted-foreground hover:text-foreground'
                         }`}
                 >
                     Busy Hours
@@ -231,7 +231,7 @@ export default function DoctorScheduleDashboard() {
             {activeTab === 'free-slots' && (
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-semibold text-gray-800">Weekly Availability</h3>
+                        <h3 className="text-xl font-semibold text-foreground">Weekly Availability</h3>
                         <button
                             onClick={() => setShowSlotModal(true)}
                             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -245,20 +245,20 @@ export default function DoctorScheduleDashboard() {
                         {days.map((day, idx) => {
                             const daySlots = freeSlots.filter(s => s.dayOfWeek === idx);
                             return (
-                                <div key={idx} className="bg-white rounded-xl shadow-sm border p-6">
-                                    <h4 className="font-bold text-gray-800 mb-3">{day}</h4>
+                                <div key={idx} className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
+                                    <h4 className="font-bold text-foreground mb-3">{day}</h4>
                                     {daySlots.length === 0 ? (
-                                        <p className="text-gray-500 text-sm">No slots configured</p>
+                                        <p className="text-muted-foreground text-sm">No slots configured</p>
                                     ) : (
                                         <div className="space-y-2">
                                             {daySlots.map(slot => (
-                                                <div key={slot._id} className="flex items-center justify-between bg-blue-50 p-3 rounded-lg">
+                                                <div key={slot._id} className="flex items-center justify-between bg-muted p-3 rounded-lg">
                                                     <div className="flex items-center space-x-3">
-                                                        <Clock className="text-blue-600" size={18} />
-                                                        <span className="font-medium text-gray-800">
+                                                        <Clock className="text-primary" size={18} />
+                                                        <span className="font-medium text-foreground">
                                                             {slot.startTime} - {slot.endTime}
                                                         </span>
-                                                        <span className="text-sm text-gray-600">
+                                                        <span className="text-sm text-muted-foreground">
                                                             ({slot.slotDurationMins} min slots)
                                                         </span>
                                                     </div>
@@ -283,7 +283,7 @@ export default function DoctorScheduleDashboard() {
             {activeTab === 'leaves' && (
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-semibold text-gray-800">My Leaves</h3>
+                        <h3 className="text-xl font-semibold text-foreground">My Leaves</h3>
                         <button
                             onClick={() => setShowLeaveModal(true)}
                             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -295,25 +295,25 @@ export default function DoctorScheduleDashboard() {
 
                     <div className="grid gap-4">
                         {leaves.length === 0 ? (
-                            <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
+                            <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-12 text-center">
                                 <Calendar size={48} className="mx-auto text-gray-300 mb-4" />
-                                <p className="text-gray-500">No leaves scheduled</p>
+                                <p className="text-muted-foreground">No leaves scheduled</p>
                             </div>
                         ) : (
                             leaves.map(leave => (
-                                <div key={leave._id} className="bg-white rounded-xl shadow-sm border p-6">
+                                <div key={leave._id} className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
                                             <div className="flex items-center space-x-2 mb-2">
                                                 <span className="px-3 py-1 bg-orange-100 text-orange-700 rounded-full text-xs font-semibold capitalize">
                                                     {leave.leaveType}
                                                 </span>
-                                                <span className="text-sm text-gray-600">
+                                                <span className="text-sm text-muted-foreground">
                                                     {dayjs(leave.startDate).format('MMM DD, YYYY')} - {dayjs(leave.endDate).format('MMM DD, YYYY')}
                                                 </span>
                                             </div>
                                             {leave.reason && (
-                                                <p className="text-gray-700 text-sm">{leave.reason}</p>
+                                                <p className="text-muted-foreground text-sm">{leave.reason}</p>
                                             )}
                                         </div>
                                         <button
@@ -334,7 +334,7 @@ export default function DoctorScheduleDashboard() {
             {activeTab === 'busy-hours' && (
                 <div>
                     <div className="flex justify-between items-center mb-4">
-                        <h3 className="text-xl font-semibold text-gray-800">Busy Hours</h3>
+                        <h3 className="text-xl font-semibold text-foreground">Busy Hours</h3>
                         <button
                             onClick={() => setShowBusyModal(true)}
                             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
@@ -346,13 +346,13 @@ export default function DoctorScheduleDashboard() {
 
                     <div className="grid gap-4">
                         {busyHours.length === 0 ? (
-                            <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
+                            <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-12 text-center">
                                 <Clock size={48} className="mx-auto text-gray-300 mb-4" />
-                                <p className="text-gray-500">No busy hours set</p>
+                                <p className="text-muted-foreground">No busy hours set</p>
                             </div>
                         ) : (
                             busyHours.map(busy => (
-                                <div key={busy._id} className="bg-white rounded-xl shadow-sm border p-6">
+                                <div key={busy._id} className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="flex-1">
                                             <div className="flex items-center space-x-2 mb-2">
@@ -365,12 +365,12 @@ export default function DoctorScheduleDashboard() {
                                                         {dayjs(busy.date).format('MMM DD, YYYY')}
                                                     </span>
                                                 )}
-                                                <span className="text-sm text-gray-600">
+                                                <span className="text-sm text-muted-foreground">
                                                     {busy.startTime} - {busy.endTime}
                                                 </span>
                                             </div>
                                             {busy.reason && (
-                                                <p className="text-gray-700 text-sm">{busy.reason}</p>
+                                                <p className="text-muted-foreground text-sm">{busy.reason}</p>
                                             )}
                                         </div>
                                         <button
@@ -390,17 +390,17 @@ export default function DoctorScheduleDashboard() {
             {/* Add Slot Modal */}
             {showSlotModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-3xl w-full p-6">
+                    <div className="bg-card rounded-xl shadow-[0_12px_32px_rgba(20,29,35,0.12)] max-w-3xl w-full p-6">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">Add Free Slot</h3>
-                            <button onClick={() => setShowSlotModal(false)} className="text-gray-500 hover:text-gray-700">
+                            <h3 className="text-xl font-bold text-foreground">Add Free Slot</h3>
+                            <button onClick={() => setShowSlotModal(false)} className="text-muted-foreground hover:text-muted-foreground">
                                 <X size={24} />
                             </button>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Day of Week</label>
+                                <label className="block text-sm font-medium text-muted-foreground mb-2">Day of Week</label>
                                 <select
                                     value={slotForm.dayOfWeek}
                                     onChange={(e) => setSlotForm({ ...slotForm, dayOfWeek: parseInt(e.target.value) })}
@@ -414,7 +414,7 @@ export default function DoctorScheduleDashboard() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">Start Time</label>
                                     <input
                                         type="time"
                                         value={slotForm.startTime}
@@ -423,7 +423,7 @@ export default function DoctorScheduleDashboard() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">End Time</label>
                                     <input
                                         type="time"
                                         value={slotForm.endTime}
@@ -434,7 +434,7 @@ export default function DoctorScheduleDashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Slot Duration (minutes)</label>
+                                <label className="block text-sm font-medium text-muted-foreground mb-2">Slot Duration (minutes)</label>
                                 <input
                                     type="number"
                                     value={slotForm.slotDurationMins}
@@ -454,7 +454,7 @@ export default function DoctorScheduleDashboard() {
                                 </button>
                                 <button
                                     onClick={() => setShowSlotModal(false)}
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                                    className="px-4 py-2 bg-gray-200 text-foreground rounded-lg hover:bg-gray-300 transition"
                                 >
                                     Cancel
                                 </button>
@@ -467,10 +467,10 @@ export default function DoctorScheduleDashboard() {
             {/* Add Leave Modal */}
             {showLeaveModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                    <div className="bg-card rounded-xl shadow-[0_12px_32px_rgba(20,29,35,0.12)] max-w-md w-full p-6">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">Add Leave</h3>
-                            <button onClick={() => setShowLeaveModal(false)} className="text-gray-500 hover:text-gray-700">
+                            <h3 className="text-xl font-bold text-foreground">Add Leave</h3>
+                            <button onClick={() => setShowLeaveModal(false)} className="text-muted-foreground hover:text-muted-foreground">
                                 <X size={24} />
                             </button>
                         </div>
@@ -478,7 +478,7 @@ export default function DoctorScheduleDashboard() {
                         <div className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Date</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">Start Date</label>
                                     <input
                                         type="date"
                                         value={leaveForm.startDate}
@@ -488,7 +488,7 @@ export default function DoctorScheduleDashboard() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">End Date</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">End Date</label>
                                     <input
                                         type="date"
                                         value={leaveForm.endDate}
@@ -500,7 +500,7 @@ export default function DoctorScheduleDashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Leave Type</label>
+                                <label className="block text-sm font-medium text-muted-foreground mb-2">Leave Type</label>
                                 <select
                                     value={leaveForm.leaveType}
                                     onChange={(e) => setLeaveForm({ ...leaveForm, leaveType: e.target.value })}
@@ -513,7 +513,7 @@ export default function DoctorScheduleDashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason (Optional)</label>
+                                <label className="block text-sm font-medium text-muted-foreground mb-2">Reason (Optional)</label>
                                 <textarea
                                     value={leaveForm.reason}
                                     onChange={(e) => setLeaveForm({ ...leaveForm, reason: e.target.value })}
@@ -532,7 +532,7 @@ export default function DoctorScheduleDashboard() {
                                 </button>
                                 <button
                                     onClick={() => setShowLeaveModal(false)}
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                                    className="px-4 py-2 bg-gray-200 text-foreground rounded-lg hover:bg-gray-300 transition"
                                 >
                                     Cancel
                                 </button>
@@ -545,10 +545,10 @@ export default function DoctorScheduleDashboard() {
             {/* Add Busy Hour Modal */}
             {showBusyModal && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                    <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+                    <div className="bg-card rounded-xl shadow-[0_12px_32px_rgba(20,29,35,0.12)] max-w-md w-full p-6">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="text-xl font-bold text-gray-800">Add Busy Hour</h3>
-                            <button onClick={() => setShowBusyModal(false)} className="text-gray-500 hover:text-gray-700">
+                            <h3 className="text-xl font-bold text-foreground">Add Busy Hour</h3>
+                            <button onClick={() => setShowBusyModal(false)} className="text-muted-foreground hover:text-muted-foreground">
                                 <X size={24} />
                             </button>
                         </div>
@@ -560,16 +560,16 @@ export default function DoctorScheduleDashboard() {
                                     id="recurring"
                                     checked={busyForm.isRecurring}
                                     onChange={(e) => setBusyForm({ ...busyForm, isRecurring: e.target.checked })}
-                                    className="w-4 h-4 text-blue-600 rounded"
+                                    className="w-4 h-4 text-primary rounded"
                                 />
-                                <label htmlFor="recurring" className="text-sm font-medium text-gray-700">
+                                <label htmlFor="recurring" className="text-sm font-medium text-muted-foreground">
                                     Recurring Weekly (e.g., lunch break every Monday)
                                 </label>
                             </div>
 
                             {busyForm.isRecurring ? (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Day of Week</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">Day of Week</label>
                                     <select
                                         value={busyForm.dayOfWeek}
                                         onChange={(e) => setBusyForm({ ...busyForm, dayOfWeek: parseInt(e.target.value) })}
@@ -582,7 +582,7 @@ export default function DoctorScheduleDashboard() {
                                 </div>
                             ) : (
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">Date</label>
                                     <input
                                         type="date"
                                         value={busyForm.date}
@@ -595,7 +595,7 @@ export default function DoctorScheduleDashboard() {
 
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">Start Time</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">Start Time</label>
                                     <input
                                         type="time"
                                         value={busyForm.startTime}
@@ -604,7 +604,7 @@ export default function DoctorScheduleDashboard() {
                                     />
                                 </div>
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 mb-2">End Time</label>
+                                    <label className="block text-sm font-medium text-muted-foreground mb-2">End Time</label>
                                     <input
                                         type="time"
                                         value={busyForm.endTime}
@@ -615,7 +615,7 @@ export default function DoctorScheduleDashboard() {
                             </div>
 
                             <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason (Optional)</label>
+                                <label className="block text-sm font-medium text-muted-foreground mb-2">Reason (Optional)</label>
                                 <input
                                     type="text"
                                     value={busyForm.reason}
@@ -634,7 +634,7 @@ export default function DoctorScheduleDashboard() {
                                 </button>
                                 <button
                                     onClick={() => setShowBusyModal(false)}
-                                    className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition"
+                                    className="px-4 py-2 bg-gray-200 text-foreground rounded-lg hover:bg-gray-300 transition"
                                 >
                                     Cancel
                                 </button>

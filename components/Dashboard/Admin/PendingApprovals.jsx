@@ -1,7 +1,6 @@
 'use client'
 
 import React, { useEffect, useState } from 'react';
-import { UserCheck, Mail, CheckCircle, XCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export default function PendingApprovals() {
@@ -67,56 +66,56 @@ export default function PendingApprovals() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-xl shadow-sm border p-6">
-                <h3 className="text-lg font-bold text-gray-800 mb-6">Pending Doctor Approvals</h3>
-                <p className="text-gray-500">Loading...</p>
+            <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg font-body-md text-on-surface">
+                <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-stack-lg">Pending Doctor Approvals</h3>
+                <p className="font-label-md text-label-md text-on-surface-variant">Loading...</p>
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border p-6">
-            <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold text-gray-800">Pending Doctor Approvals</h3>
-                <Link href="/admin/approve-doctors" className="text-blue-600 text-sm font-medium hover:underline">
+        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg font-body-md text-on-surface">
+            <div className="flex justify-between items-center mb-stack-lg">
+                <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface">Pending Doctor Approvals</h3>
+                <Link href="/admin/approve-doctors" className="font-label-md text-label-md font-bold text-primary hover:underline">
                     View All
                 </Link>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-stack-md">
                 {pendingDoctors.length > 0 ? (
                     pendingDoctors.map((doctor) => (
-                        <div key={doctor._id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                        <div key={doctor._id} className="border border-outline-variant bg-surface rounded-lg p-stack-md hover:bg-surface-container transition-colors">
                             <div className="flex items-start justify-between">
-                                <div className="flex items-center space-x-3">
-                                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                                        <UserCheck size={20} className="text-blue-600" />
+                                <div className="flex items-center gap-stack-md">
+                                    <div className="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center">
+                                        <span className="material-symbols-outlined text-on-primary-container" style={{ fontSize: '20px' }}>how_to_reg</span>
                                     </div>
                                     <div>
-                                        <p className="font-semibold text-gray-800">{doctor.name}</p>
-                                        <div className="flex items-center space-x-1 text-xs text-gray-500 mt-1">
-                                            <Mail size={12} />
+                                        <p className="font-label-lg text-label-lg font-bold text-on-surface">{doctor.name}</p>
+                                        <div className="flex items-center gap-stack-xs font-label-sm text-label-sm text-on-surface-variant mt-0.5">
+                                            <span className="material-symbols-outlined" style={{ fontSize: '14px' }}>mail</span>
                                             <span>{doctor.email}</span>
                                         </div>
                                         {doctor.specialization && (
-                                            <p className="text-xs text-gray-600 mt-1">
+                                            <p className="font-label-sm text-label-sm text-on-surface-variant mt-0.5">
                                                 Specialization: {doctor.specialization}
                                             </p>
                                         )}
                                     </div>
                                 </div>
-                                <div className="flex space-x-2">
+                                <div className="flex gap-stack-sm">
                                     <button
                                         onClick={() => handleApprove(doctor._id)}
-                                        className="px-3 py-1 bg-green-100 text-green-700 rounded-md hover:bg-green-200 text-xs font-medium flex items-center space-x-1"
+                                        className="px-stack-sm py-1 bg-secondary-container text-on-secondary-container rounded-md hover:opacity-80 font-label-sm text-label-sm font-bold flex items-center gap-stack-xs transition-opacity"
                                     >
-                                        <CheckCircle size={14} />
+                                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>check_circle</span>
                                         <span>Approve</span>
                                     </button>
                                     <button
                                         onClick={() => handleReject(doctor._id)}
-                                        className="px-3 py-1 bg-red-100 text-red-700 rounded-md hover:bg-red-200 text-xs font-medium flex items-center space-x-1"
+                                        className="px-stack-sm py-1 bg-error-container text-on-error-container rounded-md hover:opacity-80 font-label-sm text-label-sm font-bold flex items-center gap-stack-xs transition-opacity"
                                     >
-                                        <XCircle size={14} />
+                                        <span className="material-symbols-outlined" style={{ fontSize: '16px' }}>cancel</span>
                                         <span>Reject</span>
                                     </button>
                                 </div>
@@ -124,7 +123,7 @@ export default function PendingApprovals() {
                         </div>
                     ))
                 ) : (
-                    <p className="text-gray-500 text-center py-8">No pending approvals</p>
+                    <p className="font-label-md text-label-md text-on-surface-variant text-center py-stack-xl">No pending approvals</p>
                 )}
             </div>
         </div>

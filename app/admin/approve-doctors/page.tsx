@@ -4,7 +4,6 @@ import { jsonFetch } from "@/lib/fetcher"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import DashboardLayout from "@/components/DashboardLayout"
-import { UserCheck, GraduationCap, Mail, Phone, CheckCircle, XCircle } from "lucide-react"
 
 export function ApproveDoctorsPanel() {
   const { data, mutate } = useSWR("/api/admin/doctors?isApproved=false&page=1&pageSize=20", (url) => jsonFetch(url))
@@ -21,68 +20,67 @@ export function ApproveDoctorsPanel() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">Approve Doctors</h1>
-        <p className="text-gray-600 mt-2">Review and approve pending doctor registrations</p>
+    <div className="max-w-6xl mx-auto font-body-md text-on-surface">
+      <div className="mb-stack-xl">
+        <h1 className="font-headline-lg text-headline-lg font-bold text-on-surface">Approve Doctors</h1>
+        <p className="font-label-md text-label-md text-on-surface-variant mt-stack-xs">Review and approve pending doctor registrations</p>
       </div>
 
-      <div className="grid gap-4">
+      <div className="grid gap-stack-md">
         {items.map((d: any) => (
-          <Card key={d._id} className="bg-white hover:shadow-lg transition-shadow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="flex items-center space-x-2">
-                  <UserCheck className="text-purple-600" size={24} />
-                  <span>{d.name?.first} {d.name?.last}</span>
-                </CardTitle>
-                <span className="px-3 py-1 rounded-full text-xs font-semibold bg-yellow-100 text-yellow-700">
+          <div key={d._id} className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg hover:bg-surface-container transition-colors">
+            <div className="flex items-center justify-between border-b border-outline-variant pb-stack-md mb-stack-md">
+                <div className="flex items-center gap-stack-sm">
+                  <span className="material-symbols-outlined text-primary" style={{ fontSize: '24px' }}>how_to_reg</span>
+                  <span className="font-headline-sm text-headline-sm font-bold text-on-surface">{d.name?.first} {d.name?.last}</span>
+                </div>
+                <span className="px-stack-sm py-1 rounded font-label-sm text-label-sm font-bold bg-tertiary-container text-on-tertiary-container">
                   Pending Approval
                 </span>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid md:grid-cols-2 gap-4">
-                <div className="flex items-center space-x-2 text-sm">
-                  <GraduationCap size={16} className="text-gray-400" />
-                  <span className="text-gray-700">{d.doctorProfile?.specialization || 'Not specified'}</span>
+            </div>
+            
+            <div className="space-y-stack-md">
+              <div className="grid md:grid-cols-2 gap-stack-md">
+                <div className="flex items-center gap-stack-sm font-label-md text-label-md">
+                  <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '20px' }}>school</span>
+                  <span className="text-on-surface-variant">{d.doctorProfile?.specialization || 'Not specified'}</span>
                 </div>
-                <div className="flex items-center space-x-2 text-sm">
-                  <Mail size={16} className="text-gray-400" />
-                  <span className="text-gray-700">{d.email}</span>
+                <div className="flex items-center gap-stack-sm font-label-md text-label-md">
+                  <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '20px' }}>mail</span>
+                  <span className="text-on-surface-variant">{d.email}</span>
                 </div>
                 {d.phone && (
-                  <div className="flex items-center space-x-2 text-sm">
-                    <Phone size={16} className="text-gray-400" />
-                    <span className="text-gray-700">{d.phone}</span>
+                  <div className="flex items-center gap-stack-sm font-label-md text-label-md">
+                    <span className="material-symbols-outlined text-on-surface-variant" style={{ fontSize: '20px' }}>phone</span>
+                    <span className="text-on-surface-variant">{d.phone}</span>
                   </div>
                 )}
               </div>
 
-              <div className="flex gap-3 pt-2">
+              <div className="flex gap-stack-sm pt-stack-sm">
                 <Button
                   onClick={() => approve(d._id, true)}
-                  className="flex items-center space-x-2 bg-green-600 hover:bg-green-700"
+                  className="flex items-center gap-stack-xs bg-primary text-on-primary font-label-md text-label-md font-bold hover:bg-primary/90"
                 >
-                  <CheckCircle size={16} />
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>check_circle</span>
                   <span>Approve</span>
                 </Button>
                 <Button
                   variant="secondary"
                   onClick={() => approve(d._id, false)}
-                  className="flex items-center space-x-2 bg-red-100 hover:bg-red-200 text-red-700"
+                  className="flex items-center gap-stack-xs bg-error-container text-on-error-container font-label-md text-label-md font-bold hover:opacity-80"
                 >
-                  <XCircle size={16} />
+                  <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>cancel</span>
                   <span>Reject</span>
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
         {items.length === 0 && (
-          <div className="text-center py-12 bg-white rounded-xl shadow-sm border">
-            <UserCheck size={48} className="mx-auto text-gray-300 mb-4" />
-            <p className="text-gray-500">No pending doctor approvals.</p>
+          <div className="text-center py-stack-xl bg-surface-container-lowest border border-outline-variant rounded-xl">
+            <span className="material-symbols-outlined text-on-surface-variant opacity-50 mb-stack-md" style={{ fontSize: '48px' }}>how_to_reg</span>
+            <p className="font-label-md text-label-md text-on-surface-variant">No pending doctor approvals.</p>
           </div>
         )}
       </div>
