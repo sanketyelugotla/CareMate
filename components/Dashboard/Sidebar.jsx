@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { jsonFetch } from '@/lib/fetcher';
 import { Activity, Calendar, FileText, User, LogOut, ChevronDown, Settings, Brain } from 'lucide-react';
 
-export default function Sidebar({ activeTab, setActiveTab }) {
+export default function Sidebar({ activeTab }) {
+    const router = useRouter();
     const [user, setUser] = useState(null);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -28,12 +30,19 @@ export default function Sidebar({ activeTab, setActiveTab }) {
         }
     };
 
+    const handleTabChange = (tabId) => {
+        if (tabId === 'dashboard') {
+            router.push('/dashboard/user');
+        } else {
+            router.push(`/dashboard/user/${tabId}`);
+        }
+    };
+
     const menuItems = [
         { id: 'dashboard', label: 'Dashboard', icon: Activity },
         { id: 'prediction', label: 'AI Prediction', icon: Brain },
         { id: 'appointments', label: 'Book Appointment', icon: Calendar },
         { id: 'my-appointments', label: 'My Appointments', icon: FileText },
-        { id: 'reports', label: 'Medical Reports', icon: FileText },
     ];
 
     const getInitials = (name) => {
@@ -52,86 +61,128 @@ export default function Sidebar({ activeTab, setActiveTab }) {
 
     if (loading) {
         return (
-            <div className="w-64 bg-surface-container-low border-r border-outline-variant h-screen flex items-center justify-center">
-                <p className="text-on-surface-variant font-label-md">Loading...</p>
+            <div className="w-64 bg-card shadow-lg flex flex-col h-full animate-pulse">
+                <div className="p-6 border-b border-gray-100 flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-muted rounded-lg"></div>
+                    <div className="flex-1 space-y-2">
+                        <div className="h-4 bg-muted rounded w-24"></div>
+                        <div className="h-3 bg-muted rounded w-16"></div>
+                    </div>
+                </div>
+                <div className="flex-1 py-4 space-y-2 px-4">
+                    {[1, 2, 3, 4].map(i => (
+                        <div key={i} className="h-10 bg-muted rounded-lg w-full"></div>
+                    ))}
+                </div>
+                <div className="border-t border-gray-100 p-4">
+                    <div className="flex items-center space-x-3 mb-3">
+                        <div className="w-12 h-12 rounded-full bg-muted"></div>
+                        <div className="flex-1 space-y-2">
+                            <div className="h-4 bg-muted rounded w-20"></div>
+                            <div className="h-3 bg-muted rounded w-24"></div>
+                        </div>
+                    </div>
+                    <div className="h-6 w-16 bg-muted rounded-full mb-3"></div>
+                    <div className="space-y-2">
+                        <div className="h-8 bg-muted rounded w-full"></div>
+                        <div className="h-8 bg-muted rounded w-full"></div>
+                    </div>
+                </div>
             </div>
         );
     }
 
     return (
-        <aside className="flex flex-col h-screen py-stack-lg px-stack-md sticky left-0 top-0 overflow-y-auto w-64 bg-surface-container-low border-r border-outline-variant">
+        <div className="w-64 bg-card shadow-lg flex flex-col h-full">
             {/* Logo Section */}
-            <div className="mb-stack-xl">
-                <h1 className="font-headline-sm text-headline-sm font-extrabold text-primary">CareMate Portal</h1>
-                <p className="font-label-md text-label-md text-on-surface-variant opacity-70">Patient Command</p>
+            <div
+                className="p-6 border-b border-gray-100 cursor-pointer hover:bg-muted/50 transition-colors"
+                onClick={() => window.location.href = '/'}
+            >
+                <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                        <Activity className="text-white" size={24} />
+                    </div>
+                    <div>
+                        <h1 className="text-xl font-bold text-foreground">CareMate</h1>
+                        <p className="text-xs text-muted-foreground">Patient Portal</p>
+                    </div>
+                </div>
             </div>
 
             {/* Navigation Menu */}
-            <nav className="flex flex-col gap-stack-sm flex-grow">
+            <nav className="flex-1 py-4 overflow-y-auto">
                 {menuItems.map((item) => (
                     <button
                         key={item.id}
-                        onClick={() => setActiveTab(item.id)}
-                        className={`flex items-center gap-stack-md py-stack-sm px-stack-md rounded-lg transition-all ${
-                            activeTab === item.id
-                                ? 'bg-primary-container text-on-primary-container font-bold scale-[0.98]'
-                                : 'text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high'
-                        }`}
+                        onClick={() => handleTabChange(item.id)}
+                        className={`w-full flex items-center space-x-3 px-6 py-3 text-left transition-all ${activeTab === item.id
+                            ? 'bg-muted text-primary border-r-4 border-blue-600'
+                            : 'text-muted-foreground hover:bg-background'
+                            }`}
                     >
-                        <item.icon size={20} />
-                        <span className="font-label-md text-label-md">{item.label}</span>
+                        <item.icon size={18} />
+                        <span className="font-medium text-sm">{item.label}</span>
                     </button>
                 ))}
             </nav>
 
             {/* Profile Section */}
-            <div className="mt-auto pt-stack-xl flex flex-col gap-stack-md border-t border-outline-variant">
+            <div className="border-t border-gray-100">
                 {user && (
-                    <>
-                        <div className="flex items-center gap-stack-md p-stack-sm rounded-lg bg-surface-container">
-                            {user.avatarUrl ? (
-                                <img
-                                    src={user.avatarUrl}
-                                    alt={user.name}
-                                    className="w-10 h-10 rounded-full object-cover"
-                                />
-                            ) : (
-                                <div className="w-10 h-10 bg-primary-container rounded-full flex items-center justify-center">
-                                    <span className="text-on-primary-container font-bold text-sm">
-                                        {getInitials(user.name)}
-                                    </span>
-                                </div>
-                            )}
-                            <div className="min-w-0">
-                                <p className="font-label-md text-label-md font-bold truncate">
+                    <div className="p-4">
+                        <div className="flex items-center space-x-3 mb-3">
+                            <div className="relative">
+                                {user.avatarUrl ? (
+                                    <img
+                                        src={user.avatarUrl}
+                                        alt={user.name}
+                                        className="w-12 h-12 rounded-full object-cover"
+                                    />
+                                ) : (
+                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center">
+                                        <span className="text-white font-bold text-sm">
+                                            {getInitials(user.name)}
+                                        </span>
+                                    </div>
+                                )}
+                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className="text-sm font-semibold text-foreground truncate">
                                     {user.name}
                                 </p>
-                                <p className="font-label-sm text-label-sm text-on-surface-variant truncate">
-                                    {getRoleBadge(user.role).label}
-                                </p>
+                                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                             </div>
                         </div>
 
+                        {/* Role Badge */}
+                        <div className="mb-3">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${getRoleBadge(user.role).color}`}>
+                                {getRoleBadge(user.role).label}
+                            </span>
+                        </div>
+
                         {/* Action Buttons */}
-                        <div className="space-y-stack-xs">
+                        <div className="space-y-2">
                             <button
-                                onClick={() => setActiveTab('profile')}
-                                className="w-full flex items-center gap-stack-md py-stack-sm px-stack-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all rounded-lg"
+                                onClick={() => handleTabChange('profile')}
+                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:bg-background rounded-lg transition-colors"
                             >
-                                <Settings size={18} />
-                                <span className="font-label-md text-label-md">Profile Settings</span>
+                                <Settings size={16} />
+                                <span>Profile Settings</span>
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="w-full bg-error text-on-error font-label-md text-label-md py-stack-sm rounded-lg hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             >
-                                <LogOut size={18} />
+                                <LogOut size={16} />
                                 <span>Logout</span>
                             </button>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
-        </aside>
+        </div>
     );
 }
