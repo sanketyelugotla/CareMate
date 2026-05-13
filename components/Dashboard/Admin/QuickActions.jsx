@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import { BarChart, Users, Calendar, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default function QuickActions() {
@@ -8,50 +9,50 @@ export default function QuickActions() {
         {
             title: 'Approve Doctors',
             description: 'Review pending applications',
-            icon: 'how_to_reg',
+            icon: Users,
             color: 'text-primary',
-            bgColor: 'bg-primary-container',
-            href: '/admin/approve-doctors'
+            bgColor: 'bg-muted',
+            href: '/dashboard/admin/approve-doctors'
         },
         {
             title: 'View Analytics',
             description: 'System analytics & reports',
-            icon: 'monitoring',
-            color: 'text-secondary',
-            bgColor: 'bg-secondary-container',
-            href: '/analytics'
+            icon: BarChart,
+            color: 'text-green-500',
+            bgColor: 'bg-green-50',
+            href: '/dashboard/admin/analytics'
         },
         {
             title: 'All Appointments',
             description: 'Manage all bookings',
-            icon: 'calendar_month',
-            color: 'text-tertiary',
-            bgColor: 'bg-tertiary-container',
-            href: '/appointments'
+            icon: Calendar,
+            color: 'text-purple-500',
+            bgColor: 'bg-purple-50',
+            href: '/dashboard/admin/appointments'
         },
         {
             title: 'System Settings',
             description: 'Configure platform',
-            icon: 'settings',
-            color: 'text-on-surface-variant',
-            bgColor: 'bg-surface-variant',
-            href: '/settings'
+            icon: Settings,
+            color: 'text-muted-foreground',
+            bgColor: 'bg-background',
+            href: '/dashboard/admin/settings'
         }
     ];
 
     return (
-        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg font-body-md text-on-surface">
-            <h3 className="font-headline-sm text-headline-sm font-bold text-on-surface mb-stack-md">Quick Actions</h3>
-            <div className="grid grid-cols-2 gap-stack-sm">
+        <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6 border border-border">
+            <h3 className="text-lg font-bold text-foreground mb-4">Quick Actions</h3>
+            <div className="grid grid-cols-2 gap-3">
                 {actions.map((action, idx) => (
                     <Link
                         key={idx}
                         href={action.href}
-                        className={`flex flex-col items-center p-stack-md ${action.bgColor} rounded-lg hover:opacity-80 transition-opacity cursor-pointer`}
+                        className={`flex flex-col items-center p-4 ${action.bgColor} rounded-lg hover:shadow-md transition-shadow cursor-pointer border border-border`}
                     >
-                        <span className={`material-symbols-outlined ${action.color}`} style={{ fontSize: '28px' }}>{action.icon}</span>
-                        <p className="font-label-md text-label-md font-bold text-on-surface mt-stack-sm text-center">{action.title}</p>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant mt-0.5 text-center">{action.description}</p>
+                        <action.icon size={24} className={action.color} />
+                        <p className="font-semibold text-foreground text-sm mt-2 text-center">{action.title}</p>
+                        <p className="text-xs text-muted-foreground mt-1 text-center">{action.description}</p>
                     </Link>
                 ))}
             </div>
