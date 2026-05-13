@@ -6,8 +6,6 @@ import { usePathname, useSearchParams, useRouter } from 'next/navigation';
 import {
     LayoutDashboard,
     Calendar,
-    Users,
-    FileText,
     Settings,
     LogOut,
     Activity,
@@ -44,7 +42,8 @@ export default function DoctorSidebar() {
             const currentTab = searchParams?.get('tab')
             if (!currentTab && typeof window !== 'undefined') {
                 const stored = window.localStorage.getItem('doctor_last_tab')
-                if (stored && stored !== 'dashboard') {
+                const allowedTabs = ['dashboard', 'appointments', 'schedule', 'slots', 'profile']
+                if (stored && stored !== 'dashboard' && allowedTabs.includes(stored)) {
                     router.replace(`/dashboard/doctor?tab=${stored}`)
                     // show a small toast to indicate we restored the last tab
                     setRestoredTab(stored)
@@ -64,7 +63,6 @@ export default function DoctorSidebar() {
         { id: 'dashboard', name: 'Dashboard', href: '/dashboard/doctor?tab=dashboard', icon: LayoutDashboard },
         { id: 'appointments', name: 'Appointments', href: '/dashboard/doctor?tab=appointments', icon: Calendar },
         { id: 'slots', name: 'Slots', href: '/dashboard/doctor?tab=schedule', icon: Activity },
-        { id: 'prescriptions', name: 'Prescriptions', href: '/dashboard/doctor?tab=prescriptions', icon: FileText },
     ];
 
     const getInitials = (name) => {
@@ -126,7 +124,7 @@ export default function DoctorSidebar() {
                                 }`}
                         >
                             <item.icon size={20} />
-                            <span className="font-medium">{item.name}</span>
+                            <span className="font-medium text-sm">{item.name}</span>
                         </Link>
                     );
                 })}

@@ -3,16 +3,18 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Calendar, Clock, User } from 'lucide-react';
+import Link from 'next/link';
 
 export default function UpcomingAppointments() {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        fetch('/api/dashboard/upcoming-appointments')
+        fetch('/api/appointments?when=upcoming&page=1&pageSize=5', { credentials: 'include' })
             .then(res => res.json())
             .then(data => {
-                setAppointments(data.slice(0, 5));
+                const list = Array.isArray(data) ? data : (data?.items || []);
+                setAppointments(list.slice(0, 5));
                 setLoading(false);
             })
             .catch(err => {
@@ -34,7 +36,7 @@ export default function UpcomingAppointments() {
         <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-bold text-foreground">Upcoming Appointments</h3>
-                <button className="text-primary text-sm font-medium hover:underline">View All</button>
+                <Link href="/dashboard/doctor?tab=appointments" className="text-primary text-sm font-medium hover:underline">View All</Link>
             </div>
             <div className="space-y-4">
                 {appointments.length > 0 ? (

@@ -31,7 +31,7 @@ export default function CompleteDoctorDashboard() {
         <>
           {/* Overlay */}
           <div
-            className="fixed inset-0 bg-black bg-opacity-50 z-40"
+            className="fixed inset-0 bg-background/30 backdrop-blur-sm z-40"
             onClick={() => setShowSchedulePanel(false)}
           />
 

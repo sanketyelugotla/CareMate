@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { Clock, User, CheckCircle, XCircle } from 'lucide-react';
+import Link from 'next/link';
 
 export default function TodayAppointments() {
     const [appointments, setAppointments] = useState([]);
@@ -73,7 +74,15 @@ export default function TodayAppointments() {
         <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
             <div className="flex justify-between items-center mb-6">
                 <h3 className="text-lg font-bold text-foreground">Today's Appointments</h3>
-                <span className="text-sm text-muted-foreground">{appointments.length} total</span>
+                <div className="flex items-center gap-3">
+                    <span className="text-sm text-muted-foreground">{appointments.length} total</span>
+                    <Link
+                        href="/dashboard/doctor?tab=appointments"
+                        className="px-3 py-1.5 rounded-md bg-blue-600 text-white text-xs font-medium hover:bg-blue-700 transition-colors"
+                    >
+                        View Appointments
+                    </Link>
+                </div>
             </div>
             <div className="space-y-4">
                 {appointments.length > 0 ? (
