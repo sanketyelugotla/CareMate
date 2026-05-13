@@ -39,8 +39,28 @@ export async function GET(req: NextRequest) {
   }
 
   const total = await Appointment.countDocuments(q)
-  const items = await Appointment.find(q).sort({ start: -1 }).skip((page - 1) * pageSize).limit(pageSize)
-  return json({ items, total })
+  const items = await Appointment.find(q)
+    .sort({ start: -1 })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize)
+    .populate("patientId", "name")
+    .populate("doctorId", "name")
+    .lean()
+
+  // Map the data to ensure correct structure
+  const mappedItems = items.map((item: any) => ({
+    ...item,
+    patient: item.patientId ? {
+      name: typeof item.patientId === 'string' ? item.patientId :
+        (item.patientId.name ? `${item.patientId.name.first} ${item.patientId.name.last}` : 'N/A')
+    } : null,
+    doctor: item.doctorId ? {
+      name: typeof item.doctorId === 'string' ? item.doctorId :
+        (item.doctorId.name ? `${item.doctorId.name.first} ${item.doctorId.name.last}` : 'N/A')
+    } : null,
+  }))
+
+  return json({ items: mappedItems, total })
 }
 
 export async function POST(req: NextRequest) {
