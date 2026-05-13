@@ -3,12 +3,41 @@ import type { Metadata } from "next"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 import SiteHeaderWrapper from "@/components/site-header-wrapper"
+import PageLoader from "@/components/PageLoader"
 import { Suspense } from "react"
 
 export const metadata: Metadata = {
   title: "CareMate",
   description: "Intelligent hospital management system",
   generator: "Sanket Yelugotla",
+}
+
+/** Full-screen spinner used as Suspense fallback */
+function FullScreenSpinner() {
+  return (
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-background">
+      <div className="flex flex-col items-center gap-4">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-4 border-primary/20"></div>
+          <div
+            className="absolute inset-0 rounded-full border-4 border-transparent border-t-primary"
+            style={{ animation: "spin 0.8s linear infinite" }}
+          ></div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="w-3 h-3 bg-primary rounded-full"
+              style={{ animation: "pulse 1.5s ease-in-out infinite" }}
+            ></div>
+          </div>
+        </div>
+        <p className="text-sm font-medium text-muted-foreground tracking-wide">Loading CareMate...</p>
+      </div>
+      <style>{`
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.8); } }
+      `}</style>
+    </div>
+  )
 }
 
 export default function RootLayout({
@@ -28,8 +57,9 @@ export default function RootLayout({
         `}} />
       </head>
       <body className={`font-body-md text-body-md overflow-x-hidden antialiased bg-background text-on-background`}>
-        <Suspense fallback={<div>Loading...</div>}>
+        <Suspense fallback={<FullScreenSpinner />}>
           <SiteHeaderWrapper />
+          <PageLoader />
           {children}
         </Suspense>
         <Analytics />

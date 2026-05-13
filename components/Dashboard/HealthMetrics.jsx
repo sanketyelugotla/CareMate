@@ -25,19 +25,16 @@ export default function HealthMetrics() {
     ]
 
     return (
-        <div className="bg-surface-container-lowest border border-outline-variant rounded-xl p-stack-lg">
-            <h3 className="font-headline-sm text-headline-sm text-on-surface flex items-center gap-stack-sm mb-stack-md font-bold">
-                <span className="material-symbols-outlined text-secondary" data-icon="vital_signs">vital_signs</span>
-                Health Metrics
-            </h3>
-            <div className="space-y-stack-md">
+        <div className="bg-card rounded-xl shadow-[0_4px_12px_rgba(20,29,35,0.08)] p-6">
+            <h3 className="text-lg font-bold text-foreground mb-4">Health Metrics</h3>
+            <div className="space-y-4">
                 {healthMetrics.map((metric, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-stack-sm bg-surface border border-outline-variant rounded-lg">
+                    <div key={idx} className="flex items-center justify-between p-3 bg-background rounded-lg">
                         <div className="flex items-center space-x-3">
                             <metric.icon size={20} className={metric.color} />
-                            <span className="font-label-sm text-label-sm text-on-surface-variant">{metric.label}</span>
+                            <span className="text-sm text-muted-foreground">{metric.label}</span>
                         </div>
-                        <span className="font-label-md text-label-md font-bold text-on-surface">{metric.value}</span>
+                        <span className="font-bold text-foreground">{metric.value}</span>
                     </div>
                 ))}
             </div>

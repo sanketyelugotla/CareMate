@@ -45,24 +45,35 @@ export default function SiteHeader({ hide = false }: SiteHeaderProps) {
   }
 
   return (
-    <header className="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-surface/95 backdrop-blur-sm border-b border-outline-variant/50">
+    <header className="flex justify-between items-center w-full px-margin-desktop py-stack-sm h-16 sticky top-0 z-50 bg-background border-b border-border shadow-sm">
       <div className="flex items-center gap-stack-md">
         <Link href="/" className="font-headline-md text-headline-md font-bold text-primary flex items-center">
           CareMate
         </Link>
         <div className="hidden md:flex items-center ml-stack-xl gap-stack-lg h-full">
           <nav className="flex items-center gap-stack-lg h-full">
-            <Link href="/" className="font-label-md text-label-md text-primary flex items-center h-full">
+            <Link href="/" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 flex items-center h-full">
               Home
             </Link>
-            <Link href="/virtual-doctor" className="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 px-2 py-1 rounded flex items-center">
-              Virtual Doctor
+            <Link href="/#services" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 px-2 py-1 rounded flex items-center">
+              Services
+            </Link>
+            <Link href="/doctors" className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 px-2 py-1 rounded flex items-center">
+              Find Doctors
+            </Link>
+            <Link href="/#ai-assistant" onClick={(e) => {
+              if (user) {
+                e.preventDefault()
+                router.push('/dashboard/user?tab=prediction')
+              }
+            }} className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 px-2 py-1 rounded flex items-center">
+              AI Assistant
             </Link>
 
             {user && (
               <Link 
                 href={user.role === 'admin' ? '/dashboard/admin' : user.role === 'doctor' ? '/dashboard/doctor' : '/dashboard/user'} 
-                className="font-label-md text-label-md text-on-surface-variant hover:bg-surface-container transition-colors duration-200 px-2 py-1 rounded flex items-center"
+                className="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors duration-200 px-2 py-1 rounded flex items-center"
               >
                 Dashboard
               </Link>
@@ -79,12 +90,12 @@ export default function SiteHeader({ hide = false }: SiteHeaderProps) {
                   <p className="text-label-md font-bold text-on-surface">{user.name}</p>
                   <p className="text-label-sm text-on-surface-variant capitalize">{user.role}</p>
                 </div>
-                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-on-primary font-bold text-sm">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white font-bold text-sm">
                   {user.name?.split(' ').map((n: string) => n[0]).join('').substring(0, 2).toUpperCase() || 'U'}
                 </div>
                 <button 
                   onClick={handleLogout} 
-                  className="px-4 py-2 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all ml-4"
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-label-md text-label-md rounded-lg transition-all ml-4"
                 >
                   Logout
                 </button>
@@ -95,7 +106,7 @@ export default function SiteHeader({ hide = false }: SiteHeaderProps) {
               <Link href="/auth/login" className="px-4 py-2 border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all">
                 Login
               </Link>
-              <Link href="/auth/register" className="px-4 py-2 bg-primary text-on-primary font-label-md text-label-md rounded-lg hover:opacity-90 transition-all">
+              <Link href="/auth/register" className="px-4 py-2 bg-primary text-white font-label-md text-label-md rounded-lg hover:opacity-90 transition-all">
                 Sign up
               </Link>
             </div>

@@ -48,19 +48,19 @@ export default function TopCards() {
     ];
 
     return (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter mb-stack-lg">
+        <div className="grid grid-cols-3 gap-6 mb-8">
             {cards.map((card, index) => (
                 <div
                     key={index}
-                    className="bg-surface-container-lowest p-stack-lg rounded-xl border border-outline-variant hover:shadow-sm transition-shadow cursor-pointer"
+                    className={`bg-gradient-to-br ${card.gradient} p-6 rounded-xl border ${card.border} hover:shadow-lg transition-shadow cursor-pointer`}
                 >
                     <div className="flex items-start justify-between">
                         <div>
-                            <p className="text-on-surface font-headline-sm text-headline-sm mb-stack-xs font-bold">{card.title}</p>
-                            <p className="font-label-md text-label-md text-on-surface-variant">{card.description}</p>
+                            <p className={`${card.textColor} font-semibold mb-2`}>{card.title}</p>
+                            <p className={`text-sm ${card.textColor.replace('700', '600')}`}>{card.description}</p>
                         </div>
-                        <div className="w-12 h-12 bg-primary-container rounded-lg flex items-center justify-center shrink-0">
-                            <card.icon className="text-on-primary-container" size={24} />
+                        <div className={`w-10 h-10 ${card.bgColor} rounded-lg flex items-center justify-center`}>
+                            <card.icon className="text-white" size={20} />
                         </div>
                     </div>
                 </div>

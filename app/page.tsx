@@ -1,6 +1,36 @@
+'use client'
+
 import Link from "next/link"
+import { useEffect, useState } from "react"
+import { useRouter } from "next/navigation"
 
 export default function HomePage() {
+  const [user, setUser] = useState<any>(null)
+  const router = useRouter()
+
+  useEffect(() => {
+    fetch('/api/auth/me', { credentials: 'include' })
+      .then(res => res.json())
+      .then(data => { if (!data.error) setUser(data) })
+      .catch(() => {})
+  }, [])
+
+  const handleBookAppointment = () => {
+    if (user) {
+      router.push('/dashboard/user?tab=appointments')
+    } else {
+      router.push('/auth/login')
+    }
+  }
+
+  const handleTryAI = () => {
+    if (user) {
+      router.push('/dashboard/user?tab=prediction')
+    } else {
+      router.push('/auth/login')
+    }
+  }
+
   return (
     <>
       <main className="max-w-max-width mx-auto">
@@ -16,13 +46,18 @@ export default function HomePage() {
               CareMate redefines patient management through high-performance digital hygiene. Experience a seamless intersection of medical expertise and administrative efficiency.
             </p>
             <div className="flex gap-stack-md pt-stack-md">
-              <button className="px-stack-lg h-[40px] bg-primary text-on-primary font-label-md text-label-md rounded-lg flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all">
+              <button
+                onClick={handleBookAppointment}
+                className="px-stack-lg h-[40px] bg-primary text-white font-label-md text-label-md rounded-lg flex items-center gap-2 hover:opacity-90 active:scale-95 transition-all"
+              >
                 Book Appointment
-                <span className="material-symbols-outlined text-[18px]" data-icon="calendar_today">calendar_today</span>
+                <span className="material-symbols-outlined text-[18px] text-white" data-icon="calendar_today">calendar_today</span>
               </button>
-              <button className="px-stack-lg h-[40px] border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all">
-                View Specialties
-              </button>
+              <Link href="/auth/register">
+                <button className="px-stack-lg h-[40px] border border-outline text-primary font-label-md text-label-md rounded-lg hover:bg-surface-container transition-all">
+                  Get Started
+                </button>
+              </Link>
             </div>
           </div>
           <div className="flex-1 relative">
@@ -43,12 +78,12 @@ export default function HomePage() {
           </div>
         </section>
         
-        {/* New Core Values Section */}
+        {/* Core Values Section */}
         <section className="px-margin-desktop py-stack-lg bg-surface">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-gutter">
             <div className="flex items-center gap-stack-md p-stack-md bg-surface-container-low rounded-xl border border-outline-variant">
-              <div className="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-primary">
-                <span className="material-symbols-outlined">event_available</span>
+              <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">
+                <span className="material-symbols-outlined text-white">event_available</span>
               </div>
               <div>
                 <h4 className="font-label-md font-bold text-on-surface">Hassle-free Booking</h4>
@@ -77,12 +112,12 @@ export default function HomePage() {
         </section>
         
         {/* AI Assistant Section */}
-        <section className="px-margin-desktop py-stack-xl bg-primary-container/10">
+        <section id="ai-assistant" className="px-margin-desktop py-stack-xl bg-primary-container/10">
           <div className="bg-white rounded-3xl border border-primary/20 shadow-xl overflow-hidden flex flex-col lg:flex-row">
             <div className="flex-1 p-stack-xl lg:p-16 space-y-stack-lg">
-              <div className="inline-flex items-center px-4 py-1 bg-primary text-on-primary rounded-full mb-4">
-                <span className="material-symbols-outlined text-[16px] mr-2">smart_toy</span>
-                <span className="font-label-sm">MEET CAREMATE AI</span>
+              <div className="inline-flex items-center px-4 py-1 bg-primary text-white rounded-full mb-4">
+                <span className="material-symbols-outlined text-[16px] mr-2 text-white">smart_toy</span>
+                <span className="font-label-sm text-white">MEET CAREMATE AI</span>
               </div>
               <h2 className="font-headline-lg text-display-lg text-on-background leading-tight">Your Health Intelligence Companion</h2>
               <p className="font-body-lg text-on-surface-variant">Experience a new standard of proactive care. Our AI Assistant works 24/7 to provide instant clinical insights and streamline your journey.</p>
@@ -110,9 +145,12 @@ export default function HomePage() {
                 </li>
               </ul>
               <div className="pt-stack-md">
-                <button className="px-stack-xl py-4 bg-primary text-on-primary font-bold rounded-xl flex items-center gap-3 hover:shadow-lg transition-all">
+                <button
+                  onClick={handleTryAI}
+                  className="px-stack-xl py-4 bg-primary text-white font-bold rounded-xl flex items-center gap-3 hover:shadow-lg transition-all"
+                >
                   Try AI Assistant
-                  <span className="material-symbols-outlined">arrow_forward</span>
+                  <span className="material-symbols-outlined text-white">arrow_forward</span>
                 </button>
               </div>
             </div>
@@ -120,29 +158,29 @@ export default function HomePage() {
               {/* Mock Chat Interface */}
               <div className="w-full max-w-sm bg-white rounded-2xl shadow-2xl border border-outline-variant overflow-hidden flex flex-col h-[450px]">
                 <div className="bg-primary p-4 flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center text-white">
-                    <span className="material-symbols-outlined text-sm">smart_toy</span>
+                  <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
+                    <span className="material-symbols-outlined text-sm text-white">smart_toy</span>
                   </div>
-                  <span className="text-white font-label-md">CareMate Assistant</span>
+                  <span className="text-white font-label-md font-semibold">CareMate Assistant</span>
                 </div>
                 <div className="flex-1 p-4 space-y-4 overflow-y-auto">
                   <div className="flex gap-2">
-                    <div className="bg-surface-container-low p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-label-md max-w-[80%]">
+                    <div className="bg-surface-container-low p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-label-md max-w-[80%] text-on-surface">
                       Hello! Please describe your symptoms.
                     </div>
                   </div>
                   <div className="flex justify-end">
-                    <div className="bg-primary text-on-primary p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl text-label-md max-w-[80%]">
+                    <div className="bg-primary text-white p-3 rounded-tl-xl rounded-bl-xl rounded-br-xl text-label-md max-w-[80%]">
                       I&apos;ve been feeling short of breath and have chest tightness.
                     </div>
                   </div>
                   <div className="flex gap-2">
-                    <div className="bg-surface-container-low p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-label-md max-w-[80%] space-y-2">
+                    <div className="bg-surface-container-low p-3 rounded-tr-xl rounded-br-xl rounded-bl-xl text-label-md max-w-[80%] space-y-2 text-on-surface">
                       <p>Based on your symptoms, I suggest a consultation with a Cardiologist.</p>
                       <div className="bg-white border border-outline-variant p-2 rounded-lg mt-2">
-                        <p className="font-bold text-xs">Dr. Sarah Jenkins</p>
-                        <p className="text-[10px]">Cardiology Specialist</p>
-                        <button className="mt-2 w-full py-1 bg-primary text-on-primary text-[10px] rounded">Book Appointment</button>
+                        <p className="font-bold text-xs text-on-surface">Dr. Sarah Jenkins</p>
+                        <p className="text-[10px] text-on-surface-variant">Cardiology Specialist</p>
+                        <button className="mt-2 w-full py-1 bg-primary text-white text-[10px] rounded font-medium">Book Appointment</button>
                       </div>
                     </div>
                   </div>
@@ -159,7 +197,7 @@ export default function HomePage() {
         </section>
         
         {/* Specialized Services Section */}
-        <section className="px-margin-desktop py-stack-xl">
+        <section id="services" className="px-margin-desktop py-stack-xl">
           <div className="mb-stack-xl text-center">
             <h2 className="font-headline-lg text-headline-lg text-on-surface">Integrated Specialized Services</h2>
             <p className="text-on-surface-variant mt-stack-sm max-w-2xl mx-auto">Providing a holistic approach to health with industry-leading diagnostic precision and compassionate patient management.</p>
