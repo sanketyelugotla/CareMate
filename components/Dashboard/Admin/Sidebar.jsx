@@ -4,6 +4,16 @@ import React, { useState, useEffect } from 'react';
 import { jsonFetch } from '@/lib/fetcher';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import {
+    LayoutDashboard,
+    UserCheck,
+    Users,
+    Calendar,
+    BarChart3,
+    Settings,
+    LogOut,
+    Shield
+} from 'lucide-react';
 
 export default function AdminSidebar() {
     const pathname = usePathname();
@@ -23,12 +33,11 @@ export default function AdminSidebar() {
     }, []);
 
     const navigation = [
-        { name: 'Dashboard', href: '/dashboard/admin', icon: 'dashboard', exact: true },
-        { name: 'Approve Doctors', href: '/admin/approve-doctors', icon: 'how_to_reg', exact: true },
-        { name: 'All Doctors', href: '/doctors', icon: 'stethoscope', exact: true },
-        { name: 'Appointments', href: '/appointments', icon: 'calendar_month', exact: true },
-        { name: 'Analytics', href: '/analytics', icon: 'monitoring', exact: true },
-        { name: 'Settings', href: '/settings', icon: 'settings', exact: true },
+        { name: 'Dashboard', href: '/dashboard/admin', icon: LayoutDashboard, exact: true },
+        { name: 'Approve Doctors', href: '/dashboard/admin/approve-doctors', icon: UserCheck, exact: true },
+        { name: 'All Doctors', href: '/dashboard/admin/all-doctors', icon: Users, exact: true },
+        { name: 'Appointments', href: '/dashboard/admin/appointments', icon: Calendar, exact: true },
+        { name: 'Analytics', href: '/dashboard/admin/analytics', icon: BarChart3, exact: true },
     ];
 
     const getInitials = (name) => {
@@ -53,22 +62,22 @@ export default function AdminSidebar() {
     };
 
     return (
-        <aside className="fixed left-0 top-0 h-screen w-64 bg-surface-container-lowest border-r border-outline-variant flex flex-col font-body-md">
+        <aside className="fixed left-0 top-0 h-screen w-64 bg-card border-r border-border flex flex-col">
             {/* Logo Section */}
-            <div className="p-stack-lg border-b border-outline-variant">
-                <div className="flex items-center gap-stack-sm">
-                    <div className="w-10 h-10 bg-primary-container rounded-lg flex items-center justify-center">
-                        <span className="material-symbols-outlined text-on-primary-container" style={{ fontSize: '24px' }}>admin_panel_settings</span>
+            <div className="p-6 border-b border-gray-100">
+                <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg flex items-center justify-center">
+                        <Shield className="text-white" size={24} />
                     </div>
                     <div>
-                        <h1 className="font-headline-sm text-headline-sm font-bold text-on-surface">CareMate</h1>
-                        <p className="font-label-sm text-label-sm text-on-surface-variant">Admin Portal</p>
+                        <h1 className="text-xl font-bold text-foreground">CareMate</h1>
+                        <p className="text-xs text-muted-foreground">Admin Portal</p>
                     </div>
                 </div>
             </div>
 
             {/* Navigation */}
-            <nav className="flex-1 py-stack-md overflow-y-auto px-stack-sm">
+            <nav className="flex-1 py-4 overflow-y-auto">
                 {navigation.map((item) => {
                     const isActive = item.exact
                         ? pathname === item.href
@@ -78,28 +87,27 @@ export default function AdminSidebar() {
                         <Link
                             key={item.name}
                             href={item.href}
-                            className={`flex items-center gap-stack-md px-stack-md py-stack-sm mb-1 transition-all rounded-lg font-label-md text-label-md ${
-                                isActive
-                                    ? 'bg-primary text-on-primary font-bold'
-                                    : 'text-on-surface-variant hover:bg-surface-container hover:text-on-surface'
-                            }`}
+                            className={`flex items-center space-x-3 px-6 py-3 transition-all ${isActive
+                                ? 'bg-purple-50 text-purple-600 border-r-4 border-purple-600'
+                                : 'text-muted-foreground hover:bg-background'
+                                }`}
                         >
-                            <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>{item.icon}</span>
-                            <span>{item.name}</span>
+                            <item.icon size={20} />
+                            <span className="font-medium text-sm">{item.name}</span>
                         </Link>
                     );
                 })}
             </nav>
 
             {/* User Profile Section */}
-            <div className="border-t border-outline-variant">
+            <div className="border-t border-gray-100">
                 {loading ? (
-                    <div className="p-stack-md text-center">
-                        <p className="font-label-md text-label-md text-on-surface-variant">Loading...</p>
+                    <div className="p-4 text-center">
+                        <p className="text-sm text-muted-foreground">Loading...</p>
                     </div>
                 ) : user ? (
-                    <div className="p-stack-md">
-                        <div className="flex items-center gap-stack-sm mb-stack-md">
+                    <div className="p-4">
+                        <div className="flex items-center space-x-3 mb-3">
                             <div className="relative">
                                 {user.avatarUrl ? (
                                     <img
@@ -108,43 +116,43 @@ export default function AdminSidebar() {
                                         className="w-12 h-12 rounded-full object-cover"
                                     />
                                 ) : (
-                                    <div className="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center">
-                                        <span className="text-on-primary-container font-label-lg font-bold">
+                                    <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full flex items-center justify-center">
+                                        <span className="text-white font-bold text-sm">
                                             {getInitials(user.name)}
                                         </span>
                                     </div>
                                 )}
-                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-surface-container-lowest rounded-full"></span>
+                                <span className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 border-2 border-white rounded-full"></span>
                             </div>
                             <div className="flex-1 min-w-0">
-                                <p className="font-label-md text-label-md font-bold text-on-surface truncate">
+                                <p className="text-sm font-semibold text-foreground truncate">
                                     {getUserName(user)}
                                 </p>
-                                <p className="font-label-sm text-label-sm text-on-surface-variant truncate">{user.email}</p>
+                                <p className="text-xs text-muted-foreground truncate">{user.email}</p>
                             </div>
                         </div>
 
                         {/* Role Badge */}
-                        <div className="mb-stack-md">
-                            <span className="inline-flex items-center px-stack-sm py-1 rounded font-label-sm text-label-sm font-bold bg-secondary-container text-on-secondary-container">
+                        <div className="mb-3">
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 text-purple-700">
                                 Admin
                             </span>
                         </div>
 
                         {/* Action Buttons */}
-                        <div className="space-y-stack-xs">
+                        <div className="space-y-2">
                             <Link
-                                href="/settings"
-                                className="w-full flex items-center gap-stack-sm px-stack-sm py-stack-sm font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface rounded-lg transition-colors"
+                                href="/dashboard/admin/settings"
+                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-muted-foreground hover:bg-background rounded-lg transition-colors"
                             >
-                                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>settings</span>
-                                <span>System Settings</span>
+                                <Settings size={16} />
+                                <span>Settings</span>
                             </Link>
                             <button
                                 onClick={handleLogout}
-                                className="w-full flex items-center gap-stack-sm px-stack-sm py-stack-sm font-label-md text-label-md text-error hover:bg-error-container rounded-lg transition-colors"
+                                className="w-full flex items-center space-x-2 px-3 py-2 text-sm text-red-600 hover:bg-red-50 rounded-lg transition-colors"
                             >
-                                <span className="material-symbols-outlined" style={{ fontSize: '20px' }}>logout</span>
+                                <LogOut size={16} />
                                 <span>Logout</span>
                             </button>
                         </div>
