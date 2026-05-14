@@ -1,14 +1,14 @@
 'use client'
 
-import React from 'react';
+import React, { use } from 'react';
 import MainDashboard from '../Dashboard'
 import Prediction from '../Prediction'
 import Appointments from '../Appointments';
 import MyAppointments from '../MyAppointments';
 import Profile from '../Profile'
 
-export default function TabPage({ params }: { params: { tab: string } }) {
-    const { tab } = params;
+export default function TabPage({ params }: { params: Promise<{ tab: string }> }) {
+    const { tab } = use(params);
 
     const renderComponent = () => {
         switch (tab) {

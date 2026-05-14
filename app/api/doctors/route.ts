@@ -9,6 +9,11 @@ export async function GET(req: NextRequest) {
   const spec = searchParams.get("specialization")
   const q: any = { role: "doctor", "doctorProfile.isApproved": true }
   if (spec) q["doctorProfile.specialization"] = spec
+  // Only return doctors with complete profiles
   const doctors = await User.find(q).select("-passwordHash").limit(50)
-  return json(doctors)
+  const filtered = doctors.filter((doc: any) =>
+    doc.name && doc.name.first && doc.name.last &&
+    doc.doctorProfile && doc.doctorProfile.specialization
+  )
+  return json(filtered)
 }

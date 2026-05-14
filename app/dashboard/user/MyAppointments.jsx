@@ -25,24 +25,7 @@ export default function MyAppointments() {
           setLoading(false);
           return;
         }
-        // Fetch doctor details for each appointment
-        const appointmentsWithDoctors = await Promise.all(
-          items.map(async (apt) => {
-            const doctorRes = await fetch(`/api/doctors?_id=${apt.doctorId}`)
-            const doctors = await doctorRes.json()
-            const doctor = doctors[0]
-            return {
-              ...apt,
-              doctor: doctor ? {
-                name: `${doctor.name.first} ${doctor.name.last}`,
-                specialization: doctor.doctorProfile?.specialization || 'General',
-                avatarUrl: doctor.avatarUrl,
-                clinicAddress: doctor.doctorProfile?.clinicAddress
-              } : null
-            }
-          })
-        )
-        setAppointments(appointmentsWithDoctors)
+        setAppointments(items)
         setLoading(false)
       })
       .catch(err => {

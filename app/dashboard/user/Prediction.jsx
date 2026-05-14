@@ -11,6 +11,7 @@ export default function EnhancedAIChat() {
   const [typing, setTyping] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [sessionLoading, setSessionLoading] = useState(false);
 
   // State: store open/close and form data per doctorId!
   const [bookingDoctors, setBookingDoctors] = useState({});
@@ -69,6 +70,7 @@ export default function EnhancedAIChat() {
   };
 
   const loadSession = async (sessionId) => {
+    setSessionLoading(true);
     try {
       const response = await fetch(`${MODEL_API}/api/session/${sessionId}`, { credentials: 'include' });
       const data = await response.json();
@@ -88,7 +90,9 @@ export default function EnhancedAIChat() {
         }));
         setMessages(formattedMessages);
       }
-    } catch { }
+    } catch { } finally {
+      setSessionLoading(false);
+    }
   };
 
   const deleteSession = async (sessionId) => {
@@ -413,7 +417,12 @@ export default function EnhancedAIChat() {
         {/* Messages Container */}
         <div className="flex-1 overflow-hidden flex flex-col">
           <div className="flex-1 overflow-y-auto p-6 space-y-4">
-            {messages.length === 0 && (
+            {sessionLoading ? (
+              <div className="flex flex-col items-center justify-center h-full space-y-4">
+                <div className="w-10 h-10 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                <p className="text-muted-foreground text-sm">Loading conversation...</p>
+              </div>
+            ) : messages.length === 0 && (
               <div className="flex flex-col items-center justify-center h-full text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-full flex items-center justify-center mb-4">
                   <Bot className="w-10 h-10 text-primary" />
@@ -435,7 +444,7 @@ export default function EnhancedAIChat() {
                 <div className={`flex-1 ${msg.type === 'user' ? 'flex justify-end' : ''}`}>
                   <div
                     className={`inline-block max-w-2xl ${msg.type === 'user'
-                      ? 'bg-muted0 text-white rounded-2xl rounded-tr-none'
+                      ? 'bg-blue-600 text-white rounded-2xl rounded-tr-none'
                       : msg.isConfirmation
                         ? 'bg-green-50 border border-green-200 rounded-2xl rounded-tl-none'
                         : 'bg-card rounded-2xl rounded-tl-none border border-border shadow-sm'

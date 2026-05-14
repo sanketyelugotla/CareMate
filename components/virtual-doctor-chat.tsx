@@ -24,17 +24,25 @@ export function VirtualDoctorChat() {
         body: JSON.stringify({ symptoms: userMsg.text }),
       })
       const data = await res.json()
-      const txt =
-        `Predictions:\n` +
-        data.predictions.map((p: any) => `• ${p.disease} (${Math.round(p.probability * 100)}%)`).join("\n") +
-        `\n\n${data.explanation}`
-      // simulate streaming
-      let acc = ""
-      for (const ch of txt) {
-        acc += ch
-        await new Promise((r) => setTimeout(r, 4))
-        setMessages((m) => [...m.slice(0, -0), { from: "bot", text: acc }])
-      }
+      const predictionLines = Array.isArray(data.predictions)
+        ? data.predictions.map((p: any) => `• ${p.disease} (${Math.round(p.probability * 100)}%)`).join("\n")
+        : "No predictions available."
+
+      const specialtyLines = Array.isArray(data.recommendedSpecialties) && data.recommendedSpecialties.length
+        ? `\n\nRecommended Specialties:\n${data.recommendedSpecialties.map((s: string) => `• ${s}`).join("\n")}`
+        : ""
+
+      const doctorLines = Array.isArray(data.recommendedDoctors) && data.recommendedDoctors.length
+        ? `\n\nTop Matching Doctors:\n${data.recommendedDoctors
+          .map(
+            (d: any, idx: number) =>
+              `${idx + 1}. Dr. ${d.name?.first || ""} ${d.name?.last || ""} - ${d.specialization} (${d.matchScore}% match)`,
+          )
+          .join("\n")}`
+        : ""
+
+      const txt = `Predictions:\n${predictionLines}${specialtyLines}${doctorLines}\n\n${data.explanation}`
+      setMessages((m) => [...m, { from: "bot", text: txt }])
     } catch (e: any) {
       setMessages((m) => [...m, { from: "bot", text: "Sorry, something went wrong." }])
     } finally {

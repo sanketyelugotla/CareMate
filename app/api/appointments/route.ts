@@ -43,8 +43,8 @@ export async function GET(req: NextRequest) {
     .sort({ start: -1 })
     .skip((page - 1) * pageSize)
     .limit(pageSize)
-    .populate("patientId", "name")
-    .populate("doctorId", "name")
+    .populate("patientId", "name avatarUrl")
+    .populate("doctorId", "name avatarUrl doctorProfile")
     .lean()
 
   // Map the data to ensure correct structure
@@ -56,7 +56,10 @@ export async function GET(req: NextRequest) {
     } : null,
     doctor: item.doctorId ? {
       name: typeof item.doctorId === 'string' ? item.doctorId :
-        (item.doctorId.name ? `${item.doctorId.name.first} ${item.doctorId.name.last}` : 'N/A')
+        (item.doctorId.name ? `${item.doctorId.name.first} ${item.doctorId.name.last}` : 'N/A'),
+      avatarUrl: item.doctorId.avatarUrl,
+      specialization: item.doctorId.doctorProfile?.specialization || 'General',
+      clinicAddress: item.doctorId.doctorProfile?.clinicAddress
     } : null,
   }))
 
