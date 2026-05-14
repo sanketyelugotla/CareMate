@@ -3,7 +3,7 @@
 CareMate is a comprehensive healthcare platform consisting of two integrated components:
 
 1. **CareMate Frontend** (Next.js) - Hospital Management System
-2. **MediGenius** (Python) - AI-Powered Medical Chatbot
+2. **CareMate** (Python) - AI-Powered Medical Chatbot
 
 ---
 
@@ -30,7 +30,7 @@ CareMate is a comprehensive healthcare platform consisting of two integrated com
 │              │      │                                            │
 │              ▼      ▼                                            │
 │  ┌─────────────────────────────────────────────────────────────┐│
-│  │           MediGenius Python Chatbot (Port 5000)             ││
+│  │           CareMate Python Chatbot (Port 5000)             ││
 │  │  - Flask API + LangGraph Multi-Agent System                  ││
 │  │  - RAG Pipeline (ChromaDB + Medical PDFs)                   ││
 │  │  - Fallback: Wikipedia + DuckDuckGo                         ││
@@ -135,13 +135,13 @@ SENDGRID_API_KEY=optional_for_emails
 
 ---
 
-## Part 2: MediGenius (Python Chatbot)
+## Part 2: CareMate (Python Chatbot)
 
 An AI-powered multi-agent medical assistant built with LangGraph, achieving 90%+ factual accuracy.
 
 ### Performance Metrics
 
-| Metric | MediGenius | LLaMA 3.1 70B |
+| Metric | CareMate | LLaMA 3.1 70B |
 |--------|------------|---------------|
 | Success Rate | 80-94% | 79-90% |
 | Response Time | 7.23s | 22.8s |
@@ -341,7 +341,7 @@ MIT License - See individual project READMEs for details.
 
 ## Additional Resources
 
-- **MediGenius Live Demo**: [https://medigenius.onrender.com/](https://medigenius.onrender.com/)
+- **CareMate Live Demo**: [https://CareMate.onrender.com/](https://CareMate.onrender.com/)
 - **Groq API**: [https://console.groq.com/](https://console.groq.com/)
 - **Next.js Docs**: [https://nextjs.org/docs](https://nextjs.org/docs)
 - **LangGraph Docs**: [https://langchain-ai.github.io/langgraph/](https://langchain-ai.github.io/langgraph/)

@@ -401,7 +401,7 @@ export default function EnhancedAIChat() {
             </div>
             <div>
               <h2 className="font-semibold text-foreground">AI Health Assistant</h2>
-              <p className="text-xs text-muted-foreground">Powered by MediGenius</p>
+              <p className="text-xs text-muted-foreground">Powered by CareMate</p>
             </div>
           </div>
           <div className="flex items-center gap-4">
