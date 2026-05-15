@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -21,6 +21,10 @@ export function VirtualDoctorChat() {
   const [feedbackMode, setFeedbackMode] = useState<"idle" | "helpful" | "not_helpful">("idle")
   const [feedbackReason, setFeedbackReason] = useState("")
   const [feedbackSubmitting, setFeedbackSubmitting] = useState(false)
+  const [attachedFiles, setAttachedFiles] = useState<File[]>([])
+  const [isRecording, setIsRecording] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
 
   async function runPrediction() {
     if (!input.trim()) return
@@ -109,6 +113,51 @@ export function VirtualDoctorChat() {
     }
   }
 
+  function handleFileAttach(e: React.ChangeEvent<HTMLInputElement>) {
+    if (e.target.files) {
+      setAttachedFiles(Array.from(e.target.files))
+      const fileNames = Array.from(e.target.files).map((f) => f.name).join(", ")
+      setInput((prev) => prev + (prev.trim() ? "\n" : "") + `📎 Files: ${fileNames}`)
+    }
+  }
+
+  function handleComment() {
+    setInput((prev) => {
+      const comment = prompt("Add a comment:")
+      return prev + (prev.trim() && comment ? "\n" : "") + (comment ? `💬 ${comment}` : "")
+    })
+  }
+
+  async function handleVoiceStart() {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream)
+      mediaRecorderRef.current = recorder
+
+      const chunks: BlobPart[] = []
+      recorder.ondataavailable = (e) => chunks.push(e.data)
+      recorder.onstop = async () => {
+        const blob = new Blob(chunks, { type: "audio/webm" })
+        const url = URL.createObjectURL(blob)
+        setInput((prev) => prev + (prev.trim() ? "\n" : "") + `🎤 Voice note: ${url}`)
+        stream.getTracks().forEach((track) => track.stop())
+      }
+
+      recorder.start()
+      setIsRecording(true)
+    } catch (err) {
+      console.error("Microphone access denied:", err)
+      setMessages((m) => [...m, { from: "bot", text: "Microphone access denied. Please check browser permissions." }])
+    }
+  }
+
+  function handleVoiceStop() {
+    if (mediaRecorderRef.current && isRecording) {
+      mediaRecorderRef.current.stop()
+      setIsRecording(false)
+    }
+  }
+
   return (
     <Card className="bg-card">
       <CardHeader>
@@ -190,14 +239,66 @@ export function VirtualDoctorChat() {
           </div>
         )}
 
-        <Textarea
-          aria-label="Symptom input"
-          placeholder="Describe your symptoms..."
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-        />
+        <div className="flex items-end gap-2">
+          <div className="flex gap-1">
+            <input
+              ref={fileInputRef}
+              type="file"
+              multiple
+              onChange={handleFileAttach}
+              className="hidden"
+              aria-label="Attach file"
+            />
+            <Button
+              onClick={() => fileInputRef.current?.click()}
+              size="sm"
+              variant="outline"
+              title="Attach file"
+              disabled={loading}
+            >
+              📎
+            </Button>
+            <Button
+              onClick={handleComment}
+              size="sm"
+              variant="outline"
+              title="Add comment"
+              disabled={loading}
+            >
+              💬
+            </Button>
+          </div>
+
+          <Textarea
+            aria-label="Symptom input"
+            placeholder="Describe your symptoms..."
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1"
+            rows={2}
+          />
+
+          <div className="flex gap-1">
+            <Button
+              onClick={isRecording ? handleVoiceStop : handleVoiceStart}
+              size="sm"
+              variant={isRecording ? "destructive" : "outline"}
+              title={isRecording ? "Stop recording" : "Start voice recording"}
+              disabled={loading}
+            >
+              {isRecording ? "⏹️" : "🎤"}
+            </Button>
+          </div>
+        </div>
+
+        {attachedFiles.length > 0 && (
+          <div className="text-xs text-muted-foreground bg-muted/30 p-2 rounded">
+            📎 Attached: {attachedFiles.map((f) => f.name).join(", ")}
+          </div>
+        )}
+
         <div className="flex items-center gap-2">
-          <Button onClick={runPrediction} disabled={loading || !input.trim()}>
+          <Button onClick={runPrediction} disabled={loading || !input.trim()} className="flex-1">
             Run prediction
           </Button>
           <Button variant="secondary" asChild>

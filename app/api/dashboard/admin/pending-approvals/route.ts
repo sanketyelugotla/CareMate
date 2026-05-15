@@ -15,7 +15,7 @@ export async function GET() {
         // Get doctors pending approval
         const pendingDoctors = await User.find({
             role: "doctor",
-            "doctor.verified": false
+            "doctorProfile.isApproved": { $ne: true }
         })
             .sort({ createdAt: -1 })
             .limit(10)
@@ -26,8 +26,8 @@ export async function GET() {
             name: `${doc.name?.first || ''} ${doc.name?.last || ''}`.trim() || 'Unknown',
             email: doc.email,
             phone: doc.phone,
-            specialization: doc.doctor?.specialization,
-            licenseNumber: doc.doctor?.licenseNumber
+            specialization: doc.doctorProfile?.specialization,
+            licenseNumber: doc.doctorProfile?.licenseNumber
         }))
 
         return NextResponse.json(formattedDoctors)

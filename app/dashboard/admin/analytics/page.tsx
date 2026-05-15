@@ -3,6 +3,21 @@
 import { BarChart3, TrendingUp, Activity, Users } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { useEffect, useState } from "react"
+import {
+    ResponsiveContainer,
+    LineChart,
+    Line,
+    CartesianGrid,
+    XAxis,
+    YAxis,
+    Tooltip,
+    Legend,
+    BarChart,
+    Bar,
+    PieChart,
+    Pie,
+    Cell,
+} from "recharts"
 
 function StatSkeletonLoader() {
     return (
@@ -42,16 +57,38 @@ export default function AnalyticsPage() {
     const [stats, setStats] = useState({
         totalDoctors: 0,
         totalPatients: 0,
-        totalAppointments: 0,
+        totalAppointments30d: 0,
         pendingApprovals: 0,
+    })
+    const [appointmentTrends, setAppointmentTrends] = useState([])
+    const [userGrowth, setUserGrowth] = useState([])
+    const [systemActivity, setSystemActivity] = useState({
+        appointmentsLast24h: 0,
+        completedLast24h: 0,
+        activeDoctorsToday: 0,
+        activePatientsToday: 0,
+        statusBreakdown: [],
+        hourlyActivity: [],
+    })
+    const [performance, setPerformance] = useState({
+        completionRate: 0,
+        cancellationRate: 0,
+        noShowRate: 0,
+        avgDailyAppointments: 0,
+        doctorApprovalRate: 0,
+        healthScore: 0,
     })
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        fetch('/api/admin/stats')
+        fetch('/api/dashboard/admin/analytics')
             .then((r) => r.json())
-            .then((statsData) => {
-                setStats(statsData || {})
+            .then((data) => {
+                setStats(data?.summary || {})
+                setAppointmentTrends(Array.isArray(data?.appointmentTrends) ? data.appointmentTrends : [])
+                setUserGrowth(Array.isArray(data?.userGrowth) ? data.userGrowth : [])
+                setSystemActivity(data?.systemActivity || {})
+                setPerformance(data?.performance || {})
                 setLoading(false)
             })
             .catch(() => {
@@ -76,9 +113,9 @@ export default function AnalyticsPage() {
         },
         {
             icon: Activity,
-            title: "Total Appointments",
-            value: stats.totalAppointments || "-",
-            description: "System appointments",
+            title: "Appointments (30d)",
+            value: stats.totalAppointments30d || "-",
+            description: "Bookings in last 30 days",
             color: "bg-green-50 text-green-600",
         },
         {
@@ -89,6 +126,27 @@ export default function AnalyticsPage() {
             color: "bg-orange-50 text-orange-600",
         },
     ]
+
+    const performanceCards = [
+        {
+            title: "Completion Rate",
+            value: `${performance.completionRate || 0}%`,
+        },
+        {
+            title: "Cancellation Rate",
+            value: `${performance.cancellationRate || 0}%`,
+        },
+        {
+            title: "Avg Daily Appointments",
+            value: `${performance.avgDailyAppointments || 0}`,
+        },
+        {
+            title: "System Health Score",
+            value: `${performance.healthScore || 0}/100`,
+        },
+    ]
+
+    const pieColors = ["#16a34a", "#3b82f6", "#f59e0b", "#ef4444", "#8b5cf6"]
 
     return (
         <div className="max-w-6xl mx-auto">
@@ -124,8 +182,16 @@ export default function AnalyticsPage() {
                                 <h3 className="text-lg font-semibold text-foreground">Appointment Trends</h3>
                             </div>
                             <p className="text-muted-foreground text-sm">Appointment booking patterns and trends over time</p>
-                            <div className="mt-6 h-48 bg-muted rounded-lg flex items-center justify-center">
-                                <p className="text-muted-foreground text-sm">Chart visualization</p>
+                            <div className="mt-6 h-56">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <LineChart data={appointmentTrends}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="date" tick={{ fontSize: 11 }} />
+                                        <YAxis allowDecimals={false} />
+                                        <Tooltip />
+                                        <Line type="monotone" dataKey="count" stroke="#7c3aed" strokeWidth={2} dot={false} />
+                                    </LineChart>
+                                </ResponsiveContainer>
                             </div>
                         </Card>
 
@@ -135,8 +201,18 @@ export default function AnalyticsPage() {
                                 <h3 className="text-lg font-semibold text-foreground">User Growth</h3>
                             </div>
                             <p className="text-muted-foreground text-sm">Patient and doctor registration trends</p>
-                            <div className="mt-6 h-48 bg-muted rounded-lg flex items-center justify-center">
-                                <p className="text-muted-foreground text-sm">Chart visualization</p>
+                            <div className="mt-6 h-56">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={userGrowth}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="month" />
+                                        <YAxis allowDecimals={false} />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="patients" fill="#2563eb" radius={[4, 4, 0, 0]} />
+                                        <Bar dataKey="doctors" fill="#16a34a" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
                             </div>
                         </Card>
 
@@ -146,8 +222,34 @@ export default function AnalyticsPage() {
                                 <h3 className="text-lg font-semibold text-foreground">System Activity</h3>
                             </div>
                             <p className="text-muted-foreground text-sm">Real-time system activity metrics and statistics</p>
-                            <div className="mt-6 h-48 bg-muted rounded-lg flex items-center justify-center">
-                                <p className="text-muted-foreground text-sm">Chart visualization</p>
+                            <div className="grid grid-cols-2 gap-3 mt-6 mb-4">
+                                <div className="rounded-lg border border-border p-3">
+                                    <p className="text-xs text-muted-foreground">Appointments (24h)</p>
+                                    <p className="text-xl font-bold text-foreground">{systemActivity.appointmentsLast24h || 0}</p>
+                                </div>
+                                <div className="rounded-lg border border-border p-3">
+                                    <p className="text-xs text-muted-foreground">Completed (24h)</p>
+                                    <p className="text-xl font-bold text-foreground">{systemActivity.completedLast24h || 0}</p>
+                                </div>
+                                <div className="rounded-lg border border-border p-3">
+                                    <p className="text-xs text-muted-foreground">Active Doctors Today</p>
+                                    <p className="text-xl font-bold text-foreground">{systemActivity.activeDoctorsToday || 0}</p>
+                                </div>
+                                <div className="rounded-lg border border-border p-3">
+                                    <p className="text-xs text-muted-foreground">Active Patients Today</p>
+                                    <p className="text-xl font-bold text-foreground">{systemActivity.activePatientsToday || 0}</p>
+                                </div>
+                            </div>
+                            <div className="h-52">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <BarChart data={systemActivity.hourlyActivity || []}>
+                                        <CartesianGrid strokeDasharray="3 3" />
+                                        <XAxis dataKey="hour" hide />
+                                        <YAxis allowDecimals={false} />
+                                        <Tooltip />
+                                        <Bar dataKey="count" fill="#2563eb" radius={[4, 4, 0, 0]} />
+                                    </BarChart>
+                                </ResponsiveContainer>
                             </div>
                         </Card>
 
@@ -157,8 +259,33 @@ export default function AnalyticsPage() {
                                 <h3 className="text-lg font-semibold text-foreground">Performance</h3>
                             </div>
                             <p className="text-muted-foreground text-sm">System performance and health indicators</p>
-                            <div className="mt-6 h-48 bg-muted rounded-lg flex items-center justify-center">
-                                <p className="text-muted-foreground text-sm">Chart visualization</p>
+                            <div className="grid grid-cols-2 gap-3 mt-6 mb-4">
+                                {performanceCards.map((metric) => (
+                                    <div key={metric.title} className="rounded-lg border border-border p-3">
+                                        <p className="text-xs text-muted-foreground">{metric.title}</p>
+                                        <p className="text-xl font-bold text-foreground">{metric.value}</p>
+                                    </div>
+                                ))}
+                            </div>
+                            <div className="h-52">
+                                <ResponsiveContainer width="100%" height="100%">
+                                    <PieChart>
+                                        <Pie
+                                            data={systemActivity.statusBreakdown || []}
+                                            dataKey="count"
+                                            nameKey="status"
+                                            cx="50%"
+                                            cy="50%"
+                                            outerRadius={75}
+                                            label
+                                        >
+                                            {(systemActivity.statusBreakdown || []).map((_: any, index: number) => (
+                                                <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                    </PieChart>
+                                </ResponsiveContainer>
                             </div>
                         </Card>
                     </div>

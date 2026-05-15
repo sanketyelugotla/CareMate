@@ -90,7 +90,7 @@ export default function AllDoctorsPage() {
                                                 )}
                                             </div>
                                         </div>
-                                        {doctor.isApproved ? (
+                                        {doctor.doctorProfile?.isApproved ? (
                                             <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full font-semibold flex-shrink-0">
                                                 Approved
                                             </span>

@@ -13,7 +13,7 @@ export async function GET() {
     try {
         await connectDB()
 
-        const doctorId = auth.userId
+        const doctorId = auth.sub
         const startOfToday = dayjs().startOf('day').toDate()
         const endOfToday = dayjs().endOf('day').toDate()
 

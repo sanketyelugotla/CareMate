@@ -4,7 +4,6 @@ import Predictions from '@/components/Dashboard/Predictions';
 import HealthAnalytics from '@/components/Dashboard/HealthAnalytics';
 import HealthTips from '@/components/Dashboard/HealthTips';
 import HealthMetrics from '@/components/Dashboard/HealthMetrics';
-import Reminders from '@/components/Dashboard/Reminders';
 
 export default function MainDashboard() {
   return (
@@ -23,7 +22,6 @@ export default function MainDashboard() {
         <div className="space-y-6">
           <HealthTips />
           <HealthMetrics />
-          <Reminders />
         </div>
       </div>
     </div>

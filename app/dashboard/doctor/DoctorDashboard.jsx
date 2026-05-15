@@ -3,7 +3,6 @@
 import React, { useState } from 'react';
 import DoctorTopCards from '@/components/Dashboard/Doctor/TopCards';
 import TodayAppointments from '@/components/Dashboard/Doctor/TodayAppointments';
-import RecentPatients from '@/components/Dashboard/Doctor/RecentPatients';
 import UpcomingAppointments from '@/components/Dashboard/Doctor/UpcomingAppointments';
 import ScheduleOverview from '@/components/Dashboard/Doctor/ScheduleOverview';
 import QuickActions from '@/components/Dashboard/Doctor/QuickActions';
@@ -70,7 +69,6 @@ export default function CompleteDoctorDashboard() {
           <div className="space-y-6">
             <ScheduleOverview onManageClick={() => setShowSchedulePanel(true)} />
             <QuickActions />
-            <RecentPatients />
           </div>
         </div>
       </div>

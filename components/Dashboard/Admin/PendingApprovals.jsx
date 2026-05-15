@@ -48,9 +48,9 @@ export default function PendingApprovals() {
     const handleApprove = async (doctorId) => {
         try {
             const response = await fetch(`/api/admin/approve-doctor/${doctorId}`, {
-                method: 'POST',
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ approved: true })
+                body: JSON.stringify({ approve: true })
             });
 
             if (response.ok) {
@@ -69,9 +69,9 @@ export default function PendingApprovals() {
 
         try {
             const response = await fetch(`/api/admin/approve-doctor/${doctorId}`, {
-                method: 'POST',
+                method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ approved: false })
+                body: JSON.stringify({ approve: false })
             });
 
             if (response.ok) {

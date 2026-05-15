@@ -16,7 +16,7 @@ export async function GET() {
         // Get total doctors (approved)
         const totalDoctors = await User.countDocuments({
             role: "doctor",
-            "doctor.verified": true
+            "doctorProfile.isApproved": true
         })
 
         // Get total patients
@@ -31,7 +31,7 @@ export async function GET() {
         // Get pending doctor approvals
         const pendingApprovals = await User.countDocuments({
             role: "doctor",
-            "doctor.verified": false
+            "doctorProfile.isApproved": { $ne: true }
         })
 
         return NextResponse.json({

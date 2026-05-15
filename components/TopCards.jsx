@@ -9,18 +9,24 @@ export default function TopCards() {
         totalPredictions: 0,
         activeReminders: 0
     });
+    const [recentAISessions, setRecentAISessions] = useState(0);
 
     useEffect(() => {
-        fetch('/api/dashboard/stats')
-            .then(res => res.json())
-            .then(data => setStats(data))
-            .catch(err => console.error('Error fetching stats:', err));
+        Promise.all([
+            fetch('/api/dashboard/stats').then((res) => res.json()),
+            fetch('/api/dashboard/recent-predictions').then((res) => res.json())
+        ])
+            .then(([statsData, recentData]) => {
+                setStats(statsData);
+                setRecentAISessions(Array.isArray(recentData) ? recentData.length : 0);
+            })
+            .catch(err => console.error('Error fetching top card stats:', err));
     }, []);
 
     const cards = [
         {
             title: 'AI Disease Prediction',
-            description: `${stats.totalPredictions} predictions made`,
+            description: `${recentAISessions} recent sessions`,
             icon: Activity,
             gradient: 'from-blue-50 to-blue-100',
             border: 'border-blue-200',

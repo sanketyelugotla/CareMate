@@ -1,19 +1,11 @@
 'use client'
 
 import React from 'react';
-import { Calendar, FileText, Users, Settings } from 'lucide-react';
+import { Calendar, Users, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default function QuickActions() {
     const actions = [
-        {
-            title: 'View Prescriptions',
-            description: 'Manage patient prescriptions',
-            icon: FileText,
-            color: 'text-purple-500',
-            bgColor: 'bg-purple-50',
-            href: '/prescriptions'
-        },
         {
             title: 'My Patients',
             description: 'View all your patients',

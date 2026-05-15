@@ -13,7 +13,7 @@ export async function GET() {
     try {
         await connectDB()
 
-        const doctorId = auth.userId
+        const doctorId = auth.sub
 
         // Get all appointments to find unique patients
         const appointments = await Appointment.find({ doctorId })
